@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<weblogic-web-app xmlns="http://www.xmlns.oracle.com/weblogic/weblogic-web-app" >
+	<context-root>/</context-root>
+	<container-descriptor>
+		<servlet-reload-check-secs>-1</servlet-reload-check-secs>
+	</container-descriptor>
+	<session-descriptor>
+		<timeout-secs>3600</timeout-secs>
+		<cookie-name>JSID_ZSBS</cookie-name>
+	</session-descriptor>
+</weblogic-web-app>
+

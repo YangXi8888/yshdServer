@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config>
+	<form-beans>
+		<form-bean name="Gt3GeneralForm" type="gov.jslt.taxweb.comm.Gt3GeneralForm"></form-bean>
+		<form-bean name="ZBForm" type="gov.jslt.taxweb.ZBForm"></form-bean>
+	</form-beans>
+	<global-forwards></global-forwards>
+	<action-mappings>
+		<action path="/ZBAction" type="gov.jslt.taxweb.ZBAction" name="ZBForm"
+			scope="request">
+		</action>
+		<action path="/WBfjxzAction" type="gov.jslt.taxweb.comm.WBfjxzAction"
+			name="ZBForm" scope="request">
+		</action>
+		<action path="/Gt3GeneralAction" type="gov.jslt.taxweb.comm.Gt3GeneralAction"
+			name="Gt3GeneralForm" scope="request">
+		</action>
+		<action path="/RegisterAction" type="gov.jslt.taxweb.yhgl.RegisterAction"
+			name="Gt3GeneralForm" scope="request">
+			<forward name="toMoblieRegister" path="/mobile/templates/yhgl/register.html"></forward>
+			<forward name="toPcRegister" path="/pc/templates/yhgl/register.html"></forward>
+		</action>
+		<action path="/LoginAction" type="gov.jslt.taxweb.yhgl.LoginAction"
+			name="Gt3GeneralForm" scope="request">
+			<forward name="toMoblieLogin" path="/mobile/templates/yhgl/login.html"></forward>
+			<forward name="toPcLogin" path="/pc/templates/yhgl/login.html"></forward>
+		</action>
+		<action path="/ReAuthentAction" type="gov.jslt.taxweb.yhgl.ReAuthentAction"
+			name="Gt3GeneralForm" scope="request">
+			<forward name="toMoblieReAuthent" path="/mobile/templates/yhgl/reAuthent.html"></forward>
+			<forward name="toPcReAuthent" path="/pc/templates/yhgl/reAuthent.html"></forward>
+		</action>
+	</action-mappings>
+</struts-config>

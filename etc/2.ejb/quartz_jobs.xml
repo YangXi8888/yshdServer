@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='utf-8'?>
+<quartz>
+	<job>
+		<job-detail>
+			<name>WydzwjJob</name>
+			<group>WSBS</group>
+			<description></description>
+			<job-class>
+				gov.jslt.taxweb.wykk.sjbd.job.WydzwjJob
+			</job-class>
+			<volatility>false</volatility>
+			<durability>false</durability>
+			<recover>false</recover>
+			<job-data-map allows-transient-data="true">
+				<entry>
+					<key>message</key>
+					<value>WEB</value>
+				</entry>
+				<entry>
+					<key>enable</key>
+					<value>true</value>
+				</entry>
+			</job-data-map>
+		</job-detail>
+		<trigger>
+			<simple>
+				<name>WydzwjJobTrigger</name>
+				<group>WSBS</group>
+				<job-name>WydzwjJob</job-name>
+				<job-group>WSBS</job-group>
+				<!-- <start-time>2005-07-19T14:31:00</start-time>-->
+				<!-- repeat indefinitely every 10 seconds -->
+				<repeat-count>-1</repeat-count>
+				<repeat-interval>20000</repeat-interval>
+			</simple>
+		</trigger>
+	</job>
+	<job>
+		<job-detail>
+			<name>WBsskkJob</name>
+			<group>WSBS</group>
+			<description></description>
+			<job-class>
+				gov.jslt.taxweb.wykk.sjbd.job.WBsskkJob
+			</job-class>
+			<volatility>false</volatility>
+			<durability>false</durability>
+			<recover>false</recover>
+			<job-data-map allows-transient-data="true">
+				<entry>
+					<key>message</key>
+					<value>WEB</value>
+				</entry>
+				<entry>
+					<key>enable</key>
+					<value>true</value>
+				</entry>
+			</job-data-map>
+		</job-detail>
+		<trigger>
+			<simple>
+				<name>WBsskkJobTrigger</name>
+				<group>WSBS</group>
+				<job-name>WBsskkJob</job-name>
+				<job-group>WSBS</job-group>
+				<!-- <start-time>2005-07-19T14:31:00</start-time>-->
+				<!-- repeat indefinitely every 10 seconds -->
+				<repeat-count>-1</repeat-count>
+				<repeat-interval>20000</repeat-interval>
+			</simple>
+		</trigger>
+	</job>
+</quartz>
