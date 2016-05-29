@@ -3,10 +3,4 @@
 	<url>/</url>
 	<url>/ZBAction.do</url>
 	<url>/LoginAction.do</url>
-	<url>/RegisterAction.do</url>
-	<url>/ReAuthentAction.do</url>
-	<url>/zrrsmbspt/pc/login.html</url>
-	<url>/zrrsmbspt/pc/register.html</url>
-	<url>/zrrsmbspt/mobile/login.html</url>
-	<url>/zrrsmbspt/mobile/register.html</url>
 </notcontrol>
