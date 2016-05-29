@@ -140,34 +140,6 @@ function showWxAlert(alertId, content, fn ,title) {
 		$('#' + alertId + "_title").html(title);
 	}
 }
-/**
- * 微信confirm
- * 
- * @param {}
- *            confirmId
- * @param {}
- *            title
- * @param {}
- *            content
- * @param {}
- *            fn
- */
-function showWxConfirm(confirmId, title, content, fn) {
-	$('#' + confirmId + "_title").text(title);
-	$('#' + confirmId + "_content").html(content);
-	$('#' + confirmId).show();
-	$('#' + confirmId).on('click', '.ok', function() {
-				$('#' + confirmId).off('click').hide();
-				if (fn != undefined) {
-					fn();
-				}
-			});
-	$('#' + confirmId).on('click', '.cancel', function() {
-				$('#' + confirmId).off('click').hide();
-			});
-}
-
-
 
 // session中没有用户信息就退出到登录
 function hasUserInfo() {
