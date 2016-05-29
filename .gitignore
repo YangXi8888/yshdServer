@@ -38,3 +38,4 @@ captures/
 .settings
 .idea
 classes/
+.metadata/
