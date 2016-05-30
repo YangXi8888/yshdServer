@@ -317,7 +317,7 @@ public class Yh001BLH extends BaseBizLogicHandler {
 			ESBRequestEvent reqEvent = new ESBRequestEvent("ZBdxyzBLH", "", "");
 			reqEvent.setSjb("");
 			reqEvent.setDealMethod("query");
-			reqEvent.setReqMapParam(new HashMap<>());
+			reqEvent.setReqMapParam(new HashMap());
 			reqEvent.reqMapParam.put("sjhm", jsonReqData.getSjHm());
 			reqEvent.reqMapParam.put("zjlx", dataMap.get("zjlx"));
 			reqEvent.reqMapParam.put("zjhm", dataMap.get("zjhm"));
@@ -450,7 +450,7 @@ public class Yh001BLH extends BaseBizLogicHandler {
 		responseEvent.respMapParam.put("contentInfo", map);
 		rs = QueryCssBPO.findAll(con, "SELECT T.* FROM  DB_ZSBS.T_LS_FJFILE T",
 				null);
-		List list = new ArrayList<>();
+		List list = new ArrayList<String>();
 		while (rs.next()) {
 			map = new HashMap<String, String>();
 			map.put("BIZID", rs.getString("BIZID"));
@@ -642,7 +642,7 @@ public class Yh001BLH extends BaseBizLogicHandler {
 			ESBRequestEvent reqEvent = new ESBRequestEvent("ZBdxyzBLH", "", "");
 			reqEvent.setSjb("");
 			reqEvent.setDealMethod("query");
-			reqEvent.setReqMapParam(new HashMap<>());
+			reqEvent.setReqMapParam(new HashMap());
 			reqEvent.reqMapParam.put("sjhm", jsonReqData.getSjHm());
 			reqEvent.reqMapParam.put("zjlx", rs.getString("SFZMLX_DM"));
 			reqEvent.reqMapParam.put("zjhm", rs.getString("SFZHM"));
@@ -702,7 +702,7 @@ public class Yh001BLH extends BaseBizLogicHandler {
 			ESBRequestEvent reqEvent = new ESBRequestEvent("ZBdxyzBLH", "", "");
 			reqEvent.setSjb("");
 			reqEvent.setDealMethod("query");
-			reqEvent.setReqMapParam(new HashMap<>());
+			reqEvent.setReqMapParam(new HashMap());
 			reqEvent.reqMapParam.put("sjhm", returnList.get(0));
 			reqEvent.reqMapParam.put("zjlx", dataMap.get("zjlx"));
 			reqEvent.reqMapParam.put("zjhm", dataMap.get("zjhm"));
