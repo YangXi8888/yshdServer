@@ -24,7 +24,7 @@
 			</li>
 			<li>密码：<input type="password" id="passWord" placeholder="请输入密码">
 			</li>
-			<li>验证码：<input type="text" id="yzm" placeholder="请输入验证码">
+			<li>验证码：<input type="text" id="yzm" size="6" placeholder="请输入验证码">
 				<img alt="" src="/yhgl/yzm.jsp">
 			</li>
 			<li><input type="button" id="dlBtn" value="登录" onclick="dlXt()">

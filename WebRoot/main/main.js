@@ -74,7 +74,6 @@ function addPanel(obj) {
 			}
 		}
 	}
-
 }
 
 // 显示当前操作的panel
