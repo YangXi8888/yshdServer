@@ -4,29 +4,29 @@ import org.apache.struts.action.ActionForm;
 
 public class Gt3GeneralForm extends ActionForm {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	private String jsonData;
-	
-	private String callback;
+    private String jsonData;
 
-	public String getCallback() {
-		return callback;
-	}
+    private String callback;
 
-	public void setCallback(String callback) {
-		this.callback = callback;
-	}
+    public String getCallback() {
+        return callback;
+    }
 
-	public String getJsonData() {
-		return jsonData;
-	}
+    public void setCallback(String callback) {
+        this.callback = callback;
+    }
 
-	public void setJsonData(String jsonData) {
-		this.jsonData = jsonData;
-	}
+    public String getJsonData() {
+        return jsonData;
+    }
+
+    public void setJsonData(String jsonData) {
+        this.jsonData = jsonData;
+    }
 
 }

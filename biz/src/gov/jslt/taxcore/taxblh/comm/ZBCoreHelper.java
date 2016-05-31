@@ -1,16 +1,19 @@
 package gov.jslt.taxcore.taxblh.comm;
 
+import com.ctp.core.bpo.QueryCssBPO;
+import com.ctp.core.config.ApplicationContext;
+import com.ctp.core.event.ResponseEvent;
+import com.ctp.core.exception.TaxBaseBizException;
+import com.ctp.core.log.LogWritter;
+import com.ctp.cssesb.esbevent.ESBRequestEvent;
+import com.ctp.cssesb.esbevent.ESBResponseEvent;
 import gov.jslt.taxcore.taxbpo.comm.TlcslBPO;
 import gov.jslt.taxcore.taxbpo.comm.TlcslclBPO;
 import gov.jslt.taxcore.taxbpo.comm.TwjxxBPO;
-import gov.jslt.taxevent.comm.AESTool;
-import gov.jslt.taxevent.comm.DateUtil;
-import gov.jslt.taxevent.comm.GeneralCons;
-import gov.jslt.taxevent.comm.SocketComm;
-import gov.jslt.taxevent.comm.StringUtil;
-import gov.jslt.taxevent.comm.TlcslVO;
-import gov.jslt.taxevent.comm.TlcslclVO;
-import gov.jslt.taxevent.comm.TwjxxVO;
+import gov.jslt.taxevent.comm.*;
+import net.sf.ezmorph.bean.MorphDynaBean;
+import org.apache.commons.codec.binary.Base64;
+import sun.jdbc.rowset.CachedRowSet;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -21,20 +24,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import net.sf.ezmorph.bean.MorphDynaBean;
-
-import org.apache.commons.codec.binary.Base64;
-
-import sun.jdbc.rowset.CachedRowSet;
-
-import com.ctp.core.bpo.QueryCssBPO;
-import com.ctp.core.config.ApplicationContext;
-import com.ctp.core.event.ResponseEvent;
-import com.ctp.core.exception.TaxBaseBizException;
-import com.ctp.core.log.LogWritter;
-import com.ctp.cssesb.esbevent.ESBRequestEvent;
-import com.ctp.cssesb.esbevent.ESBResponseEvent;
 
 public class ZBCoreHelper {
 
@@ -2039,7 +2028,7 @@ public class ZBCoreHelper {
 		List<Map<String, String>> wjList = null;
 		byte[] wjNr;
 
-		Map<String, String> tlcslclvoLsh = new HashMap<>();
+		Map<String, String> tlcslclvoLsh = new HashMap<String,String>();
 
 		for (int i = 0; i < upFileList.size(); i++) {
 			upFileMap = upFileList.get(i);
@@ -2163,7 +2152,7 @@ public class ZBCoreHelper {
 		List<Map<String, String>> wjList = null;
 		byte[] wjNr;
 
-		Map<String, String> tlcslclvoLsh = new HashMap<>();
+		Map<String, String> tlcslclvoLsh = new HashMap<String,String>();
 
 		for (int i = 0; i < upFileList.size(); i++) {
 			upFileMap = upFileList.get(i);
@@ -2451,8 +2440,8 @@ public class ZBCoreHelper {
 		String ZFBUrl = "";
 		String pzxh = (String) map.get("pzxh");
 		String ddly = (String) map.get("ddly");
-		boolean hasUrl = (boolean) map.get("hasUrl");
-		boolean hasZFBUrl = (boolean) map.get("hasZFBUrl");
+		boolean hasUrl = (Boolean) map.get("hasUrl");
+		boolean hasZFBUrl = (Boolean) map.get("hasZFBUrl");
 		String sql = null;
 		CachedRowSet rs = null;
 		// 校验是否可以再次发起扣款
@@ -2508,8 +2497,8 @@ public class ZBCoreHelper {
 		String ZFBUrl = "";
 		String pzxh = (String) map.get("pzxh");
 		String ddly = (String) map.get("ddly");
-		boolean hasUrl = (boolean) map.get("hasUrl");
-		boolean hasZFBUrl = (boolean) map.get("hasZFBUrl");
+		boolean hasUrl = (Boolean) map.get("hasUrl");
+		boolean hasZFBUrl = (Boolean) map.get("hasZFBUrl");
 		String sql = null;
 		CachedRowSet rs = null;
 		ArrayList sqlParams = null;

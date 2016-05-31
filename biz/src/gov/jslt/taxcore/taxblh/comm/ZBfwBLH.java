@@ -1,8 +1,15 @@
 package gov.jslt.taxcore.taxblh.comm;
 
+import com.ctp.core.blh.BaseBizLogicHandler;
+import com.ctp.core.bpo.QueryCssBPO;
+import com.ctp.core.event.RequestEvent;
+import com.ctp.core.event.ResponseEvent;
+import com.ctp.core.exception.TaxBaseBizException;
+import com.ctp.cssesb.esbevent.ESBRequestEvent;
 import gov.jslt.taxevent.comm.GeneralCons;
 import gov.jslt.taxevent.comm.JsonReqData;
 import gov.jslt.taxevent.comm.StringUtil;
+import sun.jdbc.rowset.CachedRowSet;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -10,15 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import sun.jdbc.rowset.CachedRowSet;
-
-import com.ctp.core.blh.BaseBizLogicHandler;
-import com.ctp.core.bpo.QueryCssBPO;
-import com.ctp.core.event.RequestEvent;
-import com.ctp.core.event.ResponseEvent;
-import com.ctp.core.exception.TaxBaseBizException;
-import com.ctp.cssesb.esbevent.ESBRequestEvent;
 
 public class ZBfwBLH extends BaseBizLogicHandler {
 
@@ -121,7 +119,7 @@ public class ZBfwBLH extends BaseBizLogicHandler {
 		// 调用ESB
 		ESBRequestEvent esbRequestEvent = new ESBRequestEvent("ZBfwBLH", "", "");
 		esbRequestEvent.setDealMethod("queryWsbList");
-		esbRequestEvent.setReqMapParam(new HashMap<>());
+		esbRequestEvent.setReqMapParam(new HashMap());
 		esbRequestEvent.reqMapParam.put("swglm", swglm);
 		esbRequestEvent.reqMapParam.put("gljgdm", gljgdm);
 		try {
@@ -208,7 +206,7 @@ public class ZBfwBLH extends BaseBizLogicHandler {
 		// 调用ESB
 		ESBRequestEvent esbRequestEvent = new ESBRequestEvent("ZBfwBLH", "", "");
 		esbRequestEvent.setDealMethod("queryWsbList");
-		esbRequestEvent.setReqMapParam(new HashMap<>());
+		esbRequestEvent.setReqMapParam(new HashMap());
 		esbRequestEvent.reqMapParam.put("swglm", swglm);
 		esbRequestEvent.reqMapParam.put("gljgdm", gljgdm);
 		try {
