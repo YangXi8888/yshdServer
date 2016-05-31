@@ -1,16 +1,5 @@
 package gov.jslt.taxweb.comm;
 
-<<<<<<< HEAD:biz/src/gov/jslt/taxweb/comm/GeneralAction.java
-import gov.jslt.taxevent.comm.GeneralCons;
-import gov.jslt.taxevent.comm.JsonReqData;
-import gov.jslt.taxevent.comm.JsonResData;
-
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-=======
 import com.ctp.core.bizdelegate.BizDelegate;
 import com.ctp.core.event.BaseRequestEvent;
 import com.ctp.core.event.ResponseEvent;
@@ -19,7 +8,6 @@ import gov.jslt.taxevent.comm.AESTool;
 import gov.jslt.taxevent.comm.GeneralCons;
 import gov.jslt.taxevent.comm.JsonReqData;
 import gov.jslt.taxevent.comm.JsonResData;
->>>>>>> 7ee792ab3a6adce0f74f65660e1b3e05cfff1406:biz/src/gov/jslt/taxweb/ZBAction.java
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 import net.sf.json.JsonConfig;
@@ -33,80 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 import java.util.HashMap;
 
-public class GeneralAction extends Action {
+public class Gt3GeneralAction extends Action {
 
-<<<<<<< HEAD:biz/src/gov/jslt/taxweb/comm/GeneralAction.java
-	public ActionForward execute(ActionMapping mapping, ActionForm actionform,
-			HttpServletRequest request, HttpServletResponse response) {
-		JsonResData resData = new JsonResData();
-		JsonReqData jsonReqData = new JsonReqData();
-		String callback = null;
-		try {
-			response.setContentType("text/plain;charset=UTF-8");
-			GeneralForm form = (GeneralForm) actionform;
-			callback = form.getCallback();
-			JSONObject jsonObject = (JSONObject) JSONSerializer.toJSON(form
-					.getJsonData());
-			JsonConfig jsonConfig = new JsonConfig();
-			jsonConfig.setRootClass(JsonReqData.class);
-			jsonReqData = (JsonReqData) JSONSerializer.toJava(jsonObject,
-					jsonConfig);
-
-			ResponseEvent responseEvent = null;
-			BaseRequestEvent baseRequest = new BaseRequestEvent(
-					jsonReqData.getBlhName(), "", "");
-			baseRequest.setDealMethod(jsonReqData.getHandleCode());
-			HashMap<String, Object> reqMapParam = new HashMap<String, Object>();
-			reqMapParam.put("JsonReqData", jsonReqData);
-			reqMapParam.put("HttpServletRequest", request);
-			baseRequest.setReqMapParam(reqMapParam);
-			responseEvent = (ResponseEvent) BizDelegate.delegate(baseRequest);
-			resData.setCode(responseEvent.getRepCode());
-			if ("0".equals(responseEvent.getRepCode())) {
-				if (null == responseEvent.getReponseMesg()
-						|| "".equals(responseEvent.getReponseMesg())) {
-					responseEvent.setReponseMesg(GeneralCons.SUCCESS_MSG);
-				}
-			}
-			if (null == responseEvent.getReponseMesg()
-					|| "".equals(responseEvent.getReponseMesg())) {
-				resData.setMsg(responseEvent.getRepCode());
-			} else {
-				resData.setMsg(responseEvent.getReponseMesg());
-			}
-			resData.setData(responseEvent.getRespMapParam());
-			if (null == callback) {
-				response.getWriter().print(
-						JSONSerializer.toJSON(resData).toString());
-			} else {
-				response.getWriter().print(
-						callback + "("
-								+ JSONSerializer.toJSON(resData).toString()
-								+ ")");
-			}
-			response.getWriter().flush();
-		} catch (Exception e) {
-			resData.setCode(GeneralCons.ERROR_CODE_ZB9999);
-			resData.setMsg("系统异常，错误原因：" + e.getMessage());
-			try {
-				if (null == callback) {
-					response.getWriter().print(
-							JSONSerializer.toJSON(resData).toString());
-
-				} else {
-					response.getWriter().print(
-							callback + "("
-									+ JSONSerializer.toJSON(resData).toString()
-									+ ")");
-				}
-				response.getWriter().flush();
-			} catch (Exception e1) {
-				LogWritter.sysError("Action返回消息异常:" + e1.getMessage());
-			}
-		}
-		return null;
-	}
-=======
     public ActionForward execute(ActionMapping mapping, ActionForm actionform,
                                  HttpServletRequest request, HttpServletResponse response) {
         JsonResData resData = new JsonResData();
@@ -114,7 +30,7 @@ public class GeneralAction extends Action {
         String callback = null;
         try {
             response.setContentType("text/plain;charset=UTF-8");
-            ZBForm form = (ZBForm) actionform;
+            Gt3GeneralForm form = (Gt3GeneralForm) actionform;
             callback = form.getCallback();
             JSONObject jsonObject = (JSONObject) JSONSerializer.toJSON(form
                     .getJsonData());
@@ -132,19 +48,21 @@ public class GeneralAction extends Action {
                 resData.setCode(GeneralCons.ERROR_CODE_ZB9999);
                 resData.setMsg("系统异常，错误原因：认证不通过");
                 response.getWriter().print(
-                        AESTool.encrypt(JSONSerializer.toJSON(resData)
-                                .toString(), jsonReqData.getYhwybz()));
+                        AESTool.encrypt(URLEncoder.encode(JSONSerializer
+                                .toJSON(resData).toString(), "UTF-8"), request
+                                .getParameter("sessionId")));
+                System.out.println("系统认证不通过....");
                 LogWritter.sysError("系统认证不通过....");
                 response.getWriter().flush();
                 return null;
             }
-
             ResponseEvent responseEvent = null;
             BaseRequestEvent baseRequest = new BaseRequestEvent(
                     jsonReqData.getBlhName(), "", "");
             baseRequest.setDealMethod(jsonReqData.getHandleCode());
             HashMap<String, Object> reqMapParam = new HashMap<String, Object>();
             reqMapParam.put("JsonReqData", jsonReqData);
+            reqMapParam.put("HttpServletRequest", request);
             baseRequest.setReqMapParam(reqMapParam);
             responseEvent = (ResponseEvent) BizDelegate.delegate(baseRequest);
             resData.setCode(responseEvent.getRepCode());
@@ -168,10 +86,12 @@ public class GeneralAction extends Action {
                                 jsonReqData.getYhwybz()));
             } else {
                 response.getWriter().print(
-                        callback + "("
-                                + JSONSerializer.toJSON(resData).toString()
-                                + ")");
-
+                        AESTool.encrypt(
+                                URLEncoder.encode(callback
+                                        + "("
+                                        + JSONSerializer.toJSON(resData)
+                                        .toString() + ")", "UTF-8"),
+                                jsonReqData.getYhwybz()));
             }
             response.getWriter().flush();
         } catch (Exception e) {
@@ -180,16 +100,18 @@ public class GeneralAction extends Action {
             try {
                 if (null == callback) {
                     response.getWriter().print(
-                            AESTool.encrypt(JSONSerializer.toJSON(resData)
-                                    .toString(), jsonReqData.getYhwybz()));
+                            AESTool.encrypt(URLEncoder.encode(JSONSerializer
+                                            .toJSON(resData).toString(), "UTF-8"),
+                                    jsonReqData.getYhwybz()));
+
                 } else {
-                    response.getWriter().print(
-                            callback
-                                    + "("
-                                    + AESTool.encrypt(
-                                    JSONSerializer.toJSON(resData)
-                                            .toString(), jsonReqData
-                                            .getYhwybz()) + ")");
+                    response.getWriter()
+                            .print(AESTool.encrypt(
+                                    URLEncoder.encode(callback
+                                            + "("
+                                            + JSONSerializer.toJSON(resData)
+                                            .toString() + ")", "UTF-8"),
+                                    jsonReqData.getYhwybz()));
                 }
                 response.getWriter().flush();
             } catch (Exception e1) {
@@ -198,5 +120,4 @@ public class GeneralAction extends Action {
         }
         return null;
     }
->>>>>>> 7ee792ab3a6adce0f74f65660e1b3e05cfff1406:biz/src/gov/jslt/taxweb/ZBAction.java
 }
