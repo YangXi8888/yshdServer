@@ -1,23 +1,28 @@
 package gov.jslt.taxweb;
 
-<<<<<<< HEAD
+
 import gov.jslt.taxcore.taxblh.comm.AESTool;
-=======
-import com.ctp.core.config.ApplicationContext;
-import com.ctp.core.log.LogWritter;
-import gov.jslt.taxevent.comm.AESTool;
->>>>>>> 7ee792ab3a6adce0f74f65660e1b3e05cfff1406
 import gov.jslt.taxevent.comm.GeneralCons;
 import gov.jslt.taxevent.comm.JsonResData;
 import gov.jslt.taxevent.comm.LoginVO;
-import net.sf.json.JSONSerializer;
 
-import javax.servlet.*;
+import java.net.URLEncoder;
+import java.util.List;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.net.URLEncoder;
-import java.util.List;
+
+import net.sf.json.JSONSerializer;
+
+import com.ctp.core.config.ApplicationContext;
+import com.ctp.core.log.LogWritter;
 
 public class RuleFilter implements Filter {
 

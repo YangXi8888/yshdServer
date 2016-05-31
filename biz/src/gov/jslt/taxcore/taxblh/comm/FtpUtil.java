@@ -1,12 +1,8 @@
 package gov.jslt.taxcore.taxblh.comm;
 
-import com.ctp.core.log.LogWritter;
-import org.apache.commons.net.ftp.*;
-
 import java.io.IOException;
 import java.io.InputStream;
 
-<<<<<<< HEAD:biz/src/gov/jslt/taxcore/taxblh/comm/FtpUtil.java
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
@@ -16,9 +12,7 @@ import org.apache.commons.net.ftp.FTPReply;
 import com.ctp.core.log.LogWritter;
 
 public class FtpUtil {
-=======
-public class FtpNewUtil {
->>>>>>> 7ee792ab3a6adce0f74f65660e1b3e05cfff1406:biz/src/gov/jslt/taxcore/taxblh/comm/FtpNewUtil.java
+
 
     /**
      * 上传程序方法
