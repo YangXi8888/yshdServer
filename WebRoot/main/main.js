@@ -87,7 +87,7 @@ function showCurrPanel() {
 	$('#myAdd').tabs('select', parseInt(currPanelNum));
 }
 
-function txXt() {
+function tcXt() {
 	$.messager.confirm(commomMessageTitle, '确定退出系统?', function(r) {
 				if (r == true) {
 					sessionClear();
