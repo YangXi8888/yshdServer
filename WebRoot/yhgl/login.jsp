@@ -9,7 +9,7 @@
 <script type="text/javascript" src="/public/jquery/jquery-2.2.3.min.js"></script>
 <script type="text/javascript" src="/public/jquery/jquery.json.min.js"></script>
 <script type="text/javascript" src="/public/jquery/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="/public/jquery/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="/public/jquery/locale/easyui-lang-zh_CN.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="/public/jquery/themes/default/easyui.css"></link>
 <link rel="stylesheet" type="text/css"
@@ -125,7 +125,7 @@ a {
 					<input type="text" id="yzm" size="6" style="width: 100px"
 						placeholder="请输入验证码"> &nbsp;&nbsp;&nbsp;&nbsp;<img alt=""
 						src="/yhgl/yzm.jsp" style="height:30px"><br />
-					<div class="Log" onclick="dlXt()">登陆</div>
+					<div class="Log" onclick="dlXt()" >登陆</div>
 				</div>
 			</div>
 		</div>
