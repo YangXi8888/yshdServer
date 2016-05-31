@@ -1,0 +1,1 @@
+exp SCOTT/wsbs@ORCL file=./sqhd.dmp log=./sqhd_dr.log  owner=SCOTT

@@ -86,7 +86,7 @@
 
 
 	<welcome-file-list>
-		<welcome-file>/LoginAction.do</welcome-file>
+		<welcome-file>/yhgl/login.jsp</welcome-file>
 	</welcome-file-list>
 	<jsp-config>
 		<taglib>

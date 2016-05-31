@@ -1,0 +1,40 @@
+#命名规范，新建的业务表都以T_YS开头，代码表都以T_DM_YS开头
+一、表名
+
+	T_YS_LOGIN               --用户表
+	T_YS_GNS                 --功能树
+	T_YS_NSRFS_ZB            --纳税人发送到银行的记录主表
+	T_YS_NSRFS_JBXX          --纳税人发送到银行的基本信息记录表
+	T_YS_NSRFS_SF            --纳税人发送到银行的税费记录表
+	T_YS_NSRFS_SBF           --纳税人发送到银行的社保费记录表
+	T_YS_NSRFS_XZCF          --纳税人发送到银行的行政处罚记录表
+	T_YS_NSRFS_CWBB          --纳税人发送到银行的财务报表记录表
+	                         
+	                         
+	T_DM_YS_JYZT             --校验状态代码表
+	T_DM_YS_YHLX             --用户类型代码表
+	T_DM_YS_QYHH             --已经签约的银行
+	
+---------------------------以下内网JMS接受端使用，下发库已经有不需要创建（本机数据库需要创建）-----------------------------------------------------------
+    T_DM_GY_ZSXM             --征收项目
+    T_DM_GY_ZSXMSB           --社保费征收项目代码
+    T_ZS_JKMX                --缴款明细
+    T_ZS_JKMXSBF             --社保费缴款明细
+	T_DJ_JGNSR               --机构纳税人
+    T_DJ_JGNSRFB             --机构纳税人附表
+    F_CW_LRB                 --利润表共性项目表
+    F_CW_ZCFZ                --资产负债共性项目表	
+    T_FG_CF_CFMX             --行政处罚明细，用来记录处罚金额明细
+    T_FG_CF_SWXZCFJDS        --税务行政处罚决定书(法规)
+    T_JC_AJK                 --案件库   
+    T_JC_SWXZCFJDS           --税务行政处罚决定书(稽查)   
+    T_WS_SSWSJBXX            --涉税文书基本信息表
+ 
+    
+        	
+二、函数
+    F_XT_GET_GUID --获取32位UUID
+    
+    
+    
+三、存储过程

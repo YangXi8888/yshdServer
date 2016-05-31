@@ -10,7 +10,7 @@
 	<bizLogicHandler>
 		<bizLogicHandler-name>MainBLH</bizLogicHandler-name>
 		<bizLogicHandler-class>
-			gov.jslt.taxcore.taxblh.comm.MainBLH
+			gov.jslt.taxcore.taxblh.main.MainBLH
 		</bizLogicHandler-class>
 		<dataSource-name>ctpds</dataSource-name>
 	</bizLogicHandler>

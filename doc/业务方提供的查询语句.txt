@@ -1,0 +1,70 @@
+
+-----------------财务报表
+select ZYYWSRLJS  主营业务收入, ZYYWCBLJS 主营业务成本, JLRLJS 会计利润  from dm_fxjs.f_cw_lrb t where yf='201512' and t.sjzt=0;
+
+select  ZCHJQMS 资产总额,  FZHJQMS  负债总额, SSZBQMS  实收资本, ZBGJQMS 资本公积 from dm_fxjs.f_cw_zcfz t where yf='201512' and t.sjzt=0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------处罚信息
+
+select
+/*( select  f.zzjgtydm from t_dj_jgnsrfb f where f.swglm=t.swglm ) 组织机构代码,
+*/(select d.nsr_mc  from t_dj_jgnsr d where d.swglm=t.swglm )       " 企业名称（中文）",
+/*(select f.zzhm  from t_dj_jgnsrfb f where f.swglm=t.swglm and f.pzsljg_dm='1' )   工商注册号,
+*/ ( select d.nsrsbm  from t_dj_jgnsr d where d.swglm=t.swglm )   纳税人识别码,
+
+/*'' 处罚名称,*/
+       wszgh 处罚决定文号,
+/*     cfjd  处罚依据,
+*/     wfss  处罚事由,
+     /*  '' 处罚种类,*/
+     /*  '' 处罚结果,*/
+     /*  '' 处罚等级,*/
+/*       (select jg.mc from t_dm_gy_swjg jg where jg.swjg_dm=t.zzjg_dm)   处罚机关全称,
+*/       to_char(t.zz_rq,'YYYY-mm-dd') 处罚日期,
+       to_char(a.rk_rq,'yyyy-mm-dd') 执行完成日期,
+       to_char(t.swglm) 税务管理码,
+       a.fk_je 处罚金额
+  from t_fg_cf_swxzcfjds t, t_fg_cf_cfmx a
+ where t.ajbh = a.ajbh
+   and a.rk_rq >= date '2016-01-01' and a.rk_rq < date '2016-04-01' and t.zf_bj=0  and SPTYBJ=1
+----------稽查案件处罚
+
+select
+/* t2.zzjgtydm  组织机构代码,
+*/       t.nsr_mc  企业名称中文,
+/*       ZZHM  工商注册号,
+*/       t.nsrsbm  纳税人识别码,
+       decode(t3.wszg,
+              null,
+              '',
+              t3.wsjg || t3.wszg || '〔' || t3.wsnh || '〕' || t3.wswh || '号')   处罚决定文号,
+/*            t1.CFJD   处罚依据,
+*/            t1.WFSS  处罚事由 ,
+
+/*              (select mc from t_dm_gy_swjg a where a.swjg_dm=t.ssjcjg_dm)  处罚机关全称  ,
+*/              to_char(t1.xg_sj,'yyyy-mm-dd')   处罚日期,
+              to_char(t.zxjz_rq,'yyyy-mm-dd')   执行完成日期,
+/*             to_char(t.swglm)  税务管理码 ,
+*/              t.cbfk  处罚金额
+  from t_jc_ajk t, t_jc_swxzcfjds t1, t_dj_jgnsrfb t2, t_ws_sswsjbxx t3
+ where t.ssjcjg_dm like '23212%'
+   and t.swglm = t2.swglm and t.aj_bh=t1.aj_bh
+   and t1.wsh = t3.wsh
+   and t.cabz = '0'
+   and t1.zf_bj = '0' and t.zxjz_rq>=date'2016-01-01' and  t.zxjz_rq<date'2016-04-01'

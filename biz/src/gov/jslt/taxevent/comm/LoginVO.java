@@ -8,17 +8,11 @@ public class LoginVO implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 
 	/**
 	 * 手机号码
 	 */
 	private String sjHm = "";
-	
-	/**
-	 * 登录密码
-	 */
-	private String passWord = "";
 
 	/**
 	 * 姓名
@@ -41,52 +35,30 @@ public class LoginVO implements Serializable {
 	private String zjHm = "";
 
 	/**
-	 * 认证方式，多个方式以"|"分隔
+	 * 用户类型代码
 	 */
-	private String rzFs = "";
-	
-	/**
-	 * 税务管理码
-	 */
-	private String swglm = "";
+	private String yhLxDm = "";
 	
 	
 	/**
-	 * 登记序号
+	 * 签约银行代码
 	 */
-	private String djxh = "";
-	
-	
+	private String qyYhDm = "";
+
 	public String getSjHm() {
 		return sjHm;
 	}
 
-	public String getSwglm() {
-		return swglm;
+	public String getQyYhDm() {
+		return qyYhDm;
 	}
 
-	public void setSwglm(String swglm) {
-		this.swglm = swglm;
-	}
-
-	public String getDjxh() {
-		return djxh;
-	}
-
-	public void setDjxh(String djxh) {
-		this.djxh = djxh;
+	public void setQyYhDm(String qyYhDm) {
+		this.qyYhDm = qyYhDm;
 	}
 
 	public void setSjHm(String sjHm) {
 		this.sjHm = sjHm;
-	}
-
-	public String getPassWord() {
-		return passWord;
-	}
-
-	public void setPassWord(String passWord) {
-		this.passWord = passWord;
 	}
 
 	public String getXm() {
@@ -121,13 +93,12 @@ public class LoginVO implements Serializable {
 		this.zjHm = zjHm;
 	}
 
-	public String getRzFs() {
-		return rzFs;
+	public String getYhLxDm() {
+		return yhLxDm;
 	}
 
-	public void setRzFs(String rzFs) {
-		this.rzFs = rzFs;
+	public void setYhLxDm(String yhLxDm) {
+		this.yhLxDm = yhLxDm;
 	}
-	
-	
+
 }

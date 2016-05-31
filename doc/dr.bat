@@ -1,0 +1,1 @@
+imp  SCOTT/wsbs@ORCL file=./sqhd.dmp log=./sqhd_dr.log  fromuser=SCOTT ignore=y
