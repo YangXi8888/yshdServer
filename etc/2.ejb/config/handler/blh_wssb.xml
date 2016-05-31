@@ -14,4 +14,18 @@
 		</bizLogicHandler-class>
 		<dataSource-name>ctpds</dataSource-name>
 	</bizLogicHandler>
+	<bizLogicHandler>
+		<bizLogicHandler-name>Yhd001BLH</bizLogicHandler-name>
+		<bizLogicHandler-class>
+			gov.jslt.taxcore.taxblh.swd.swd001.Yhd001BLH
+		</bizLogicHandler-class>
+		<dataSource-name>ctpds</dataSource-name>
+	</bizLogicHandler>
+	<bizLogicHandler>
+		<bizLogicHandler-name>Yhd002BLH</bizLogicHandler-name>
+		<bizLogicHandler-class>
+			gov.jslt.taxcore.taxblh.yhd.yhd002.Yhd002BLH
+		</bizLogicHandler-class>
+		<dataSource-name>ctpds</dataSource-name>
+	</bizLogicHandler>
 </bizLogicHandler-config>
