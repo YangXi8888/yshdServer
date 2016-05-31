@@ -24,8 +24,10 @@
 			<img src="/public/images/tit_png.png" style="float: left;" />
 			<div class="nowUser">
 				<div class="bz_2">
-					<a href='#' style='cursor: pointer' onclick="xgMmm()">修改密码</a> <a
-						style="cursor: pointer" onclick="txXt()" href='#'>退&nbsp;出</a>
+					<br/><br/>
+					<a href='#' style='cursor: pointer' onclick="xgMmm()">修改密码</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer" onclick="tcXt()"
+						href='#'>退&nbsp;出</a>
 				</div>
 			</div>
 		</div>
