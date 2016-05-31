@@ -1,1 +1,1 @@
-imp  SCOTT/wsbs@ORCL file=./sqhd.dmp log=./sqhd_dr.log  fromuser=SCOTT ignore=y
+impdp scott/wsbs@orcl DIRECTORY=dpdata1 DUMPFILE=yshd.dmp SCHEMAS=scott  logfile=yshd.log
