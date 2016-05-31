@@ -9,6 +9,7 @@
 <script type="text/javascript" src="/public/jquery/jquery-2.2.3.min.js"></script>
 <script type="text/javascript" src="/public/jquery/jquery.json.min.js"></script>
 <script type="text/javascript" src="/public/jquery/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/public/jquery/easyui-lang-zh_CN.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="/public/jquery/themes/default/easyui.css"></link>
 <link rel="stylesheet" type="text/css"
