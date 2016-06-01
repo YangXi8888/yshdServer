@@ -127,11 +127,14 @@ a {
 			<img src="/public/images/ggg.png" style="width:800px;" />
 			<div class="login">
 				<p class="tit">用户登录</p>
-				<input type="text" id="sjHm" placeholder="请输入手机号码"><br /> <input
-					type="password" id="passWord" placeholder="请输入密码"><br /> <input
+				<input type="text" id="sjHm" placeholder="请输入手机号码"
+					onkeydown="enterPress(event,$('#passWord')[0])"><br /> <input
+					type="password" id="passWord" placeholder="请输入密码"
+					onkeydown="enterPress(event,$('#yzm')[0])"><br /> <input
 					type="text" id="yzm" size="6" style="width: 100px"
-					placeholder="请输入验证码"> &nbsp;&nbsp;&nbsp;&nbsp;<img alt=""
-					src="/yhgl/yzm.jsp" style="height:30px"><br />
+					placeholder="请输入验证码" onkeydown="yzmOnKeyDown(event)">
+				&nbsp;&nbsp;&nbsp;&nbsp;<img alt="" src="/yhgl/yzm.jsp"
+					style="height:30px"><br />
 				<div class="Log" onclick="dlXt()">登陆</div>
 			</div>
 		</div>

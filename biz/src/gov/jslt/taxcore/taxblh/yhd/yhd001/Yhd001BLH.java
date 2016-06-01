@@ -1,5 +1,8 @@
 package gov.jslt.taxcore.taxblh.yhd.yhd001;
 
+import gov.jslt.taxevent.comm.FileVO;
+import gov.jslt.taxevent.comm.GeneralCons;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -12,8 +15,13 @@ public class Yhd001BLH extends BaseBizLogicHandler {
 
 	protected ResponseEvent performTask(RequestEvent req, Connection conn)
 			throws SQLException, TaxBaseBizException {
-
-		return null;
+		ResponseEvent responseEvent = new ResponseEvent();
+		FileVO fileVO = new FileVO();
+		fileVO.setFileContent("测试".getBytes());
+		fileVO.setFileName("测试.txt");
+		fileVO.setFileType(".txt");
+		responseEvent.respMapParam.put(GeneralCons.FILE_VO, fileVO);
+		return responseEvent;
 	}
 
 	protected ResponseEvent validateData(RequestEvent req, Connection conn)

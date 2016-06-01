@@ -5,6 +5,11 @@ import java.util.Map;
 
 public class JsonResData {
 
+	/**
+	 * 是否下载文件
+	 */
+
+	private String fileDownload = "false";
 	private String msg = "";
 	private String code = "";
 	private Map<String, Object> data = new HashMap<String, Object>();

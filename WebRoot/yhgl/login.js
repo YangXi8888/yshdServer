@@ -57,3 +57,10 @@ function loginCheck() {
 	}
 	return true;
 }
+
+function yzmOnKeyDown(se) {
+	var e = se || window.event;
+	if (e.keyCode == 13) {
+		dlXt();
+	}
+}

@@ -14,6 +14,13 @@ function checkResponse(responseText) {
 	return false;
 }
 
+function enterPress(se, obj) {
+	var e = se || window.event;
+	if (e.keyCode == 13) {
+		obj.focus();
+	}
+}
+
 function isTimeout(responseText) {
 	if ("ZB0036" == responseText.code) {
 		alert(responseText.msg);
