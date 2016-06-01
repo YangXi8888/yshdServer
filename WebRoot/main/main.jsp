@@ -55,7 +55,7 @@
 	</div>
 	<div data-options="region:'south',border:false"
 		style="height:50px;padding:10px;">版权所有©泰州地方税务局</div>
-	<input type="text" value="<%=request.getParameter("sessionId")%>"
+	<input type="hidden" value="<%=request.getParameter("sessionId")%>"
 		id="sessionId">
 </body>
 <script type="text/javascript" src="/main/main.js"></script>
