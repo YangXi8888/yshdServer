@@ -40,7 +40,6 @@ public class GeneralAction extends Action {
 			jsonConfig.setRootClass(JsonReqData.class);
 			jsonReqData = (JsonReqData) JSONSerializer.toJava(jsonObject,
 					jsonConfig);
-
 			ResponseEvent responseEvent = null;
 			BaseRequestEvent baseRequest = new BaseRequestEvent(
 					jsonReqData.getBlhName(), "", "");

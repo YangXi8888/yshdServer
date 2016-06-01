@@ -20,6 +20,12 @@ public class JsonReqData {
 	private String yhwybz = "";
 
 	/**
+	 * 是否下载文件
+	 */
+
+	private String fileDownload = "false";
+
+	/**
 	 * 业务数据
 	 */
 	private Map<String, Object> data = new HashMap<String, Object>();
@@ -54,6 +60,14 @@ public class JsonReqData {
 
 	public void setData(Map<String, Object> data) {
 		this.data = data;
+	}
+
+	public String getFileDownload() {
+		return fileDownload;
+	}
+
+	public void setFileDownload(String fileDownload) {
+		this.fileDownload = fileDownload;
 	}
 
 }
