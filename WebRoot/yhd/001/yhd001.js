@@ -11,7 +11,7 @@ function downLoadTest() {
 				data : {
 					jsonData : $.toJSON({
 								blhName : "Yhd001BLH",
-								handleCode : "initForm", // 方法名
+								handleCode : "", // BLH方法名
 								yhwybz : userInfo.yhwybz, // 必须
 								downLoadFile : "1"
 							})
