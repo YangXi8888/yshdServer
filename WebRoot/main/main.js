@@ -96,3 +96,18 @@ function tcXt() {
 				}
 			});
 }
+
+function xgMm() {
+	var title = "修改密码";
+	if ($("#myAdd").tabs("exists", title)) {
+		$("#myAdd").tabs("select", title);
+		return;
+	}
+	$('#myAdd').tabs('add', {
+		title : title,
+		content : '<div style="padding:10px;height:700px"><iframe scrolling="yes" frameborder="0"'
+				+ 'src="/yhgl/001/yhgl001.jsp"  style="width:100%;height:100%;" ></iframe></div>',
+		closable : true
+	});
+
+}

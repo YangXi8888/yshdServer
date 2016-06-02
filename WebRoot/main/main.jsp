@@ -9,7 +9,8 @@
 <script type="text/javascript" src="/public/jquery/jquery-2.2.3.min.js"></script>
 <script type="text/javascript" src="/public/jquery/jquery.json.min.js"></script>
 <script type="text/javascript" src="/public/jquery/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="/public/jquery/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript"
+	src="/public/jquery/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="/public/js/common.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="/public/jquery/themes/default/easyui.css"></link>
@@ -25,8 +26,8 @@
 			<img src="/public/images/tit_png.png" style="float: left;" />
 			<div class="nowUser">
 				<div class="bz_2">
-					<br/><br/>
-					<a href='#' style='cursor: pointer' onclick="xgMmm()">修改密码</a>
+					<br />
+					<br /> <a href='#' style='cursor: pointer' onclick="xgMm()">修改密码</a>
 					&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer" onclick="tcXt()"
 						href='#'>退&nbsp;出</a>
 				</div>
