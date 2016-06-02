@@ -8,7 +8,7 @@ $(document).ready(function() {
 
 function initForm() {
 	hasUserInfo();
-	userInfo = sessionLoad("userInfo");
+	var userInfo = sessionLoad("userInfo");
 	$.messager.progress({
 				title : commomWaitTitle,
 				msg : '正在加载首页...',
@@ -16,38 +16,42 @@ function initForm() {
 			});
 
 	$.ajax({
-		url : "/GeneralAction.do?sessionId=" + userInfo.yhwybz,
-		async : true,
-		dataType : "json",
-		data : {
-			jsonData : $.toJSON({
-						blhName : "MainBLH",
-						handleCode : "initForm",
-						yhwybz : userInfo.yhwybz
-					})
-		},
-		type : 'post',
-		timeout : sys_timeout,
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			$.messager.progress('close');
-			$.messager.alert(commomMessageTitle, textStatus, 'error');
-		},
-		success : function(responseText, textStatus, XMLHttpRequest) {
-			$.messager.progress('close');
-			if (checkResponse(responseText)) {
-				$("#mainTree").tree({
-							data : responseText.data.gnsList,
-							animate : true,
-							onClick : function(node) {
-								addPanel(node);
-								$(this).tree('toggle', node.target);
-							}
-						});
-			} else {
-				$.messager.alert(commomMessageTitle, responseText.msg, 'error');
-			}
-		}
-	});
+				url : "/GeneralAction.do?sessionId=" + userInfo.yhwybz,
+				async : true,
+				dataType : "json",
+				data : {
+					jsonData : $.toJSON({
+								blhName : "MainBLH",
+								handleCode : "initForm",
+								yhwybz : userInfo.yhwybz
+							})
+				},
+				type : 'post',
+				timeout : sys_timeout,
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					$.messager.progress('close');
+					$.messager.alert(commomMessageTitle, textStatus, 'error');
+				},
+				success : function(responseText, textStatus, XMLHttpRequest) {
+					$.messager.progress('close');
+					if (checkResponse(responseText)) {
+						$("#mainTree").tree({
+									data : responseText.data.gnsList,
+									animate : true,
+									onClick : function(node) {
+										addPanel(node);
+										$(this).tree('toggle', node.target);
+									}
+								});
+					} else {
+						// 判断是否超时
+						if (!isTimeout(responseText)) {
+							$.messager.alert(commomMessageTitle,
+									responseText.msg, 'error');
+						}
+					}
+				}
+			});
 }
 
 function addPanel(obj) {
