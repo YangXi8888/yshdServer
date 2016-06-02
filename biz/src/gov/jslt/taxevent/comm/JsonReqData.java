@@ -24,6 +24,7 @@ public class JsonReqData {
 	 * 是否下载文件
 	 */
 	private String downLoadFile = "0";
+	
 
 	/**
 	 * 业务数据

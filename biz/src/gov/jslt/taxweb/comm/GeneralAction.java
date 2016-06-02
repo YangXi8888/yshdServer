@@ -5,12 +5,10 @@ import gov.jslt.taxevent.comm.GeneralCons;
 import gov.jslt.taxevent.comm.JsonReqData;
 import gov.jslt.taxevent.comm.JsonResData;
 
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +17,10 @@ import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 import net.sf.json.JsonConfig;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -37,7 +39,6 @@ public class GeneralAction extends Action {
 		JsonReqData jsonReqData = new JsonReqData();
 		String callback = null;
 		try {
-
 			GeneralForm form = (GeneralForm) actionform;
 			callback = form.getCallback();
 			JSONObject jsonObject = (JSONObject) JSONSerializer.toJSON(form
@@ -53,9 +54,11 @@ public class GeneralAction extends Action {
 			HashMap<String, Object> reqMapParam = new HashMap<String, Object>();
 			reqMapParam.put("JsonReqData", jsonReqData);
 			reqMapParam.put("HttpServletRequest", request);
+			if (null != form.getUploadFiles()) {
+				reqMapParam.put("UploadFiles", form.getUploadFiles());
+			}
 			baseRequest.setReqMapParam(reqMapParam);
 			responseEvent = (ResponseEvent) BizDelegate.delegate(baseRequest);
-
 			if ("0".equals(jsonReqData.getDownLoadFile())) {
 				response.setContentType("text/plain;charset=UTF-8");
 				resData.setCode(responseEvent.getRepCode());
@@ -87,8 +90,11 @@ public class GeneralAction extends Action {
 				FileVO fileVO = (FileVO) responseEvent.respMapParam
 						.get(GeneralCons.FILE_VO);
 				response.setContentType(WebTool.getContext(fileVO.getFileType()));
-				response.setHeader("Content-Disposition",
-						"attachment; filename=\"" + URLEncoder.encode(fileVO.getFileName(),"UTF-8") + "\"");
+				response.setHeader(
+						"Content-Disposition",
+						"attachment; filename=\""
+								+ URLEncoder.encode(fileVO.getFileName(),
+										"UTF-8") + "\"");
 				response.resetBuffer();
 				OutputStream sos = response.getOutputStream();
 				sos.write(fileVO.getFileContent());
@@ -102,7 +108,6 @@ public class GeneralAction extends Action {
 				if (null == callback) {
 					response.getWriter().print(
 							JSONSerializer.toJSON(resData).toString());
-
 				} else {
 					response.getWriter().print(
 							callback + "("
