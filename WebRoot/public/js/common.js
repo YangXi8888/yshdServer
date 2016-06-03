@@ -24,7 +24,11 @@ function enterPress(se, obj) {
 function isTimeout(responseText) {
 	if ("ZB0036" == responseText.code) {
 		alert(responseText.msg);
-		window.location.href = "/yhgl/login.jsp";
+		if (self != top) {
+			parent.window.location.href = "/yhgl/login.jsp";
+		} else {
+			window.location.href = "/yhgl/login.jsp";
+		}
 	} else {
 		return false;
 	}
@@ -104,8 +108,13 @@ function sessionClearByKey(key) {
  */
 function hasUserInfo() {
 	if (!sessionLoad("userInfo")) {
-		window.location.href = window.location.protocol + "//"
-				+ window.location.hostname + ":" + window.location.port;
+		if (self != top) {
+			parent.window.location.href = window.location.protocol + "//"
+					+ window.location.hostname + ":" + window.location.port;
+		} else {
+			window.location.href = window.location.protocol + "//"
+					+ window.location.hostname + ":" + window.location.port;
+		}
 	} else {
 		return sessionLoad("userInfo");
 	}

@@ -15,6 +15,13 @@
 		<dataSource-name>ctpds</dataSource-name>
 	</bizLogicHandler>
 	<bizLogicHandler>
+		<bizLogicHandler-name>Yhgl002BLH</bizLogicHandler-name>
+		<bizLogicHandler-class>
+			gov.jslt.taxcore.taxblh.yhgl.yhgl002.Yhgl002BLH
+		</bizLogicHandler-class>
+		<dataSource-name>ctpds</dataSource-name>
+	</bizLogicHandler>
+	<bizLogicHandler>
 		<bizLogicHandler-name>MainBLH</bizLogicHandler-name>
 		<bizLogicHandler-class>
 			gov.jslt.taxcore.taxblh.main.MainBLH
