@@ -9,6 +9,7 @@ $(document).ready(function() {
 function initForm() {
 	hasUserInfo();
 	var userInfo = sessionLoad("userInfo");
+	$("#userNmae").html(userInfo.xm);
 	$.messager.progress({
 				title : commomWaitTitle,
 				msg : '正在加载首页...',
@@ -43,6 +44,11 @@ function initForm() {
 										$(this).tree('toggle', node.target);
 									}
 								});
+						if ("01" == userInfo.yhLxDm) {
+							$("#nsr_Hs").html(responseText.data.nsr_Hs);
+							$("#file_Zs").html(responseText.data.file_Zs);
+							$("#yhdXxDiv").show();
+						}
 					} else {
 						// 判断是否超时
 						if (!isTimeout(responseText)) {

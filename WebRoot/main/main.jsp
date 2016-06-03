@@ -1,3 +1,4 @@
+<%@page import="gov.jslt.taxevent.comm.LoginVO"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <!DOCTYPE html>
 <html>
@@ -26,7 +27,9 @@
 			<img src="/public/images/tit_png.png" style="float: left;" />
 			<div class="nowUser">
 				<div class="bz_2">
-					<br /> <br /> <a href='#' style='cursor: pointer'
+				<br />
+					用户名:<span id="userNmae"></span>
+					 <br /> <a href='#' style='cursor: pointer'
 						onclick="xgMm()">修改密码</a> &nbsp;&nbsp;&nbsp;&nbsp;<a
 						style="cursor: pointer" onclick="tcXt()" href='#'>退&nbsp;出</a>
 				</div>
@@ -44,14 +47,20 @@
 			data-options="fit:true,tools:'#tab-tools'">
 			<div title="信息提示" data-options="closable:false"
 				style="overflow: scroll;">
-				<ul>
-					<li style="font-size:18px">本月共有<span id="nsr_Hs" style="background-color: #D9EDF7">33</span>位纳税人将数据发送至税银互动系统&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+				<ul style="display:none;" id="yhdXxDiv">
+					<li style="font-size:18px">本月共有<span id="nsr_Hs"
+						style="background-color: #D9EDF7">33</span>位纳税人将数据发送至税银互动系统&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
 						href="/yhd/001/yhd001.jsp?sessionId=<%=request.getParameter("sessionId")%>"
 						class="easyui-linkbutton" target="_blank">点击查询</a></li>
-					<br/>
-					<li style="font-size:18px">本月您共上传<span id="file_Zs" style="background-color:#DFF0D8">12</span>个文件至税银互动系统 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+					<br />
+					<li style="font-size:18px">本月您共上传<span id="file_Zs"
+						style="background-color:#DFF0D8">12</span>个文件至税银互动系统
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
 						href="/yhd/002/yhd002.jsp?sessionId=<%=request.getParameter("sessionId")%>"
 						class="easyui-linkbutton" target="_blank">点击查询</a></li>
+				</ul>
+				<ul style="display:none;" id="swdXxDiv">
+
 				</ul>
 			</div>
 

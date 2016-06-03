@@ -44,6 +44,9 @@ public class LoginVO implements Serializable {
 	 * 签约银行代码
 	 */
 	private String qyYhDm = "";
+	
+	
+
 
 	public String getSjHm() {
 		return sjHm;

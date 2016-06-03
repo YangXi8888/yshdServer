@@ -53,6 +53,32 @@ public class MainBLH extends BaseBizLogicHandler {
 		List<Object> gnsList = new ArrayList<Object>();
 		getGns(conn, gnsList, reqEvent.reqMapParam);
 		reEvent.respMapParam.put("gnsList", gnsList);
+
+		ArrayList<Object> sqlParam = new ArrayList<Object>();
+		CachedRowSet rs;
+		if ("01".equals(loginVO.getYhLxDm())) {
+			sqlParam.add(loginVO.getQyYhDm());
+			rs = QueryCssBPO
+					.findAll(
+							conn,
+							"SELECT COUNT(DISTINCT T.SWGLM) AS N   FROM T_YS_NSRFS_ZB T  WHERE T.QYYH_DM = ?    AND T.LR_SJ >        TO_DATE(TO_CHAR(TRUNC(SYSDATE, 'MM'), 'YYYY-MM-DD') || ' 00:00:01',   'YYYY-MM-DD HH24:MI:SS')",
+							sqlParam);
+			rs.next();
+			reEvent.respMapParam.put("nsr_Hs", rs.getInt("N"));
+
+			sqlParam = new ArrayList<Object>();
+			sqlParam.add(loginVO.getYhwybz());
+			rs = QueryCssBPO
+					.findAll(
+							conn,
+							"SELECT COUNT(SCJL_ID) AS N   FROM T_YS_YHSCJLB T  WHERE T.UUID = ?    AND T.LR_SJ >        TO_DATE(TO_CHAR(TRUNC(SYSDATE, 'MM'), 'YYYY-MM-DD') || ' 00:00:01',   'YYYY-MM-DD HH24:MI:SS')",
+							sqlParam);
+			rs.next();
+			reEvent.respMapParam.put("file_Zs", rs.getInt("N"));
+		} else {
+
+		}
+
 		reEvent.setReponseMesg("主页初始化成功");
 		return reEvent;
 	}
@@ -61,13 +87,13 @@ public class MainBLH extends BaseBizLogicHandler {
 			Map<String, Object> tempMap) throws SQLException {
 		ArrayList<Object> sqlParam = new ArrayList<Object>();
 		sqlParam.add(tempMap.get("pNodeId"));
-		sqlParam.add(tempMap.get("yhLxDm") + "%");
-		if (null != tempMap.get("qyYhDm") && !"".equals(tempMap.get("qyYhDm"))) {
-			sqlParam.add(tempMap.get("qyYhDm") + "%");
-		} else {
-			sqlParam.add("%");
-		}
-		String sql = "SELECT * FROM  T_YS_GNS A  WHERE A.PNODE_ID=? AND A.XY_BJ='1' AND A.YHLX_DM LIKE ? AND A.QYYH_DM LIKE ? ORDER BY A.PNODE_ID, A.PX";
+		sqlParam.add(tempMap.get("yhLxDm"));
+		sqlParam.add("%");
+
+		sqlParam.add(tempMap.get("qyYhDm"));
+		sqlParam.add("%");
+
+		String sql = "SELECT * FROM  T_YS_GNS A  WHERE A.PNODE_ID=? AND A.XY_BJ='1' AND A.YHLX_DM IN(?,?) AND A.QYYH_DM IN(?,?) ORDER BY A.PNODE_ID, A.PX";
 		CachedRowSet rs = QueryCssBPO.findAll(conn, sql, sqlParam);
 		Map<String, Object> map = null;
 		while (rs.next()) {
