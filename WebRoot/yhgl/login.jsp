@@ -119,7 +119,7 @@ a {
 	<div class="up">
 		<div class="mid">
 			<img src="/public/images/logo.png"
-				style="margin-top:20px; margin-left:30px; width:570px;" />
+				style="margin-top:50px; margin-left:30px; width:570px;" />
 			<div class="sy">
 				<a href="#" class="Conte">联系我们</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a
 					href="#" class="Conte">帮助</a>

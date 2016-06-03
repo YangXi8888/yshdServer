@@ -26,10 +26,9 @@
 			<img src="/public/images/tit_png.png" style="float: left;" />
 			<div class="nowUser">
 				<div class="bz_2">
-					<br />
-					<br /> <a href='#' style='cursor: pointer' onclick="xgMm()">修改密码</a>
-					&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer" onclick="tcXt()"
-						href='#'>退&nbsp;出</a>
+					<br /> <br /> <a href='#' style='cursor: pointer'
+						onclick="xgMm()">修改密码</a> &nbsp;&nbsp;&nbsp;&nbsp;<a
+						style="cursor: pointer" onclick="tcXt()" href='#'>退&nbsp;出</a>
 				</div>
 			</div>
 		</div>
@@ -37,7 +36,7 @@
 	<div data-options="region:'west',split:true,title:'功能树'"
 		style="width:200px;padding:10px;">
 		<div id="div_gns" style="overflow-y: auto;">
-			<ul class="easyui-tree" id="mainTree"></ul>
+			<ul class="easyui-tree" id="mainTree" style="height:400px"></ul>
 		</div>
 	</div>
 	<div data-options="region:'center',iconCls:'icon-ok'">
@@ -45,13 +44,17 @@
 			data-options="fit:true,tools:'#tab-tools'">
 			<div title="信息提示" data-options="closable:false"
 				style="overflow: scroll;">
-				<!--首页内容-->
-
-
-
-
-				<!--首页内容-->
+				<ul>
+					<li>本月共有<span id="nsr_Hs"></span>位纳税人将数据发送至税银互动系统,<a
+						href="/yhd/001/yhd001.jsp?sessionId=<%=request.getParameter("sessionId")%>"
+						class="easyui-linkbutton" target="_blank">点击查询</a></li>
+					<br/>
+					<li>本月您共上传<span id="nsr_Hs"></span>个文件至税银互动系统,<a
+						href="/yhd/002/yhd002.jsp?sessionId=<%=request.getParameter("sessionId")%>"
+						class="easyui-linkbutton" target="_blank">点击查询</a></li>
+				</ul>
 			</div>
+
 		</div>
 	</div>
 	<div data-options="region:'south',border:false"
