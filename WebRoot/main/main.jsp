@@ -45,11 +45,11 @@
 			<div title="信息提示" data-options="closable:false"
 				style="overflow: scroll;">
 				<ul>
-					<li>本月共有<span id="nsr_Hs"></span>位纳税人将数据发送至税银互动系统,<a
+					<li style="font-size:18px">本月共有<span id="nsr_Hs" style="background-color: #D9EDF7">33</span>位纳税人将数据发送至税银互动系统&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
 						href="/yhd/001/yhd001.jsp?sessionId=<%=request.getParameter("sessionId")%>"
 						class="easyui-linkbutton" target="_blank">点击查询</a></li>
 					<br/>
-					<li>本月您共上传<span id="nsr_Hs"></span>个文件至税银互动系统,<a
+					<li style="font-size:18px">本月您共上传<span id="file_Zs" style="background-color:#DFF0D8">12</span>个文件至税银互动系统 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
 						href="/yhd/002/yhd002.jsp?sessionId=<%=request.getParameter("sessionId")%>"
 						class="easyui-linkbutton" target="_blank">点击查询</a></li>
 				</ul>
