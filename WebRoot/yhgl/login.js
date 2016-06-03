@@ -1,5 +1,5 @@
 function dlXt() {
-	if (loginCheck()) {
+	if (baseCheck()) {
 		$.ajax({
 					url : "/LoginAction.do",
 					async : true,
@@ -38,21 +38,29 @@ function dlXt() {
 	}
 }
 
-function loginCheck() {
+function baseCheck() {
 	if ($.trim($("#sjHm").val()) == "") {
-		$.messager.alert(commomMessageTitle, '手机不能为空', 'warning');
+		$.messager.alert(commomMessageTitle, '手机不能为空', 'warning', function() {
+					$("#sjHm").focus();
+				});
 		return false;
 	}
 	if (!f_check_mobile(document.getElementById("sjHm"))) {
-		$.messager.alert(commomMessageTitle, '手机号格式有误', 'warning');
+		$.messager.alert(commomMessageTitle, '手机号格式有误', 'warning', function() {
+					$("#sjHm").focus();
+				});
 		return false;
 	}
 	if ($.trim($("#passWord").val()) == "") {
-		$.messager.alert(commomMessageTitle, '密码不能为空', 'warning');
+		$.messager.alert(commomMessageTitle, '密码不能为空', 'warning', function() {
+					$("#passWord").focus();
+				});
 		return false;
 	}
 	if ($.trim($("#yzm").val()) == "") {
-		$.messager.alert(commomMessageTitle, '验证码不能为空', 'warning');
+		$.messager.alert(commomMessageTitle, '验证码不能为空', 'warning', function() {
+					$("#yzm").focus();
+				});
 		return false;
 	}
 	return true;

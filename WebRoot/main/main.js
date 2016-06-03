@@ -109,9 +109,9 @@ function xgMm() {
 	}
 	$('#myAdd').tabs('add', {
 		title : title,
-		content : '<div style="padding:10px;height:700px"><iframe scrolling="yes" frameborder="0"'
-				+ 'src="/yhgl/001/yhgl001.jsp"  style="width:100%;height:100%;" ></iframe></div>',
+		content : '<div style="padding:10px;height:700px"><iframe scrolling="yes" frameborder="0" style="width:100%;height:100%"'
+				+ ' src="/yhgl/001/yhgl001.jsp?sessionId='
+				+ $('#sessionId').val() + '"></iframe></div>',
 		closable : true
 	});
-
 }

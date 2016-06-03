@@ -27,18 +27,19 @@
 					<tr>
 						<td>原密码:</td>
 						<td><input class="easyui-textbox" type="password"
-							id="password" placeholder="请输入原密码" data-options="required:true"></input></td>
+							maxlength="10" id="password" placeholder="请输入原密码"
+							data-options="required:true"></input></td>
 					</tr>
 					<tr>
 						<td>新密码:</td>
 						<td><input class="easyui-textbox" type="password"
-							id="password_new" placeholder="请输入新密码"
-							data-options="required:true,validType:'email'"></input></td>
+							maxlength="10" id="password_new" placeholder="请输入新密码"
+							data-options="required:true"></input></td>
 					</tr>
 					<tr>
 						<td>确认新密码:</td>
 						<td><input class="easyui-textbox" type="password"
-							id="password_com" placeholder="请确认新密码"
+							maxlength="10" id="password_com" placeholder="请确认新密码"
 							data-options="required:true"></input></td>
 					</tr>
 					<tr>
@@ -49,10 +50,11 @@
 			</form>
 			<div style="text-align:center;padding:5px">
 				<a href="javascript:void(0)" class="easyui-linkbutton"
-					onclick="submitForm()">保存</a> <a href="javascript:void(0)"
-					class="easyui-linkbutton" onclick="clearForm()">取消</a>
+					onclick="submitForm()">&nbsp;&nbsp;保&nbsp;&nbsp;存&nbsp;&nbsp;</a>
 			</div>
 		</div>
+
+
 		<input type="hidden" value="<%=request.getParameter("sessionId")%>"
 			id="sessionId">
 </body>
