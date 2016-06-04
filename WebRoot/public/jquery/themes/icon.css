@@ -97,3 +97,7 @@
 .icon-view{
 	background:url('icons/application_view_list.png') no-repeat center center;
 }
+.icon-close{
+	background:url('icons/close.png') no-repeat center center;
+}
+
