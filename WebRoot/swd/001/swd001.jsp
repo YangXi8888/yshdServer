@@ -35,7 +35,7 @@
 				style="text-decoration: none;" onclick="queryData();">打包下载</a> <a
 				href="#" class="easyui-linkbutton"
 				data-options="plain:true,iconCls:'icon-close'"
-				style="text-decoration: none;" onclick="clearData();">关闭</a>
+				style="text-decoration: none;" onclick="window.close()">关闭</a>
 		</div>
 		<br />
 		<div style="text-align:center;width:90%">
