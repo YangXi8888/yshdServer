@@ -65,4 +65,45 @@ function initPage() {
 			});
 }
 
-
+function queryData() {
+	$.messager.progress({
+				title : commomWaitTitle,
+				msg : '正在查询数据...',
+				text : ''
+			});
+	$.ajax({
+				url : "/GeneralAction.do?sessionId=" + userInfo.yhwybz,
+				async : true,
+				dataType : "json",
+				data : {
+					jsonData : $.toJSON({
+								blhName : "Yhgl001BLH",
+								handleCode : "submitForm",
+								yhwybz : userInfo.yhwybz,
+								data : {
+									Y_LOGPASS : $("#password").val(),
+									N_LOGPASS : $("#password_new").val()
+								}
+							})
+				},
+				type : 'post',
+				timeout : sys_timeout,
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					$.messager.progress('close');
+					$.messager.alert(commomMessageTitle, textStatus, 'error');
+				},
+				success : function(responseText, textStatus, XMLHttpRequest) {
+					$.messager.progress('close');
+					if (checkResponse(responseText)) {
+						$.messager.alert(commomMessageTitle, responseText.msg,
+								'info');
+					} else {
+						// 判断是否超时
+						if (!isTimeout(responseText)) {
+							$.messager.alert(commomMessageTitle,
+									responseText.msg, 'error');
+						}
+					}
+				}
+			});
+}
