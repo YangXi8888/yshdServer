@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public class FileTool {
 	/**
-	 * 字节数转MB或KB
+	 * byte转MB或KB
 	 * @param bytes
 	 * @return
 	 */
