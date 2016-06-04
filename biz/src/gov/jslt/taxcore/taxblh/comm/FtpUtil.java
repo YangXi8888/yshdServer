@@ -19,8 +19,8 @@ public class FtpUtil {
 	 */
 
 	public static boolean uploadFile(String url, String username,
-			String password, String path, String filename, InputStream input)
-			throws TaxBaseBizException {
+			String password, int port, String path, String filename,
+			InputStream input) throws TaxBaseBizException {
 		// filename:要上传的文件
 		// path :上传的路径
 		// 初始表示上传失败
@@ -33,8 +33,8 @@ public class FtpUtil {
 		try {
 			// 连接FTP服务器
 			// 如果采用默认端口，可以使用ftp.connect(url)的方式直接连接FTP服务器
-			// ftp.connect(url, port);
-			ftp.connect(url);
+			ftp.connect(url, port);
+			// ftp.connect(url);
 			// 下面三行代码必须要，而且不能改变编码格式，否则不能正确下载中文文件
 			ftp.setControlEncoding("GBK");
 			FTPClientConfig conf = new FTPClientConfig(FTPClientConfig.SYST_NT);
@@ -92,7 +92,7 @@ public class FtpUtil {
 	 */
 
 	public static boolean deleteFile(String url, String username,
-			String password, String path, String filename)
+			String password, int port, String path, String filename)
 			throws TaxBaseBizException {
 		// filename:要上传的文件
 		// path :上传的路径
@@ -105,8 +105,8 @@ public class FtpUtil {
 			int reply;
 			// 连接FTP服务器
 			// 如果采用默认端口，可以使用ftp.connect(url)的方式直接连接FTP服务器
-			// ftp.connect(url, port);
-			ftp.connect(url);
+			ftp.connect(url, port);
+			// ftp.connect(url);
 			// 下面三行代码必须要，而且不能改变编码格式，否则不能正确下载中文文件
 			ftp.setControlEncoding("GBK");
 			FTPClientConfig conf = new FTPClientConfig(FTPClientConfig.SYST_NT);
@@ -194,8 +194,8 @@ public class FtpUtil {
 	 * @param fileName
 	 * @return 文件流
 	 */
-	public static InputStream downFile(String url, int port, String username,
-			String password, String remotePath, String fileName)
+	public static InputStream downFile(String url, String username,
+			String password, int port, String remotePath, String fileName)
 			throws TaxBaseBizException {
 		FTPClient ftp = new FTPClient();
 		try {
