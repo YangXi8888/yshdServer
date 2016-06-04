@@ -184,15 +184,16 @@ public class FtpUtil {
 		return filename1.toString();
 	}
 
-	/**
+	/***
 	 * 
 	 * @param url
-	 * @param port
 	 * @param username
 	 * @param password
+	 * @param port
 	 * @param remotePath
 	 * @param fileName
-	 * @return 文件流
+	 * @return
+	 * @throws TaxBaseBizException
 	 */
 	public static InputStream downFile(String url, String username,
 			String password, int port, String remotePath, String fileName)
