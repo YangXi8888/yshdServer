@@ -79,6 +79,14 @@ public class MainBLH extends BaseBizLogicHandler {
 			rs = QueryCssBPO
 					.findAll(
 							conn,
+							"SELECT COUNT(DISTINCT T.SWGLM) AS N   FROM T_YS_NSRFS_ZB T  WHERE    T.LR_SJ >        TO_DATE(TO_CHAR(TRUNC(SYSDATE, 'MM'), 'YYYY-MM-DD') || ' 00:00:01',   'YYYY-MM-DD HH24:MI:SS')",
+							sqlParam);
+			rs.next();
+			reEvent.respMapParam.put("nsr_Hs_Swd", rs.getInt("N"));
+
+			rs = QueryCssBPO
+					.findAll(
+							conn,
 							"SELECT COUNT(SCJL_ID) AS N   FROM T_YS_YHSCJLB T  WHERE  T.LR_SJ >        TO_DATE(TO_CHAR(TRUNC(SYSDATE, 'MM'), 'YYYY-MM-DD') || ' 00:00:01',   'YYYY-MM-DD HH24:MI:SS')",
 							sqlParam);
 			rs.next();

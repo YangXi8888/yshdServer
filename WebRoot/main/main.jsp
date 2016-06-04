@@ -27,11 +27,10 @@
 			<img src="/public/images/tit_png.png" style="float: left;" />
 			<div class="nowUser">
 				<div class="bz_2">
-				<br />
-					用户名:<span id="userNmae"></span>
-					 <br /> <a href='#' style='cursor: pointer'
-						onclick="xgMm()">修改密码</a> &nbsp;&nbsp;&nbsp;&nbsp;<a
-						style="cursor: pointer" onclick="tcXt()" href='#'>退&nbsp;出</a>
+					<br /> 用户名:<span id="userNmae"></span> <br /> <a href='#'
+						style='cursor: pointer' onclick="xgMm()">修改密码</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer" onclick="tcXt()"
+						href='#'>退&nbsp;出</a>
 				</div>
 			</div>
 		</div>
@@ -63,7 +62,12 @@
 					<li style="font-size:18px">本月银行共上传<span id="file_Zs_Swd"
 						style="background-color:#DFF0D8"></span>个文件至税银互动系统
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
-						href="/yhd/002/yhd002.jsp?sessionId=<%=request.getParameter("sessionId")%>"
+						href="/swd/001/swd001.jsp?sessionId=<%=request.getParameter("sessionId")%>"
+						class="easyui-linkbutton" target="_blank">点击查询</a></li>
+					<br />
+					<li style="font-size:18px">本月共有<span id="nsr_Hs_Swd"
+						style="background-color: #D9EDF7"></span>位纳税人将数据发送至税银互动系统&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+						href="/swd/002/swd002.jsp?sessionId=<%=request.getParameter("sessionId")%>"
 						class="easyui-linkbutton" target="_blank">点击查询</a></li>
 				</ul>
 			</div>

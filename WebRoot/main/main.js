@@ -49,7 +49,9 @@ function initForm() {
 							$("#file_Zs").html(responseText.data.file_Zs);
 							$("#yhdXxDiv").show();
 						} else if ("02" == userInfo.yhLxDm) {
-							$("#file_Zs_Swd").html(responseText.data.file_Zs_Swd);
+							$("#nsr_Hs_Swd").html(responseText.data.nsr_Hs_Swd);
+							$("#file_Zs_Swd")
+									.html(responseText.data.file_Zs_Swd);
 							$("#swdXxDiv").show();
 						}
 					} else {
