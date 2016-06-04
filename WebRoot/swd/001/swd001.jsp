@@ -39,9 +39,11 @@
 		</div>
 		<br />
 		<div style="text-align:center;width:90%">
+			<!--Mydate97控件 -->
 			上传日期：<input class="Wdate" type="text" id="rqq"
-				onClick="WdatePicker()" readonly="readonly"> 至<input
-				class="Wdate" type="text" id="rqz" onClick="WdatePicker()">
+				onClick="WdatePicker({maxDate:'#F{$dp.$D(\'rqz\')}'})"
+				readonly="readonly"> 至<input class="Wdate" type="text"
+				id="rqz" onClick="WdatePicker({minDate:'#F{$dp.$D(\'rqq\')}'})">
 		</div>
 
 	</div>
