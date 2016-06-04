@@ -137,7 +137,7 @@ function NullToZero(str) {
 }
 
 function openMaxWindow(url) {
-	var winheight = screen.availHeight - 55;
+	var winheight = screen.availHeight - 75;
 	var winwidth = screen.availWidth - 10;
 	var param = "height="
 			+ winheight

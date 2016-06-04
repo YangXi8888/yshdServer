@@ -1,6 +1,5 @@
 package gov.jslt.taxcore.taxblh.yhgl;
 
-
 import gov.jslt.taxcore.taxblh.comm.CoreHelper;
 import gov.jslt.taxcore.taxblh.comm.MD5Helper;
 import gov.jslt.taxevent.comm.JsonReqData;
@@ -84,11 +83,11 @@ public class LoginBLH extends BaseBizLogicHandler {
 		return resEvent;
 	}
 
-    @Override
-    protected ResponseEvent validateData(RequestEvent arg0, Connection arg1)
-            throws Exception {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	protected ResponseEvent validateData(RequestEvent arg0, Connection arg1)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

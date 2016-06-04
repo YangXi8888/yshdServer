@@ -24,22 +24,17 @@ function initPage() {
 					field : 'XM',
 					align : "center",
 					title : "上传人姓名",
-					width : '10%'
+					width : '15%'
 				}, {
 					field : 'QYYH_MC',
 					align : "center",
 					title : "银行名称",
 					width : '20%'
 				}, {
-					field : 'WJML',
-					align : "center",
-					title : "文件目录",
-					width : '10%'
-				}, {
 					field : 'WJM',
 					align : "center",
 					title : "文件名",
-					width : '10%'
+					width : '15%'
 				}, {
 					field : 'WJDX',
 					align : "center",
@@ -79,6 +74,61 @@ function initPage() {
 }
 
 function deleteFile(scjlId) {
+	$.messager.confirm(commomMessageTitle, '确定删除该文件?', function(r) {
+				if (r == true) {
+					$.messager.progress({
+								title : commomWaitTitle,
+								msg : '正在删除文件.....',
+								text : ''
+							});
+
+					$.ajax({
+								url : "/GeneralAction.do?sessionId="
+										+ userInfo.yhwybz,
+								async : true,
+								dataType : "json",
+								data : {
+									jsonData : $.toJSON({
+												blhName : "Swd001BLH",
+												handleCode : "deleteFile",
+												yhwybz : userInfo.yhwybz,
+												data : {
+													scjlId : scjlId
+												}
+											})
+								},
+								type : 'post',
+								timeout : sys_timeout,
+								error : function(XMLHttpRequest, textStatus,
+										errorThrown) {
+									$.messager.progress('close');
+									$.messager.alert(commomMessageTitle,
+											textStatus, 'error');
+								},
+								success : function(responseText, textStatus,
+										XMLHttpRequest) {
+									$.messager.progress('close');
+									if (checkResponse(responseText)) {
+										$.messager.alert(commomMessageTitle,
+												responseText.msg, 'info',
+												function() {
+													queryData()
+												});
+									} else {
+										// 判断是否超时
+										if (!isTimeout(responseText)) {
+											$.messager.alert(
+													commomMessageTitle,
+													responseText.msg, 'error',
+													function() {
+														queryData()
+													});
+										}
+									}
+								}
+							});
+				}
+			});
 
 }
 
@@ -93,11 +143,40 @@ function downLoadFile(scjlId) {
 				data : {
 					jsonData : $.toJSON({
 								blhName : "Swd001BLH",
-								handleCode : "downLoadFile", 
-								yhwybz : userInfo.yhwybz, 
+								handleCode : "downLoadFile",
+								yhwybz : userInfo.yhwybz,
 								downLoadFile : "1",
 								data : {
 									scjlId : scjlId
+								}
+							})
+				},
+				successCallback : function(url) {
+					$.messager.progress('close');
+				},
+				failCallback : function(responseHtml, url) {
+					$.messager.progress('close');
+				}
+			});
+}
+
+function downLoadAllFile() {
+	$.messager.progress({
+				title : commomWaitTitle,
+				msg : '正在下载文件.....',
+				text : ''
+			});
+	$.fileDownload("/GeneralAction.do?sessionId=" + userInfo.yhwybz, {
+				httpMethod : 'POST',
+				data : {
+					jsonData : $.toJSON({
+								blhName : "Swd001BLH",
+								handleCode : "downLoadAllFile",
+								yhwybz : userInfo.yhwybz,
+								downLoadFile : "1",
+								data : {
+									rqq : $("#rqq").val(),
+									rqz : $("#rqz").val()
 								}
 							})
 				},

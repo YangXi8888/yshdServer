@@ -72,6 +72,18 @@ public class FileTool {
 		}
 	}
 
+	public static byte[] getZipByte(String fileName) throws TaxBaseBizException {
+		try {
+			InputStream inputStream = new FileInputStream(new File(
+					fileName));
+			return FileTool.input2byte(inputStream);
+		} catch (Exception e) {
+			LogWritter.sysError(e.getMessage());
+			throw new TaxBaseBizException(e.getMessage());
+		}
+
+	}
+
 	public static void main(String args[]) throws TaxBaseBizException {
 		System.out.println(getFileSize(new File("F:\\TDDOWNLOAD\\测试文件.txt")));
 	}

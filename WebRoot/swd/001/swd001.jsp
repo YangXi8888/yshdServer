@@ -29,11 +29,11 @@
 			style="width:100%;text-align:right;background-color: #E7F0FF;height:30px">
 			<a href="#" class="easyui-linkbutton"
 				data-options="plain:true,iconCls:'icon-search'"
-				style="text-decoration: none;" onclick="loadJsgs();">查询</a> <a
+				style="text-decoration: none;" onclick="queryData();">查询</a> <a
 				href="#" class="easyui-linkbutton"
 				data-options="plain:true,iconCls:'icon-zip'"
-				style="text-decoration: none;" onclick="queryData();">打包下载</a> <a
-				href="#" class="easyui-linkbutton"
+				style="text-decoration: none;" onclick="downLoadAllFile();">打包下载</a>
+			<a href="#" class="easyui-linkbutton"
 				data-options="plain:true,iconCls:'icon-close'"
 				style="text-decoration: none;" onclick="window.close()">关闭</a>
 		</div>
