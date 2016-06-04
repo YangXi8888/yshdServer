@@ -47,6 +47,7 @@
 					onclick="submitForm()">&nbsp;&nbsp;保&nbsp;&nbsp;存&nbsp;&nbsp;</a>
 			</div>
 		</div>
+	</div>
 		<input type="hidden" value="<%=request.getParameter("sessionId")%>"
 			id="sessionId">
 </body>
