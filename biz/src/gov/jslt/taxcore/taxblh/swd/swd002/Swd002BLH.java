@@ -1,4 +1,4 @@
-package gov.jslt.taxcore.taxblh.swd.swd001;
+package gov.jslt.taxcore.taxblh.swd.swd002;
 
 import gov.jslt.taxcore.taxblh.comm.CoreHelper;
 import gov.jslt.taxcore.taxblh.comm.FileTool;
@@ -30,7 +30,7 @@ import com.ctp.core.event.ResponseEvent;
 import com.ctp.core.exception.TaxBaseBizException;
 import com.ctp.core.utility.dbtime.DBTimeServer;
 
-public class Swd001BLH extends BaseBizLogicHandler {
+public class Swd002BLH extends BaseBizLogicHandler {
 
 	protected ResponseEvent performTask(RequestEvent req, Connection conn)
 			throws SQLException, TaxBaseBizException {
