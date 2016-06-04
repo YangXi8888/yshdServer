@@ -12,6 +12,8 @@
 <script type="text/javascript"
 	src="/public/jquery/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript"
+	src="/public/jquery/plugins/download/jquery.fileDownload.js"></script>
+<script type="text/javascript"
 	src="/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="/public/js/common.js"></script>
 <link rel="stylesheet" type="text/css"
@@ -31,9 +33,9 @@
 				href="#" class="easyui-linkbutton"
 				data-options="plain:true,iconCls:'icon-zip'"
 				style="text-decoration: none;" onclick="queryData();">打包下载</a> <a
-				href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-close'"
-				style="text-decoration: none;"
-				onclick="clearData();">关闭</a>
+				href="#" class="easyui-linkbutton"
+				data-options="plain:true,iconCls:'icon-close'"
+				style="text-decoration: none;" onclick="clearData();">关闭</a>
 		</div>
 		<br />
 		<div style="text-align:center;width:90%">

@@ -58,11 +58,9 @@ function initPage() {
 					formatter : function(value, row, index) {
 						var btnPanel = "";
 						btnPanel = "<a href='#' class='editcls'  style='text-decoration: none' onclick=downLoadFile('"
-								+ row.SCJL_ID
-								+ "')  href='#'>下载</a>";
+								+ row.SCJL_ID + "')  href='#'>下载</a>";
 						btnPanel += "&nbsp&nbsp;&nbsp&nbsp;&nbsp&nbsp;&nbsp&nbsp;<a class='editcls' onclick=deleteFile('"
-								+ row.SCJL_ID
-								+ "') href='#'>删除</a>";
+								+ row.SCJL_ID + "') href='#'>删除</a>";
 						return btnPanel;
 					}
 				}]]
@@ -81,11 +79,35 @@ function initPage() {
 }
 
 function deleteFile(scjlId) {
-	alert(scjlId);
+
 }
 
 function downLoadFile(scjlId) {
-	alert(scjlId);
+	$.messager.progress({
+				title : commomWaitTitle,
+				msg : '正在下载文件.....',
+				text : ''
+			});
+	$.fileDownload("/GeneralAction.do?sessionId=" + userInfo.yhwybz, {
+				httpMethod : 'POST',
+				data : {
+					jsonData : $.toJSON({
+								blhName : "Swd001BLH",
+								handleCode : "downLoadFile", 
+								yhwybz : userInfo.yhwybz, 
+								downLoadFile : "1",
+								data : {
+									scjlId : scjlId
+								}
+							})
+				},
+				successCallback : function(url) {
+					$.messager.progress('close');
+				},
+				failCallback : function(responseHtml, url) {
+					$.messager.progress('close');
+				}
+			});
 }
 
 function queryData() {
