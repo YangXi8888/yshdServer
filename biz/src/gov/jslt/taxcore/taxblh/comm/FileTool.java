@@ -1,11 +1,15 @@
 package gov.jslt.taxcore.taxblh.comm;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 
 import com.ctp.core.exception.TaxBaseBizException;
+import com.ctp.core.log.LogWritter;
 
 public class FileTool {
 	/**
@@ -33,15 +37,38 @@ public class FileTool {
 			fis = new FileInputStream(file);
 			return fis.available();
 		} catch (Exception e) {
+			LogWritter.sysError(e.getMessage());
 			throw new TaxBaseBizException(e.getMessage());
 		} finally {
 			if (null != fis) {
 				try {
 					fis.close();
 				} catch (IOException e) {
+					LogWritter.sysError(e.getMessage());
 					throw new TaxBaseBizException(e.getMessage());
 				}
 			}
+		}
+	}
+
+	public static final InputStream byte2Input(byte[] buf) {
+		return new ByteArrayInputStream(buf);
+	}
+
+	public static final byte[] input2byte(InputStream inputStream)
+			throws TaxBaseBizException {
+		try {
+			ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
+			byte[] buff = new byte[100];
+			int rc = 0;
+			while ((rc = inputStream.read(buff, 0, 100)) > 0) {
+				swapStream.write(buff, 0, rc);
+			}
+			byte[] in2b = swapStream.toByteArray();
+			return in2b;
+		} catch (Exception e) {
+			LogWritter.sysError(e.getMessage());
+			throw new TaxBaseBizException(e.getMessage());
 		}
 	}
 
