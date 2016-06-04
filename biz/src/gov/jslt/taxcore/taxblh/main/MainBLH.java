@@ -76,9 +76,14 @@ public class MainBLH extends BaseBizLogicHandler {
 			rs.next();
 			reEvent.respMapParam.put("file_Zs", rs.getInt("N"));
 		} else {
-
+			rs = QueryCssBPO
+					.findAll(
+							conn,
+							"SELECT COUNT(SCJL_ID) AS N   FROM T_YS_YHSCJLB T  WHERE  T.LR_SJ >        TO_DATE(TO_CHAR(TRUNC(SYSDATE, 'MM'), 'YYYY-MM-DD') || ' 00:00:01',   'YYYY-MM-DD HH24:MI:SS')",
+							sqlParam);
+			rs.next();
+			reEvent.respMapParam.put("file_Zs_Swd", rs.getInt("N"));
 		}
-
 		reEvent.setReponseMesg("主页初始化成功");
 		return reEvent;
 	}

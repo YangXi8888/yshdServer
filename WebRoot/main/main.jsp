@@ -49,18 +49,22 @@
 				style="overflow: scroll;">
 				<ul style="display:none;" id="yhdXxDiv">
 					<li style="font-size:18px">本月共有<span id="nsr_Hs"
-						style="background-color: #D9EDF7">33</span>位纳税人将数据发送至税银互动系统&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+						style="background-color: #D9EDF7"></span>位纳税人将数据发送至税银互动系统&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
 						href="/yhd/001/yhd001.jsp?sessionId=<%=request.getParameter("sessionId")%>"
 						class="easyui-linkbutton" target="_blank">点击查询</a></li>
 					<br />
 					<li style="font-size:18px">本月您共上传<span id="file_Zs"
-						style="background-color:#DFF0D8">12</span>个文件至税银互动系统
+						style="background-color:#DFF0D8"></span>个文件至税银互动系统
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
 						href="/yhd/002/yhd002.jsp?sessionId=<%=request.getParameter("sessionId")%>"
 						class="easyui-linkbutton" target="_blank">点击查询</a></li>
 				</ul>
 				<ul style="display:none;" id="swdXxDiv">
-
+					<li style="font-size:18px">本月银行共上传<span id="file_Zs_Swd"
+						style="background-color:#DFF0D8"></span>个文件至税银互动系统
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+						href="/yhd/002/yhd002.jsp?sessionId=<%=request.getParameter("sessionId")%>"
+						class="easyui-linkbutton" target="_blank">点击查询</a></li>
 				</ul>
 			</div>
 
