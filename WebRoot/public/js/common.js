@@ -14,10 +14,21 @@ function checkResponse(responseText) {
 	return false;
 }
 
+function enterPress(se, obj) {
+	var e = se || window.event;
+	if (e.keyCode == 13) {
+		obj.focus();
+	}
+}
+
 function isTimeout(responseText) {
 	if ("ZB0036" == responseText.code) {
 		alert(responseText.msg);
-		window.location.href = "/yhgl/login.jsp";
+		if (self != top) {
+			parent.window.location.href = "/yhgl/login.jsp";
+		} else {
+			window.location.href = "/yhgl/login.jsp";
+		}
 	} else {
 		return false;
 	}
@@ -97,8 +108,13 @@ function sessionClearByKey(key) {
  */
 function hasUserInfo() {
 	if (!sessionLoad("userInfo")) {
-		window.location.href = window.location.protocol + "//"
-				+ window.location.hostname + ":" + window.location.port;
+		if (self != top) {
+			parent.window.location.href = window.location.protocol + "//"
+					+ window.location.hostname + ":" + window.location.port;
+		} else {
+			window.location.href = window.location.protocol + "//"
+					+ window.location.hostname + ":" + window.location.port;
+		}
 	} else {
 		return sessionLoad("userInfo");
 	}
@@ -183,4 +199,24 @@ function getCookieVal(offset) {
 	if (endstr == -1)
 		endstr = document.cookie.length;
 	return unescape(document.cookie.substring(offset, endstr));
+}
+
+/**
+ * 获取指定年月的最后一天
+ * 
+ * @param {}
+ *            year
+ * @param {}
+ *            month
+ * @return {}
+ */
+function getLastDay(year, month) {
+	var new_year = year;
+	var new_month = month++;
+	if (month > 12) {
+		new_month -= 12;
+		new_year++;
+	}
+	var new_date = new Date(new_year, new_month, 1);
+	return (new Date(new_date.getTime() - 1000 * 60 * 60 * 24)).getDate();
 }

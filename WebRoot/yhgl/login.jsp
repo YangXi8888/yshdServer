@@ -2,10 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script type="text/javascript" src="/public/jquery/jquery-2.2.3.min.js"></script>
 <script type="text/javascript" src="/public/jquery/jquery.json.min.js"></script>
 <script type="text/javascript" src="/public/jquery/jquery.easyui.min.js"></script>
@@ -17,6 +14,7 @@
 	href="/public/jquery/themes/icon.css"></link>
 <script type="text/javascript" src="/public/js/common.js"></script>
 <script type="text/javascript" src="/public/js/validator.js"></script>
+<title>泰州地方税务局银税互动平台</title>
 <style>
 * {
 	padding: 0;
@@ -25,16 +23,11 @@
 	font-size: 16px;
 }
 
-.all {
-	min-width: 1280px;
-}
-
 .up {
 	width: 100%;
-	min-width: 1280px;
-	height: 720px;
-	background-image: url(/public/images/bk.png);
+	height: 650px;
 	background-color: #3a81ff;
+	background-image: url(/public/images/bka.jpg);
 }
 
 .top {
@@ -45,17 +38,16 @@
 .mid {
 	margin: 0 auto;
 	position: relative;
-	width: 1265px;
-	height: 600px;
-	padding-left: 15px;
+	width: 1260px;
+	height: 650px;
+	overflow: hidden;
 }
 
 .login {
 	position: absolute;
-	top: 180px;
-	right: -17%;
-	width: 603px;
-	height: 500px;
+	top: 200px;
+	right: 7%;
+	height: 400px;
 	padding: 30px;
 	background-repeat: no-repeat;
 	background-image: url(/public/images/ty.png);
@@ -109,35 +101,50 @@ a {
 	color: #06C;
 	text-decoration: none
 }
+
+.sy {
+	position: absolute;
+	top: 60px;
+	color: #fff;
+	right: 60px;
+}
+
+.sy a {
+	color: #fff;
+}
 </style>
-<title>泰州地税局税银互动平台</title>
 </head>
+
 <body>
-	<div class="all">
-		<div class="up">
-			<div class="mid">
-				<img src="/public/images/logo.png"
-					style="margin-top:40px; margin-left:0px; width:620px;" /> <img
-					src="/public/images/aaa.png" style=" width:800px; margin-top:42px;" />
-				<div class="login">
-					<p class="tit">用户登录</p>
-					<input type="text" id="sjHm" placeholder="请输入手机号码"><br />
-					<input type="password" id="passWord" placeholder="请输入密码"><br />
-					<input type="text" id="yzm" size="6" style="width: 100px"
-						placeholder="请输入验证码"> &nbsp;&nbsp;&nbsp;&nbsp;<img alt=""
-						src="/yhgl/yzm.jsp" style="height:30px"><br />
-					<div class="Log" onclick="dlXt()">登陆</div>
-				</div>
+	<div class="up">
+		<div class="mid">
+			<img src="/public/images/logo.png"
+				style="margin-top:50px; margin-left:30px; width:570px;" />
+			<div class="sy">
+				<a href="#" class="Conte">联系我们</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a
+					href="#" class="Conte">帮助</a>
+			</div>
+			<img src="/public/images/ggg.png" style="width:800px;" />
+			<div class="login">
+				<p class="tit">用户登录</p>
+				<input type="text" id="sjHm" placeholder="请输入手机号码"
+					onkeydown="enterPress(event,$('#passWord')[0])"><br /> <input
+					type="password" id="passWord" placeholder="请输入密码"
+					onkeydown="enterPress(event,$('#yzm')[0])"><br /> <input
+					type="text" id="yzm" size="6" style="width: 100px"
+					placeholder="请输入验证码" onkeydown="yzmOnKeyDown(event)">
+				&nbsp;&nbsp;&nbsp;&nbsp;<img alt="" src="/yhgl/yzm.jsp"
+					style="height:30px"><br />
+				<div class="Log" onclick="dlXt()">登陆</div>
 			</div>
 		</div>
-		<div class="bot">
-			<p
-				style="width:100%; text-align:center;color:#999; height:160px; line-height:160px;">Copyright
-				© 泰州地税 版权所有</p>
-		</div>
+	</div>
+	<div class="bot">
+		<p
+			style="width:100%; text-align:center;color:#999; height:70px; line-height:70px;">Copyright
+			© 2016 - 2016 Taizhou. All Rights Reserved. 泰州地税 版权所有</p>
 	</div>
 	<input type="hidden" id="sessionId">
+	<script type="text/javascript" src="/yhgl/login.js"></script>
 </body>
-<script type="text/javascript" src="/yhgl/login.js"></script>
 </html>
-

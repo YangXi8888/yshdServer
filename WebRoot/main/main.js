@@ -8,7 +8,8 @@ $(document).ready(function() {
 
 function initForm() {
 	hasUserInfo();
-	userInfo = sessionLoad("userInfo");
+	var userInfo = sessionLoad("userInfo");
+	$("#userNmae").html(userInfo.xm);
 	$.messager.progress({
 				title : commomWaitTitle,
 				msg : '正在加载首页...',
@@ -16,38 +17,50 @@ function initForm() {
 			});
 
 	$.ajax({
-		url : "/GeneralAction.do?sessionId=" + userInfo.yhwybz,
-		async : true,
-		dataType : "json",
-		data : {
-			jsonData : $.toJSON({
-						blhName : "MainBLH",
-						handleCode : "initForm",
-						yhwybz : userInfo.yhwybz
-					})
-		},
-		type : 'post',
-		timeout : sys_timeout,
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			$.messager.progress('close');
-			$.messager.alert(commomMessageTitle, textStatus, 'error');
-		},
-		success : function(responseText, textStatus, XMLHttpRequest) {
-			$.messager.progress('close');
-			if (checkResponse(responseText)) {
-				$("#mainTree").tree({
-							data : responseText.data.gnsList,
-							animate : true,
-							onClick : function(node) {
-								addPanel(node);
-								$(this).tree('toggle', node.target);
-							}
-						});
-			} else {
-				$.messager.alert(commomMessageTitle, responseText.msg, 'error');
-			}
-		}
-	});
+				url : "/GeneralAction.do?sessionId=" + userInfo.yhwybz,
+				async : true,
+				dataType : "json",
+				data : {
+					jsonData : $.toJSON({
+								blhName : "MainBLH",
+								handleCode : "initForm",
+								yhwybz : userInfo.yhwybz
+							})
+				},
+				type : 'post',
+				timeout : sys_timeout,
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					$.messager.progress('close');
+					$.messager.alert(commomMessageTitle, textStatus, 'error');
+				},
+				success : function(responseText, textStatus, XMLHttpRequest) {
+					$.messager.progress('close');
+					if (checkResponse(responseText)) {
+						$("#mainTree").tree({
+									data : responseText.data.gnsList,
+									animate : true,
+									onClick : function(node) {
+										addPanel(node);
+										$(this).tree('toggle', node.target);
+									}
+								});
+						if ("01" == userInfo.yhLxDm) {
+							$("#nsr_Hs").html(responseText.data.nsr_Hs);
+							$("#file_Zs").html(responseText.data.file_Zs);
+							$("#yhdXxDiv").show();
+						} else if ("02" == userInfo.yhLxDm) {
+							$("#file_Zs_Swd").html(responseText.data.file_Zs_Swd);
+							$("#swdXxDiv").show();
+						}
+					} else {
+						// 判断是否超时
+						if (!isTimeout(responseText)) {
+							$.messager.alert(commomMessageTitle,
+									responseText.msg, 'error');
+						}
+					}
+				}
+			});
 }
 
 function addPanel(obj) {
@@ -95,4 +108,19 @@ function tcXt() {
 							+ window.location.port;
 				}
 			});
+}
+
+function xgMm() {
+	var title = "修改密码";
+	if ($("#myAdd").tabs("exists", title)) {
+		$("#myAdd").tabs("select", title);
+		return;
+	}
+	$('#myAdd').tabs('add', {
+		title : title,
+		content : '<div style="padding:10px;height:700px"><iframe scrolling="yes" frameborder="0" style="width:100%;height:100%"'
+				+ ' src="/yhgl/001/yhgl001.jsp?sessionId='
+				+ $('#sessionId').val() + '"></iframe></div>',
+		closable : true
+	});
 }

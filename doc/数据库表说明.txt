@@ -9,6 +9,9 @@
 	T_YS_NSRFS_SBF           --纳税人发送到银行的社保费记录表
 	T_YS_NSRFS_XZCF          --纳税人发送到银行的行政处罚记录表
 	T_YS_NSRFS_CWBB          --纳税人发送到银行的财务报表记录表
+	T_YS_WJMM                --文件密码设置
+	T_YS_YHSCJLB             --银行上传记录表
+
 	                         
 	                         
 	T_DM_YS_JYZT             --校验状态代码表

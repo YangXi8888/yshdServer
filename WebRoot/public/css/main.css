@@ -20,7 +20,7 @@ a:hover {
 	height: 85px;
 	background-color: #2784db;
 	background-color: #87ceeb;
-	background-image: url(../images/topbk.jpg);
+	background-image: url(/public/images/topbk.jpg);
 }
 
 .nowUser {
@@ -47,18 +47,4 @@ a:hover {
 	cursor: pointer;
 	transition: all ease-in .2s;
 	color: #fff;
-}
-
-.button {
-	width: 62px;
-	height: 18px;
-	cursor: pointer;
-	border: none;
-	box-shadow: none;
-	line-height: 18px; *
-	line-height: 20px;
-	margin-top: 2px;
-	margin-bottom: 2px;
-	background-color: red;
-	background-image: url(../images/search_btn.jpg);
 }

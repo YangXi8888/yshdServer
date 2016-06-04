@@ -1,8 +1,13 @@
 package gov.jslt.taxcore.taxblh.swd.swd001;
 
+import gov.jslt.taxcore.taxblh.comm.CoreHelper;
+import gov.jslt.taxcore.taxblh.comm.FileTool;
+import gov.jslt.taxcore.taxblh.comm.FtpUtil;
+import gov.jslt.taxevent.comm.FileVO;
+import gov.jslt.taxevent.comm.GeneralCons;
 import gov.jslt.taxevent.comm.JsonReqData;
-import gov.jslt.taxevent.comm.LoginVO;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,12 +15,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import sun.jdbc.rowset.CachedRowSet;
 
 import com.ctp.core.blh.BaseBizLogicHandler;
 import com.ctp.core.bpo.QueryCssBPO;
+import com.ctp.core.config.ApplicationContext;
 import com.ctp.core.event.RequestEvent;
 import com.ctp.core.event.ResponseEvent;
 import com.ctp.core.exception.TaxBaseBizException;
@@ -25,8 +29,12 @@ public class Swd001BLH extends BaseBizLogicHandler {
 	protected ResponseEvent performTask(RequestEvent req, Connection conn)
 			throws SQLException, TaxBaseBizException {
 		String handleCode = req.getDealMethod();
-		if ("initForm".equals(handleCode)) {
-			return initForm(req, conn);
+		if ("queryData".equals(handleCode)) {
+			return queryData(req, conn);
+		} else if ("downLoadFile".equals(handleCode)) {
+			return downLoadFile(req, conn);
+		} else if ("deleteFile".equals(handleCode)) {
+			return deleteFile(req, conn);
 		}
 		return null;
 	}
@@ -37,70 +45,107 @@ public class Swd001BLH extends BaseBizLogicHandler {
 		return null;
 	}
 
-	protected ResponseEvent initForm(RequestEvent reqEvent, Connection conn)
+	protected ResponseEvent downLoadFile(RequestEvent reqEvent, Connection conn)
 			throws SQLException, TaxBaseBizException {
-		ResponseEvent reEvent = new ResponseEvent();
-		HttpServletRequest request = (HttpServletRequest) reqEvent.reqMapParam
-				.get("HttpServletRequest");
+		ResponseEvent responseEvent = new ResponseEvent();
 		JsonReqData reqData = (JsonReqData) reqEvent.reqMapParam
 				.get("JsonReqData");
-		LoginVO loginVO = (LoginVO) request.getSession().getAttribute(
-				reqData.getYhwybz());
-		reqEvent.reqMapParam.put("sessionId", loginVO.getYhwybz());
-		reqEvent.reqMapParam.put("pNodeId", "0");
-		reqEvent.reqMapParam.put("yhLxDm", loginVO.getYhLxDm());
-		reqEvent.reqMapParam.put("qyYhDm", loginVO.getQyYhDm());
-		List<Object> gnsList = new ArrayList<Object>();
-		getGns(conn, gnsList, reqEvent.reqMapParam);
-		reEvent.respMapParam.put("gnsList", gnsList);
-		reEvent.setReponseMesg("主页初始化成功");
-		return reEvent;
+		ArrayList<Object> sqlParam = new ArrayList<Object>();
+		String sql = "SELECT   T.WJML, T.WJM   FROM T_YS_YHSCJLB T WHERE T.SCJL_ID=?";
+		sqlParam.add(reqData.getData().get("scjlId"));
+		CachedRowSet rs = QueryCssBPO.findAll(conn, sql, sqlParam);
+		if (rs.next()) {
+			FileVO fileVO = new FileVO();
+			String fileName = rs.getString("WJM");
+			InputStream inputStream = FtpUtil
+					.downFile(
+							ApplicationContext.singleton().getValueAsString(
+									"ftp.ip"),
+							ApplicationContext.singleton().getValueAsString(
+									"ftp.user"),
+							ApplicationContext.singleton().getValueAsString(
+									"ftp.passWord"), Integer
+									.parseInt(ApplicationContext.singleton()
+											.getValueAsString("ftp.port")), rs
+									.getString("WJML"), fileName);
+			fileVO.setFileContent(FileTool.input2byte(inputStream));
+			fileVO.setFileName(fileName);
+			fileVO.setFileType(fileName.substring(fileName.lastIndexOf("."),
+					fileName.length()));
+			responseEvent.respMapParam.put(GeneralCons.FILE_VO, fileVO);
+		} else {
+			responseEvent.setRepCode("ZB0004");
+			responseEvent.setReponseMesg(CoreHelper.getJyztMc(conn, "ZB0004"));
+		}
+		return responseEvent;
 	}
 
-	private void getGns(Connection conn, List<Object> list,
-			Map<String, Object> tempMap) throws SQLException {
+	protected ResponseEvent deleteFile(RequestEvent reqEvent, Connection conn)
+			throws SQLException, TaxBaseBizException {
+		ResponseEvent responseEvent = new ResponseEvent();
+		JsonReqData reqData = (JsonReqData) reqEvent.reqMapParam
+				.get("JsonReqData");
 		ArrayList<Object> sqlParam = new ArrayList<Object>();
-		sqlParam.add(tempMap.get("pNodeId"));
-		sqlParam.add(tempMap.get("yhLxDm") + "%");
-		if (null != tempMap.get("qyYhDm") && !"".equals(tempMap.get("qyYhDm"))) {
-			sqlParam.add(tempMap.get("qyYhDm") + "%");
-		} else {
-			sqlParam.add("%");
+		CachedRowSet rs;
+		String sql = "SELECT T.SCJL_ID, B.XM, C.QYYH_MC, T.WJML, T.WJM, T.WJDX, TO_CHAR(T.LR_SJ,'YYYY-MM-DD HH24:MI:SS') SCRQ   FROM T_YS_YHSCJLB T, T_YS_LOGIN B, T_DM_YS_QYYH C  WHERE T.UUID = B.UUID    AND B.QYYH_DM = C.QYYH_DM    AND T.LR_SJ > TO_DATE(TO_CHAR(TRUNC(SYSDATE, 'MM'), 'YYYY-MM-DD') || ' 00:00:01',  'YYYY-MM-DD HH24:MI:SS')";
+		if (null != reqData.getData().get("rqq")
+				&& !"".equals(reqData.getData().get("rqq"))) {
+			sql = "SELECT T.SCJL_ID, B.XM, C.QYYH_MC, T.WJML, T.WJM, T.WJDX, TO_CHAR(T.LR_SJ,'YYYY-MM-DD HH24:MI:SS') SCRQ   FROM T_YS_YHSCJLB T, T_YS_LOGIN B, T_DM_YS_QYYH C  WHERE T.UUID = B.UUID    AND B.QYYH_DM = C.QYYH_DM     AND T.LR_SJ > TO_DATE( ? || ' 00:00:01',  'YYYY-MM-DD HH24:MI:SS')   AND T.LR_SJ < TO_DATE( ? || ' 23:59:59',  'YYYY-MM-DD HH24:MI:SS')";
+			sqlParam.add(reqData.getData().get("rqq"));
+			sqlParam.add(reqData.getData().get("rqz"));
 		}
-		String sql = "SELECT * FROM  T_YS_GNS A  WHERE A.PNODE_ID=? AND A.XY_BJ='1' AND A.YHLX_DM LIKE ? AND A.QYYH_DM LIKE ? ORDER BY A.PNODE_ID, A.PX";
-		CachedRowSet rs = QueryCssBPO.findAll(conn, sql, sqlParam);
-		Map<String, Object> map = null;
+		rs = QueryCssBPO.findAll(conn, sql, sqlParam);
+		List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
+		Map<String, String> dataMap;
 		while (rs.next()) {
-			map = new HashMap<String, Object>();
-			list.add(map);
-			map.put("id", rs.getString("NODE_ID"));
-			map.put("text", rs.getString("CD_MC"));
-			if (null == rs.getString("ICONCLS")
-					|| "".equals(rs.getString("ICONCLS"))) {
-				map.put("iconCls", "icon-wj");
-			} else {
-				map.put("iconCls", rs.getString("ICONCLS"));
-			}
-			map.put("openType", rs.getString("OPENFLAG"));
-			if (null != rs.getString("URL") && !"".equals(rs.getString("URL"))) {
-				if (rs.getString("URL").indexOf("?") != -1) {
-					map.put("href", rs.getString("URL") + "&sessionId="
-							+ tempMap.get("sessionId"));
-				} else {
-					map.put("href", rs.getString("URL") + "?sessionId="
-							+ tempMap.get("sessionId"));
-				}
-			} else {
-				map.put("href", "");
-			}
-			if ("0".equals(rs.getString("ISLEAF"))) {
-				map.put("state", "opened");
-				List<Object> childrenList = new ArrayList<Object>();
-				map.put("children", childrenList);
-				tempMap.put("pNodeId", rs.getString("NODE_ID"));
-				getGns(conn, childrenList, tempMap);
-			}
+			dataMap = new HashMap<String, String>();
+			dataMap.put("SCJL_ID", rs.getString("SCJL_ID"));
+			dataMap.put("XM", rs.getString("XM"));
+			dataMap.put("QYYH_MC", rs.getString("QYYH_MC"));
+			dataMap.put("WJML", rs.getString("WJML"));
+			dataMap.put("WJM", rs.getString("WJM"));
+			dataMap.put("WJDX",
+					FileTool.bytes2kb(Long.decode(rs.getString("WJDX"))));
+			dataMap.put("SCRQ", rs.getString("SCRQ"));
+			dataList.add(dataMap);
 		}
+		responseEvent.respMapParam.put("dataList", dataList);
+		responseEvent.setReponseMesg("删除成功");
+		return responseEvent;
+	}
+
+	protected ResponseEvent queryData(RequestEvent reqEvent, Connection conn)
+			throws SQLException, TaxBaseBizException {
+		ResponseEvent responseEvent = new ResponseEvent();
+		JsonReqData reqData = (JsonReqData) reqEvent.reqMapParam
+				.get("JsonReqData");
+		ArrayList<Object> sqlParam = new ArrayList<Object>();
+		CachedRowSet rs;
+		String sql = "SELECT T.SCJL_ID, B.XM, C.QYYH_MC, T.WJML, T.WJM, T.WJDX, TO_CHAR(T.LR_SJ,'YYYY-MM-DD HH24:MI:SS') SCRQ   FROM T_YS_YHSCJLB T, T_YS_LOGIN B, T_DM_YS_QYYH C  WHERE T.UUID = B.UUID    AND B.QYYH_DM = C.QYYH_DM    AND T.LR_SJ > TO_DATE(TO_CHAR(TRUNC(SYSDATE, 'MM'), 'YYYY-MM-DD') || ' 00:00:01',  'YYYY-MM-DD HH24:MI:SS')";
+		if (null != reqData.getData().get("rqq")
+				&& !"".equals(reqData.getData().get("rqq"))) {
+			sql = "SELECT T.SCJL_ID, B.XM, C.QYYH_MC, T.WJML, T.WJM, T.WJDX, TO_CHAR(T.LR_SJ,'YYYY-MM-DD HH24:MI:SS') SCRQ   FROM T_YS_YHSCJLB T, T_YS_LOGIN B, T_DM_YS_QYYH C  WHERE T.UUID = B.UUID    AND B.QYYH_DM = C.QYYH_DM     AND T.LR_SJ > TO_DATE( ? || ' 00:00:01',  'YYYY-MM-DD HH24:MI:SS')   AND T.LR_SJ < TO_DATE( ? || ' 23:59:59',  'YYYY-MM-DD HH24:MI:SS')";
+			sqlParam.add(reqData.getData().get("rqq"));
+			sqlParam.add(reqData.getData().get("rqz"));
+		}
+		rs = QueryCssBPO.findAll(conn, sql, sqlParam);
+		List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
+		Map<String, String> dataMap;
+		while (rs.next()) {
+			dataMap = new HashMap<String, String>();
+			dataMap.put("SCJL_ID", rs.getString("SCJL_ID"));
+			dataMap.put("XM", rs.getString("XM"));
+			dataMap.put("QYYH_MC", rs.getString("QYYH_MC"));
+			dataMap.put("WJML", rs.getString("WJML"));
+			dataMap.put("WJM", rs.getString("WJM"));
+			dataMap.put("WJDX",
+					FileTool.bytes2kb(Long.decode(rs.getString("WJDX"))));
+			dataMap.put("SCRQ", rs.getString("SCRQ"));
+			dataList.add(dataMap);
+		}
+		responseEvent.respMapParam.put("dataList", dataList);
+		responseEvent.setReponseMesg("查询成功");
+		return responseEvent;
 	}
 
 }

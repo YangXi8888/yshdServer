@@ -18,6 +18,13 @@ public class JsonReqData {
 	 * 用户唯一标识
 	 */
 	private String yhwybz = "";
+	
+	
+	/**
+	 * 是否下载文件
+	 */
+	private String downLoadFile = "0";
+	
 
 	/**
 	 * 业务数据
@@ -54,6 +61,14 @@ public class JsonReqData {
 
 	public void setData(Map<String, Object> data) {
 		this.data = data;
+	}
+
+	public String getDownLoadFile() {
+		return downLoadFile;
+	}
+
+	public void setDownLoadFile(String downLoadFile) {
+		this.downLoadFile = downLoadFile;
 	}
 
 }

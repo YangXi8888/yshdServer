@@ -1,9 +1,12 @@
 package gov.jslt.taxweb.comm;
 
+import gov.jslt.taxevent.comm.FileVO;
 import gov.jslt.taxevent.comm.GeneralCons;
 import gov.jslt.taxevent.comm.JsonReqData;
 import gov.jslt.taxevent.comm.JsonResData;
 
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +34,6 @@ public class GeneralAction extends Action {
 		JsonReqData jsonReqData = new JsonReqData();
 		String callback = null;
 		try {
-			response.setContentType("text/plain;charset=UTF-8");
 			GeneralForm form = (GeneralForm) actionform;
 			callback = form.getCallback();
 			JSONObject jsonObject = (JSONObject) JSONSerializer.toJSON(form
@@ -40,7 +42,6 @@ public class GeneralAction extends Action {
 			jsonConfig.setRootClass(JsonReqData.class);
 			jsonReqData = (JsonReqData) JSONSerializer.toJava(jsonObject,
 					jsonConfig);
-
 			ResponseEvent responseEvent = null;
 			BaseRequestEvent baseRequest = new BaseRequestEvent(
 					jsonReqData.getBlhName(), "", "");
@@ -48,32 +49,53 @@ public class GeneralAction extends Action {
 			HashMap<String, Object> reqMapParam = new HashMap<String, Object>();
 			reqMapParam.put("JsonReqData", jsonReqData);
 			reqMapParam.put("HttpServletRequest", request);
+			if (null != form.getUploadFiles()) {
+				reqMapParam.put("UploadFiles", form.getUploadFiles());
+			}
 			baseRequest.setReqMapParam(reqMapParam);
 			responseEvent = (ResponseEvent) BizDelegate.delegate(baseRequest);
-			resData.setCode(responseEvent.getRepCode());
-			if ("0".equals(responseEvent.getRepCode())) {
+			if ("0".equals(jsonReqData.getDownLoadFile())) {
+				response.setContentType("text/plain;charset=UTF-8");
+				resData.setCode(responseEvent.getRepCode());
+				if ("0".equals(responseEvent.getRepCode())) {
+					if (null == responseEvent.getReponseMesg()
+							|| "".equals(responseEvent.getReponseMesg())) {
+						responseEvent.setReponseMesg(GeneralCons.SUCCESS_MSG);
+					}
+				}
 				if (null == responseEvent.getReponseMesg()
 						|| "".equals(responseEvent.getReponseMesg())) {
-					responseEvent.setReponseMesg(GeneralCons.SUCCESS_MSG);
+					resData.setMsg(responseEvent.getRepCode());
+				} else {
+					resData.setMsg(responseEvent.getReponseMesg());
 				}
-			}
-			if (null == responseEvent.getReponseMesg()
-					|| "".equals(responseEvent.getReponseMesg())) {
-				resData.setMsg(responseEvent.getRepCode());
+				resData.setData(responseEvent.getRespMapParam());
+				if (null == callback) {
+					response.getWriter().print(
+							JSONSerializer.toJSON(resData).toString());
+				} else {
+					response.getWriter().print(
+							callback + "("
+									+ JSONSerializer.toJSON(resData).toString()
+									+ ")");
+				}
+				response.getWriter().flush();
 			} else {
-				resData.setMsg(responseEvent.getReponseMesg());
+				response.setHeader("Set-Cookie", "fileDownload=true; path=/");
+				FileVO fileVO = (FileVO) responseEvent.respMapParam
+						.get(GeneralCons.FILE_VO);
+				response.setContentType(WebTool.getContext(fileVO.getFileType()));
+				response.setHeader(
+						"Content-Disposition",
+						"attachment; filename=\""
+								+ URLEncoder.encode(fileVO.getFileName(),
+										"UTF-8") + "\"");
+				response.resetBuffer();
+				OutputStream sos = response.getOutputStream();
+				sos.write(fileVO.getFileContent());
+				sos.flush();
+				sos.close();
 			}
-			resData.setData(responseEvent.getRespMapParam());
-			if (null == callback) {
-				response.getWriter().print(
-						JSONSerializer.toJSON(resData).toString());
-			} else {
-				response.getWriter().print(
-						callback + "("
-								+ JSONSerializer.toJSON(resData).toString()
-								+ ")");
-			}
-			response.getWriter().flush();
 		} catch (Exception e) {
 			resData.setCode(GeneralCons.ERROR_CODE_ZB9999);
 			resData.setMsg("系统异常，错误原因：" + e.getMessage());
@@ -81,7 +103,6 @@ public class GeneralAction extends Action {
 				if (null == callback) {
 					response.getWriter().print(
 							JSONSerializer.toJSON(resData).toString());
-
 				} else {
 					response.getWriter().print(
 							callback + "("
