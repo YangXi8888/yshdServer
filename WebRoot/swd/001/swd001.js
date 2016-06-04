@@ -1,10 +1,10 @@
 var userInfo;
 $(document).ready(function() {
-	hasUserInfo();
-	userInfo = sessionLoad("userInfo");
-	initPage();
-	queryData();
-	});
+			hasUserInfo();
+			userInfo = sessionLoad("userInfo");
+			initPage();
+			queryData();
+		});
 
 function initPage() {
 	$("#dataTable").datagrid({
@@ -56,16 +56,16 @@ function initPage() {
 					title : "操作",
 					width : '30%',
 					formatter : function(value, row, index) {
-						var btn = null;
-						if ("" != row.swglm) {
-							btn = "<a class='editcls' onclick='testFun("
-									+ row.swglm
-									+ ")' href='javascript:void(0);'>下载</a>";
-							btn += "&nbsp&nbsp;<a class='editcls' onclick='testFun("
-									+ row.swglm
-									+ ")' href='javascript:void(0);'>删除</a>";
-						}
-						return btn;
+						var btnPanel = "";
+
+						btnPanel = "<a href='#' class='editcls'  style='text-decoration: none' onclick=downLoadFile('"
+								+ row.SCJL_ID
+								+ "')  href='#'>下载</a>";
+						btnPanel += "&nbsp&nbsp;&nbsp&nbsp;&nbsp&nbsp;&nbsp&nbsp;<a class='editcls' onclick=deleteFile('"
+								+ row.SCJL_ID
+								+ "') href='#'>删除</a>";
+
+						return btnPanel;
 					}
 				}]]
 	});
@@ -73,13 +73,21 @@ function initPage() {
 	$("#dataTable").datagrid("getPager").pagination({
 				showPageList : false,
 				showRefresh : false,
-				pageSize : 50,
+				pageSize : 30,
 				displayMsg : ''
 			});
 	var sysDate = sessionLoad("sysDate");
 	$("#rqq").val(sysDate.substr(0, 8) + "01");
 	$("#rqz").val(sysDate.substr(0, 8)
 			+ getLastDay(sysDate.split("-")[0], sysDate.split("-")[1]));
+}
+
+function deleteFile(scjlId) {
+	alert(scjlId);
+}
+
+function downLoadFile(scjlId) {
+	alert(scjlId);
 }
 
 function queryData() {
@@ -113,8 +121,8 @@ function queryData() {
 					$.messager.progress('close');
 					if (checkResponse(responseText)) {
 						var dataList = responseText.data.dataList;
-						$("dataTable").datagrid("loadData",
-								dataList.slice(0, 50));
+						$("#dataTable").datagrid("loadData",
+								dataList.slice(0, 30));
 						// 设置分页的相关属性
 						var pager = $("#dataTable").datagrid("getPager");
 						pager.pagination({
@@ -122,7 +130,7 @@ function queryData() {
 									onSelectPage : function(pageNo, pageSize) {
 										var start = (pageNo - 1) * pageSize;
 										var end = start + pageSize;
-										$("#dd").datagrid("loadData",
+										$("#dataTable").datagrid("loadData",
 												dataList.slice(start, end));
 										pager.pagination('refresh', {
 													total : dataList.length,
