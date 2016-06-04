@@ -83,7 +83,7 @@ public class Swd001BLH extends BaseBizLogicHandler {
 		}
 		String tempFileName = System.getProperty("user.dir")
 				+ ApplicationContext.singleton().getValueAsString(
-						"zipfile.temp") + "/" + loginVO.getSjHm() + ".zip";
+						"file.temp") + "/" + loginVO.getSjHm() + ".zip";
 		ZipTool.zipCompress(dataList, tempFileName);
 		FileVO zipFile = new FileVO();
 		zipFile.setFileType(".zip");
