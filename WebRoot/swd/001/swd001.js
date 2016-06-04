@@ -1,9 +1,10 @@
 var userInfo;
 $(document).ready(function() {
-			hasUserInfo();
-			userInfo = sessionLoad("userInfo");
-			initPage();
-		});
+	hasUserInfo();
+	userInfo = sessionLoad("userInfo");
+	initPage();
+	queryData();
+	});
 
 function initPage() {
 	$("#dataTable").datagrid({
@@ -14,55 +15,71 @@ function initPage() {
 		pagination : true,
 		data : [],
 		columns : [[{
-					field : 'xm',
+					field : 'SCJL_ID',
+					align : "center",
+					title : "上传记录ID",
+					hidden : true,
+					width : 0
+				}, {
+					field : 'XM',
 					align : "center",
 					title : "上传人姓名",
-					width : 100
+					width : '10%'
 				}, {
-					field : 'yhMc',
+					field : 'QYYH_MC',
 					align : "center",
 					title : "银行名称",
-					width : 100
+					width : '20%'
 				}, {
-					field : 'wjm',
+					field : 'WJML',
+					align : "center",
+					title : "文件目录",
+					width : '10%'
+				}, {
+					field : 'WJM',
 					align : "center",
 					title : "文件名",
-					width : 100
+					width : '10%'
 				}, {
-					field : 'wjdx',
+					field : 'WJDX',
 					align : "center",
 					title : "文件大小",
-					width : 100
+					width : '10%'
 				}, {
-					field : 'scRQ',
+					field : 'SCRQ',
 					align : "center",
 					title : "上传日期",
-					width : 100
+					width : '10%'
 				}, {
-					field : 'cz',
+					field : 'xxx',
 					align : "center",
 					title : "操作",
-					width : 100,
+					width : '30%',
 					formatter : function(value, row, index) {
 						var btn = null;
 						if ("" != row.swglm) {
 							btn = "<a class='editcls' onclick='testFun("
 									+ row.swglm
-									+ ")' href='javascript:void(0);'>查看</a>";
+									+ ")' href='javascript:void(0);'>下载</a>";
 							btn += "&nbsp&nbsp;<a class='editcls' onclick='testFun("
 									+ row.swglm
-									+ ")' href='javascript:void(0);'>编辑</a>"
+									+ ")' href='javascript:void(0);'>删除</a>";
 						}
 						return btn;
 					}
 				}]]
 	});
+
 	$("#dataTable").datagrid("getPager").pagination({
 				showPageList : false,
 				showRefresh : false,
 				pageSize : 50,
 				displayMsg : ''
 			});
+	var sysDate = sessionLoad("sysDate");
+	$("#rqq").val(sysDate.substr(0, 8) + "01");
+	$("#rqz").val(sysDate.substr(0, 8)
+			+ getLastDay(sysDate.split("-")[0], sysDate.split("-")[1]));
 }
 
 function queryData() {
@@ -77,12 +94,12 @@ function queryData() {
 				dataType : "json",
 				data : {
 					jsonData : $.toJSON({
-								blhName : "Yhgl001BLH",
-								handleCode : "submitForm",
+								blhName : "Swd001BLH",
+								handleCode : "queryData",
 								yhwybz : userInfo.yhwybz,
 								data : {
-									Y_LOGPASS : $("#password").val(),
-									N_LOGPASS : $("#password_new").val()
+									rqq : $("#rqq").val(),
+									rqz : $("#rqz").val()
 								}
 							})
 				},
@@ -95,8 +112,24 @@ function queryData() {
 				success : function(responseText, textStatus, XMLHttpRequest) {
 					$.messager.progress('close');
 					if (checkResponse(responseText)) {
-						$.messager.alert(commomMessageTitle, responseText.msg,
-								'info');
+						var dataList = responseText.data.dataList;
+						$("dataTable").datagrid("loadData",
+								dataList.slice(0, 50));
+						// 设置分页的相关属性
+						var pager = $("#dataTable").datagrid("getPager");
+						pager.pagination({
+									total : dataList.length,
+									onSelectPage : function(pageNo, pageSize) {
+										var start = (pageNo - 1) * pageSize;
+										var end = start + pageSize;
+										$("#dd").datagrid("loadData",
+												dataList.slice(start, end));
+										pager.pagination('refresh', {
+													total : dataList.length,
+													pageNumber : pageNo
+												});
+									}
+								});
 					} else {
 						// 判断是否超时
 						if (!isTimeout(responseText)) {

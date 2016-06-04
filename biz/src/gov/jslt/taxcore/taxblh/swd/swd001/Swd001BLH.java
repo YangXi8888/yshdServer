@@ -1,7 +1,6 @@
 package gov.jslt.taxcore.taxblh.swd.swd001;
 
 import gov.jslt.taxevent.comm.JsonReqData;
-import gov.jslt.taxevent.comm.LoginVO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -9,8 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import sun.jdbc.rowset.CachedRowSet;
 
@@ -25,8 +22,8 @@ public class Swd001BLH extends BaseBizLogicHandler {
 	protected ResponseEvent performTask(RequestEvent req, Connection conn)
 			throws SQLException, TaxBaseBizException {
 		String handleCode = req.getDealMethod();
-		if ("initForm".equals(handleCode)) {
-			return initForm(req, conn);
+		if ("queryData".equals(handleCode)) {
+			return queryData(req, conn);
 		}
 		return null;
 	}
@@ -37,70 +34,37 @@ public class Swd001BLH extends BaseBizLogicHandler {
 		return null;
 	}
 
-	protected ResponseEvent initForm(RequestEvent reqEvent, Connection conn)
+	protected ResponseEvent queryData(RequestEvent reqEvent, Connection conn)
 			throws SQLException, TaxBaseBizException {
 		ResponseEvent reEvent = new ResponseEvent();
-		HttpServletRequest request = (HttpServletRequest) reqEvent.reqMapParam
-				.get("HttpServletRequest");
 		JsonReqData reqData = (JsonReqData) reqEvent.reqMapParam
 				.get("JsonReqData");
-		LoginVO loginVO = (LoginVO) request.getSession().getAttribute(
-				reqData.getYhwybz());
-		reqEvent.reqMapParam.put("sessionId", loginVO.getYhwybz());
-		reqEvent.reqMapParam.put("pNodeId", "0");
-		reqEvent.reqMapParam.put("yhLxDm", loginVO.getYhLxDm());
-		reqEvent.reqMapParam.put("qyYhDm", loginVO.getQyYhDm());
-		List<Object> gnsList = new ArrayList<Object>();
-		getGns(conn, gnsList, reqEvent.reqMapParam);
-		reEvent.respMapParam.put("gnsList", gnsList);
-		reEvent.setReponseMesg("主页初始化成功");
-		return reEvent;
-	}
-
-	private void getGns(Connection conn, List<Object> list,
-			Map<String, Object> tempMap) throws SQLException {
 		ArrayList<Object> sqlParam = new ArrayList<Object>();
-		sqlParam.add(tempMap.get("pNodeId"));
-		sqlParam.add(tempMap.get("yhLxDm") + "%");
-		if (null != tempMap.get("qyYhDm") && !"".equals(tempMap.get("qyYhDm"))) {
-			sqlParam.add(tempMap.get("qyYhDm") + "%");
-		} else {
-			sqlParam.add("%");
+		CachedRowSet rs;
+		String sql = "SELECT T.SCJL_ID, B.XM, C.QYYH_MC, T.WJML, T.WJM, T.WJDX, TO_CHAR(T.LR_SJ,'YYYY-MM-DD HH24:MI:SS') SCRQ   FROM T_YS_YHSCJLB T, T_YS_LOGIN B, T_DM_YS_QYYH C  WHERE T.UUID = B.UUID    AND B.QYYH_DM = C.QYYH_DM    AND T.LR_SJ > TO_DATE(TO_CHAR(TRUNC(SYSDATE, 'MM'), 'YYYY-MM-DD') || ' 00:00:01',  'YYYY-MM-DD HH24:MI:SS')";
+		if (null != reqData.getData().get("rqq")
+				&& !"".equals(reqData.getData().get("rqq"))) {
+			sql = "SELECT T.SCJL_ID, B.XM, C.QYYH_MC, T.WJML, T.WJM, T.WJDX, TO_CHAR(T.LR_SJ,'YYYY-MM-DD HH24:MI:SS') SCRQ   FROM T_YS_YHSCJLB T, T_YS_LOGIN B, T_DM_YS_QYYH C  WHERE T.UUID = B.UUID    AND B.QYYH_DM = C.QYYH_DM     AND T.LR_SJ > TO_DATE( ? || ' 00:00:01',  'YYYY-MM-DD HH24:MI:SS')   AND T.LR_SJ < TO_DATE( ? || ' 23:59:59',  'YYYY-MM-DD HH24:MI:SS')";
+			sqlParam.add(reqData.getData().get("rqq"));
+			sqlParam.add(reqData.getData().get("rqz"));
 		}
-		String sql = "SELECT * FROM  T_YS_GNS A  WHERE A.PNODE_ID=? AND A.XY_BJ='1' AND A.YHLX_DM LIKE ? AND A.QYYH_DM LIKE ? ORDER BY A.PNODE_ID, A.PX";
-		CachedRowSet rs = QueryCssBPO.findAll(conn, sql, sqlParam);
-		Map<String, Object> map = null;
+		rs = QueryCssBPO.findAll(conn, sql, sqlParam);
+		List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
+		Map<String, String> dataMap;
 		while (rs.next()) {
-			map = new HashMap<String, Object>();
-			list.add(map);
-			map.put("id", rs.getString("NODE_ID"));
-			map.put("text", rs.getString("CD_MC"));
-			if (null == rs.getString("ICONCLS")
-					|| "".equals(rs.getString("ICONCLS"))) {
-				map.put("iconCls", "icon-wj");
-			} else {
-				map.put("iconCls", rs.getString("ICONCLS"));
-			}
-			map.put("openType", rs.getString("OPENFLAG"));
-			if (null != rs.getString("URL") && !"".equals(rs.getString("URL"))) {
-				if (rs.getString("URL").indexOf("?") != -1) {
-					map.put("href", rs.getString("URL") + "&sessionId="
-							+ tempMap.get("sessionId"));
-				} else {
-					map.put("href", rs.getString("URL") + "?sessionId="
-							+ tempMap.get("sessionId"));
-				}
-			} else {
-				map.put("href", "");
-			}
-			if ("0".equals(rs.getString("ISLEAF"))) {
-				map.put("state", "opened");
-				List<Object> childrenList = new ArrayList<Object>();
-				map.put("children", childrenList);
-				tempMap.put("pNodeId", rs.getString("NODE_ID"));
-				getGns(conn, childrenList, tempMap);
-			}
+			dataMap = new HashMap<String, String>();
+			dataMap.put("SCJL_ID", rs.getString("SCJL_ID"));
+			dataMap.put("XM", rs.getString("XM"));
+			dataMap.put("QYYH_MC", rs.getString("QYYH_MC"));
+			dataMap.put("WJML", rs.getString("WJML"));
+			dataMap.put("WJM", rs.getString("WJM"));
+			dataMap.put("WJDX", rs.getString("WJDX"));
+			dataMap.put("SCRQ", rs.getString("SCRQ"));
+			dataList.add(dataMap);
 		}
+		reEvent.respMapParam.put("dataList", dataList);
+		reEvent.setReponseMesg("查询成功");
+		return reEvent;
 	}
 
 }
