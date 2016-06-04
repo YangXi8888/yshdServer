@@ -1,5 +1,6 @@
 package gov.jslt.taxcore.taxblh.swd.swd001;
 
+import gov.jslt.taxcore.taxblh.comm.FileTool;
 import gov.jslt.taxevent.comm.JsonReqData;
 
 import java.sql.Connection;
@@ -58,7 +59,8 @@ public class Swd001BLH extends BaseBizLogicHandler {
 			dataMap.put("QYYH_MC", rs.getString("QYYH_MC"));
 			dataMap.put("WJML", rs.getString("WJML"));
 			dataMap.put("WJM", rs.getString("WJM"));
-			dataMap.put("WJDX", rs.getString("WJDX"));
+			dataMap.put("WJDX",
+					FileTool.bytes2kb(Long.decode(rs.getString("WJDX"))));
 			dataMap.put("SCRQ", rs.getString("SCRQ"));
 			dataList.add(dataMap);
 		}
