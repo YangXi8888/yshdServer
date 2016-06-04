@@ -57,14 +57,12 @@ function initPage() {
 					width : '30%',
 					formatter : function(value, row, index) {
 						var btnPanel = "";
-
 						btnPanel = "<a href='#' class='editcls'  style='text-decoration: none' onclick=downLoadFile('"
 								+ row.SCJL_ID
 								+ "')  href='#'>下载</a>";
 						btnPanel += "&nbsp&nbsp;&nbsp&nbsp;&nbsp&nbsp;&nbsp&nbsp;<a class='editcls' onclick=deleteFile('"
 								+ row.SCJL_ID
 								+ "') href='#'>删除</a>";
-
 						return btnPanel;
 					}
 				}]]
