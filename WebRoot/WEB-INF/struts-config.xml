@@ -15,6 +15,8 @@
 		<action path="/LoginAction" type="gov.jslt.taxweb.yhgl.LoginAction"
 			name="GeneralForm" scope="request">
 		</action>
-
+		<action path="/Nsrd001Action" type="gov.jslt.taxweb.nsrd.nsrd001.Nsrd001Action"
+			name="GeneralForm" scope="request">
+		</action>
 	</action-mappings>
 </struts-config>

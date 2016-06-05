@@ -2,4 +2,5 @@
 <notcontrol>
 	<url>/</url>
 	<url>/LoginAction.do</url>
+	<url>/Nsrd001Action.do</url>
 </notcontrol>

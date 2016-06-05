@@ -1,13 +1,30 @@
 package gov.jslt.taxcore.taxblh.nsrd.nsrd001;
 
+import gov.jslt.taxcore.taxblh.comm.CoreHelper;
 import gov.jslt.taxcore.taxblh.comm.JMSSender;
+import gov.jslt.taxcore.taxbpo.nsrd.nsrd001.NsrCwbbBPO;
+import gov.jslt.taxcore.taxbpo.nsrd.nsrd001.NsrJbxxBPO;
+import gov.jslt.taxcore.taxbpo.nsrd.nsrd001.NsrSbfBPO;
+import gov.jslt.taxcore.taxbpo.nsrd.nsrd001.NsrSfBPO;
+import gov.jslt.taxcore.taxbpo.nsrd.nsrd001.NsrXzcfBPO;
+import gov.jslt.taxevent.nsrd.nsrd001.NsrCwbbVO;
+import gov.jslt.taxevent.nsrd.nsrd001.NsrJbxxVO;
+import gov.jslt.taxevent.nsrd.nsrd001.NsrSbfVO;
+import gov.jslt.taxevent.nsrd.nsrd001.NsrSfVO;
+import gov.jslt.taxevent.nsrd.nsrd001.NsrXzcfVO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+import sun.jdbc.rowset.CachedRowSet;
+
 import com.ctp.core.blh.BaseBizLogicHandler;
+import com.ctp.core.bpo.QueryBPO;
 import com.ctp.core.event.RequestEvent;
 import com.ctp.core.event.ResponseEvent;
 import com.ctp.core.exception.TaxBaseBizException;
@@ -18,19 +35,50 @@ public class Nsrd001BLH extends BaseBizLogicHandler {
 	@Override
 	protected ResponseEvent performTask(RequestEvent reqEvent, Connection conn)
 			throws SQLException, TaxBaseBizException {
-		if ("sendMsg".equals(reqEvent.getDealMethod())) {
-			return sendMsg(reqEvent, conn);
+		if ("initPage".equals(reqEvent.getDealMethod())) {
+			return initPage(reqEvent, conn);
+		} else if ("sendData".equals(reqEvent.getDealMethod())) {
+			return sendData(reqEvent, conn);
 		}
 		return null;
 	}
 
-	private ResponseEvent sendMsg(RequestEvent reqEvent, Connection conn) {
+	private ResponseEvent initPage(RequestEvent reqEvent, Connection conn)
+			throws SQLException, TaxBaseBizException {
 		ResponseEvent resEvent = new ResponseEvent();
+		ArrayList<String> sqlParams = new ArrayList<String>();
+		sqlParams.add((String) reqEvent.reqMapParam.get("swglm"));
+		String sql = "SELECT SWGLM, NSR_MC FROM T_DJ_JGNSR WHERE SWGLM =?";
+		CachedRowSet rs = QueryBPO.findAll(conn, sql, sqlParams);
+		if (rs.next()) {
+			resEvent.respMapParam.put("nsrMc", rs.getString("NSR_MC"));
+		}
+		sql = "SELECT T.QYYH_DM, T.QYYH_MC FROM T_DM_YS_QYYH T WHERE XY_BJ = '1'";
+		rs = QueryBPO.findAll(conn, sql, null);
+		List<Map<String, String>> yhList = new ArrayList<>();
+		Map<String, String> map = null;
+		while (rs.next()) {
+			map = new HashMap<String, String>();
+			map.put("qyyhDm", rs.getString("QYYH_DM"));
+			map.put("qyyhMc", rs.getString("QYYH_MC"));
+			yhList.add(map);
+		}
+		resEvent.respMapParam.put("yhList", yhList);
+		resEvent.setReponseMesg("处理成功");
+		return resEvent;
+
+	}
+
+	private ResponseEvent sendData(RequestEvent reqEvent, Connection conn)
+			throws SQLException, TaxBaseBizException {
+		ResponseEvent resEvent = new ResponseEvent();
+		// String swglm = "320100002106161";
 		String swglm = (String) reqEvent.reqMapParam.get("swglm");
+		String qyyhDm = (String) reqEvent.reqMapParam.get("qyyhDm");
 		// 1.封装JMS请求参数
 		Map<String, Object> reqMap = new HashMap<String, Object>();
 		reqMap.put("blhName", "Nsrd001BLH");
-		reqMap.put("dealMethod", "getMsg");
+		reqMap.put("dealMethod", "queryData");
 		reqMap.put("swglm", swglm);
 		reqMap.put("bizKey", "");
 		reqMap.put("djXh", "");
@@ -42,7 +90,103 @@ public class Nsrd001BLH extends BaseBizLogicHandler {
 		// 2.发送JMS消息并接收返回消息
 		JMSSender jSender = new JMSSender();
 		Map<String, String> returnMap = jSender.synSend(reqMap);
-		resEvent.setRespMapParam((HashMap) returnMap);
+		String uuid = CoreHelper.getGUID(conn);
+		String zbUuid = uuid;
+		Map<String, String> tmpMap = null;// 用于处理jms返回结果的临时变量
+		JSONObject jsonObject = new JSONObject();
+		Map<String, Object> jmsResMap = jsonObject.fromObject(returnMap
+				.get("cDATA"));
+		// 基本信息
+		Map<String, String> jbXxMap = (Map<String, String>) jmsResMap
+				.get("jbXx");
+		NsrJbxxVO jbxxVO = new NsrJbxxVO();
+		jbxxVO.setUuid(uuid);
+		jbxxVO.setZbuuid(zbUuid);
+		jbxxVO.setSwglm(jbXxMap.get("swglm"));
+		jbxxVO.setNsrsbm(jbXxMap.get("nsrSbm"));
+		jbxxVO.setNsrmc(jbXxMap.get("nsrMc"));
+		jbxxVO.setDjzclxmc(jbXxMap.get("djzclxDm"));
+		jbxxVO.setGbhymc(jbXxMap.get("gbhyMc"));
+		jbxxVO.setZcdz(jbXxMap.get("zcDz"));
+		jbxxVO.setXydj(jbXxMap.get("xyDj"));
+		NsrJbxxBPO.insert(conn, jbxxVO);
+		// 税费记录
+		List<Map<String, String>> sFXxList = (List<Map<String, String>>) jmsResMap
+				.get("sfXx");
+		NsrSfVO sfVO = null;
+		for (int i = 0; i < sFXxList.size(); i++) {
+			tmpMap = sFXxList.get(i);
+			sfVO = new NsrSfVO();
+			sfVO.setUuid(uuid);
+			sfVO.setZbuuid(zbUuid);
+			sfVO.setSsnd(tmpMap.get("ssNd"));
+			sfVO.setSwglm(tmpMap.get("swglm"));
+			sfVO.setNsrsbm(tmpMap.get("nsrSbm"));
+			sfVO.setNsrmc(tmpMap.get("nsrMc"));
+			sfVO.setSz(tmpMap.get("sz"));
+			sfVO.setRkse(tmpMap.get("rkSe"));
+			NsrSfBPO.insert(conn, sfVO);
+		}
+		// 社保费
+		List<Map<String, String>> sbfXxList = (List<Map<String, String>>) jmsResMap
+				.get("sbfXx");
+		NsrSbfVO sbfVO = null;
+		for (int i = 0; i < sbfXxList.size(); i++) {
+			tmpMap = sbfXxList.get(i);
+			sbfVO = new NsrSbfVO();
+			sbfVO.setUuid(uuid);
+			sbfVO.setZbuuid(zbUuid);
+			sbfVO.setSsnd(tmpMap.get("ssNd"));
+			sbfVO.setSwglm(tmpMap.get("swglm"));
+			sbfVO.setNsrsbm(tmpMap.get("nsrSbm"));
+			sbfVO.setNsrmc(tmpMap.get("nsrMc"));
+			sbfVO.setXz(tmpMap.get("xz"));
+			sbfVO.setSjje(tmpMap.get("sjJe"));
+			NsrSbfBPO.insert(conn, sbfVO);
+		}
+		// 财务报表信息
+		List<Map<String, String>> cwXxList = (List<Map<String, String>>) jmsResMap
+				.get("cwXx");
+		NsrCwbbVO cwbbVO = null;
+		for (int i = 0; i < cwXxList.size(); i++) {
+			tmpMap = cwXxList.get(i);
+			cwbbVO = new NsrCwbbVO();
+			cwbbVO.setUuid(uuid);
+			cwbbVO.setZbgj(zbUuid);
+			cwbbVO.setSwglm(tmpMap.get("swglm"));
+			cwbbVO.setNsrsbm(tmpMap.get("nsrSbm"));
+			cwbbVO.setNsrmc(tmpMap.get("nsrMc"));
+			cwbbVO.setSsnd(tmpMap.get("ssNd"));
+			cwbbVO.setZcze(tmpMap.get("zcZe"));
+			cwbbVO.setFzze(tmpMap.get("fzZe"));
+			cwbbVO.setSszb(tmpMap.get("ssZb"));
+			cwbbVO.setZbgj(tmpMap.get("zbGj"));
+			cwbbVO.setZyywsr(tmpMap.get("zyywSr"));
+			cwbbVO.setZyywcb(tmpMap.get("zyywCb"));
+			cwbbVO.setKjlr(tmpMap.get("kjLr"));
+			NsrCwbbBPO.insert(conn, cwbbVO);
+
+		}
+		// 处罚信息
+		List<Map<String, String>> cfXxList = (List<Map<String, String>>) jmsResMap
+				.get("cfXx");
+		NsrXzcfVO xzcfVO = null;
+		for (int i = 0; i < cfXxList.size(); i++) {
+			tmpMap = cwXxList.get(i);
+			xzcfVO = new NsrXzcfVO();
+			xzcfVO.setUuid(uuid);
+			xzcfVO.setZbuuid(zbUuid);
+			xzcfVO.setSwglm(tmpMap.get("swglm"));
+			xzcfVO.setNsrsbm(tmpMap.get("nsrSbm"));
+			xzcfVO.setNsrmc(tmpMap.get("nsrMc"));
+			xzcfVO.setCfjdwh(tmpMap.get("cfjdWh"));
+			xzcfVO.setCfsyStr(tmpMap.get("cfSy"));
+			xzcfVO.setCfrq(tmpMap.get("cfSy"));
+			xzcfVO.setZxwcrq(tmpMap.get("zxwcRq"));
+			xzcfVO.setCfje(tmpMap.get("cfJe"));
+			NsrXzcfBPO.insert(conn, xzcfVO);
+		}
+		resEvent.setReponseMesg("处理成功");
 		return resEvent;
 	}
 
