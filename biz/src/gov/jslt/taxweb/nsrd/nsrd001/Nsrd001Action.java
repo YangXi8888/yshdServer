@@ -66,6 +66,7 @@ public class Nsrd001Action extends Action {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if ("0".equals(resEvent.getRepCode())) {
 			map.put("nsrMc", resEvent.respMapParam.get("nsrMc"));
+			map.put("nsrSbm", resEvent.respMapParam.get("nsrSbm"));
 			if (null != resEvent.respMapParam.get("yhList")) {
 				List<Map<String, String>> yhList = (List<Map<String, String>>) resEvent.respMapParam
 						.get("yhList");
@@ -91,10 +92,14 @@ public class Nsrd001Action extends Action {
 			HttpServletResponse response, JsonReqData jsonReqData)
 			throws IOException {
 		String swglm = (String) jsonReqData.getData().get("swglm");
+		String nsrMc = (String) jsonReqData.getData().get("nsrMc");
+		String nsrSbm = (String) jsonReqData.getData().get("nsrSbm");
 		String qyyhDm = (String) jsonReqData.getData().get("qyyhDm");
 		// 1.封装请求参数
 		HashMap<String, String> reqMap = new HashMap<String, String>();
 		reqMap.put("swglm", swglm);
+		reqMap.put("nsrSbm", nsrSbm);
+		reqMap.put("nsrMc", nsrMc);
 		reqMap.put("qyyhDm", qyyhDm);
 		// 2.构造远程调用
 		BaseRequestEvent reqEvent = new BaseRequestEvent(
@@ -105,6 +110,7 @@ public class Nsrd001Action extends Action {
 		ResponseEvent resEvent = (ResponseEvent) BizDelegate.delegate(reqEvent);
 		// 4.处理返回参数
 		JsonResData jsonResData = new JsonResData();
+		jsonResData.setCode(resEvent.getRepCode());
 		if (null == resEvent.getReponseMesg()
 				|| "".equals(resEvent.getReponseMesg())) {
 			jsonResData.setMsg(resEvent.getRepCode());

@@ -2,16 +2,19 @@ package gov.jslt.taxcore.taxblh.nsrd.nsrd001;
 
 import gov.jslt.taxcore.taxblh.comm.CoreHelper;
 import gov.jslt.taxcore.taxblh.comm.JMSSender;
+import gov.jslt.taxcore.taxblh.comm.StringUtil;
 import gov.jslt.taxcore.taxbpo.nsrd.nsrd001.NsrCwbbBPO;
 import gov.jslt.taxcore.taxbpo.nsrd.nsrd001.NsrJbxxBPO;
 import gov.jslt.taxcore.taxbpo.nsrd.nsrd001.NsrSbfBPO;
 import gov.jslt.taxcore.taxbpo.nsrd.nsrd001.NsrSfBPO;
 import gov.jslt.taxcore.taxbpo.nsrd.nsrd001.NsrXzcfBPO;
+import gov.jslt.taxcore.taxbpo.nsrd.nsrd001.NsrZbBPO;
 import gov.jslt.taxevent.nsrd.nsrd001.NsrCwbbVO;
 import gov.jslt.taxevent.nsrd.nsrd001.NsrJbxxVO;
 import gov.jslt.taxevent.nsrd.nsrd001.NsrSbfVO;
 import gov.jslt.taxevent.nsrd.nsrd001.NsrSfVO;
 import gov.jslt.taxevent.nsrd.nsrd001.NsrXzcfVO;
+import gov.jslt.taxevent.nsrd.nsrd001.NsrZbVO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -48,10 +51,11 @@ public class Nsrd001BLH extends BaseBizLogicHandler {
 		ResponseEvent resEvent = new ResponseEvent();
 		ArrayList<String> sqlParams = new ArrayList<String>();
 		sqlParams.add((String) reqEvent.reqMapParam.get("swglm"));
-		String sql = "SELECT SWGLM, NSR_MC FROM T_DJ_JGNSR WHERE SWGLM =?";
+		String sql = "SELECT SWGLM, NSRSBM,NSR_MC FROM T_DJ_JGNSR WHERE SWGLM =?";
 		CachedRowSet rs = QueryBPO.findAll(conn, sql, sqlParams);
 		if (rs.next()) {
 			resEvent.respMapParam.put("nsrMc", rs.getString("NSR_MC"));
+			resEvent.respMapParam.put("nsrSbm", rs.getString("NSRSBM"));
 		}
 		sql = "SELECT T.QYYH_DM, T.QYYH_MC FROM T_DM_YS_QYYH T WHERE XY_BJ = '1'";
 		rs = QueryBPO.findAll(conn, sql, null);
@@ -74,6 +78,8 @@ public class Nsrd001BLH extends BaseBizLogicHandler {
 		ResponseEvent resEvent = new ResponseEvent();
 		// String swglm = "320100002106161";
 		String swglm = (String) reqEvent.reqMapParam.get("swglm");
+		String nsrSbm = (String) reqEvent.reqMapParam.get("nsrSbm");
+		String nsrMc = (String) reqEvent.reqMapParam.get("nsrMc");
 		String qyyhDm = (String) reqEvent.reqMapParam.get("qyyhDm");
 		// 1.封装JMS请求参数
 		Map<String, Object> reqMap = new HashMap<String, Object>();
@@ -82,25 +88,35 @@ public class Nsrd001BLH extends BaseBizLogicHandler {
 		reqMap.put("swglm", swglm);
 		reqMap.put("bizKey", "");
 		reqMap.put("djXh", "");
-		// 1.1拼装业务报文
+		// 2.拼装业务报文
 		Map<String, Object> bizXml = new HashMap<String, Object>();
 		bizXml.put("swglm", swglm);
 		XStream xStream = new XStream();
 		reqMap.put("content", xStream.toXML(bizXml).toString());
-		// 2.发送JMS消息并接收返回消息
+		// 3.发送JMS消息并接收返回消息
 		JMSSender jSender = new JMSSender();
 		Map<String, String> returnMap = jSender.synSend(reqMap);
-		String uuid = CoreHelper.getGUID(conn);
-		String zbUuid = uuid;
 		Map<String, String> tmpMap = null;// 用于处理jms返回结果的临时变量
 		JSONObject jsonObject = new JSONObject();
 		Map<String, Object> jmsResMap = jsonObject.fromObject(returnMap
 				.get("cDATA"));
+
+		// ************************************ 保存返回数据 **************************************************//
+
+		String zbUuid = CoreHelper.getGUID(conn);
+		// 纳税人发送银行主表
+		NsrZbVO nsrZbVO = new NsrZbVO();
+		nsrZbVO.setZbuuid(zbUuid);
+		nsrZbVO.setSwglm(swglm);
+		nsrZbVO.setNsrmc(nsrMc);
+		nsrZbVO.setNsrsbm(nsrSbm);
+		nsrZbVO.setQyyhdm(qyyhDm);
+		NsrZbBPO.insert(conn, nsrZbVO);
 		// 基本信息
 		Map<String, String> jbXxMap = (Map<String, String>) jmsResMap
 				.get("jbXx");
 		NsrJbxxVO jbxxVO = new NsrJbxxVO();
-		jbxxVO.setUuid(uuid);
+		jbxxVO.setUuid(CoreHelper.getGUID(conn));
 		jbxxVO.setZbuuid(zbUuid);
 		jbxxVO.setSwglm(jbXxMap.get("swglm"));
 		jbxxVO.setNsrsbm(jbXxMap.get("nsrSbm"));
@@ -108,7 +124,7 @@ public class Nsrd001BLH extends BaseBizLogicHandler {
 		jbxxVO.setDjzclxmc(jbXxMap.get("djzclxDm"));
 		jbxxVO.setGbhymc(jbXxMap.get("gbhyMc"));
 		jbxxVO.setZcdz(jbXxMap.get("zcDz"));
-		jbxxVO.setXydj(jbXxMap.get("xyDj"));
+		jbxxVO.setXydj(StringUtil.empty(jbXxMap.get("xyDj")));
 		NsrJbxxBPO.insert(conn, jbxxVO);
 		// 税费记录
 		List<Map<String, String>> sFXxList = (List<Map<String, String>>) jmsResMap
@@ -117,7 +133,7 @@ public class Nsrd001BLH extends BaseBizLogicHandler {
 		for (int i = 0; i < sFXxList.size(); i++) {
 			tmpMap = sFXxList.get(i);
 			sfVO = new NsrSfVO();
-			sfVO.setUuid(uuid);
+			sfVO.setUuid(CoreHelper.getGUID(conn));
 			sfVO.setZbuuid(zbUuid);
 			sfVO.setSsnd(tmpMap.get("ssNd"));
 			sfVO.setSwglm(tmpMap.get("swglm"));
@@ -134,7 +150,7 @@ public class Nsrd001BLH extends BaseBizLogicHandler {
 		for (int i = 0; i < sbfXxList.size(); i++) {
 			tmpMap = sbfXxList.get(i);
 			sbfVO = new NsrSbfVO();
-			sbfVO.setUuid(uuid);
+			sbfVO.setUuid(CoreHelper.getGUID(conn));
 			sbfVO.setZbuuid(zbUuid);
 			sbfVO.setSsnd(tmpMap.get("ssNd"));
 			sbfVO.setSwglm(tmpMap.get("swglm"));
@@ -151,7 +167,7 @@ public class Nsrd001BLH extends BaseBizLogicHandler {
 		for (int i = 0; i < cwXxList.size(); i++) {
 			tmpMap = cwXxList.get(i);
 			cwbbVO = new NsrCwbbVO();
-			cwbbVO.setUuid(uuid);
+			cwbbVO.setUuid(CoreHelper.getGUID(conn));
 			cwbbVO.setZbgj(zbUuid);
 			cwbbVO.setSwglm(tmpMap.get("swglm"));
 			cwbbVO.setNsrsbm(tmpMap.get("nsrSbm"));
@@ -174,7 +190,7 @@ public class Nsrd001BLH extends BaseBizLogicHandler {
 		for (int i = 0; i < cfXxList.size(); i++) {
 			tmpMap = cwXxList.get(i);
 			xzcfVO = new NsrXzcfVO();
-			xzcfVO.setUuid(uuid);
+			xzcfVO.setUuid(CoreHelper.getGUID(conn));
 			xzcfVO.setZbuuid(zbUuid);
 			xzcfVO.setSwglm(tmpMap.get("swglm"));
 			xzcfVO.setNsrsbm(tmpMap.get("nsrSbm"));

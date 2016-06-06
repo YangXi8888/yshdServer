@@ -14,33 +14,41 @@ function submitData() {
 				text : ''
 			});
 	$.ajax({
-				url : "/Nsrd001Action.do",
-				async : true,
-				dataType : "json",
-				data : {
-					jsonData : $.toJSON({
-								blhName : "Nsrd001BLH",
-								handleCode : "sendData",
-								data : {
-									swglm : $("#swglm").val(),
-									qyyhDm : $("#qyyhDm").val()
-								}
-							})
-				},
-				type : 'post',
-				timeout : sys_timeout,
-				error : function(XMLHttpRequest, textStatus, errorThrown) {
-					$.messager.progress('close');
-					$.messager.alert(commomMessageTitle, textStatus, 'error');
-				},
-				success : function(responseText, textStatus, XMLHttpRequest) {
-					$.messager.progress('close');
-
-					$.messager.alert(commomMessageTitle, responseText.msg,
-							'info');
-
-				}
-			});
+		url : "/Nsrd001Action.do",
+		async : true,
+		dataType : "json",
+		data : {
+			jsonData : $.toJSON({
+						blhName : "Nsrd001BLH",
+						handleCode : "sendData",
+						data : {
+							swglm : $("#swglm").val(),
+							nsrSbm : $("#nsrSbm").val(),
+							nsrMc : $("#nsrMc").val(),
+							qyyhDm : $("#qyyhDm").val()
+						}
+					})
+		},
+		type : 'post',
+		timeout : sys_timeout,
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			$.messager.progress('close');
+			$.messager.alert(commomMessageTitle, textStatus, 'error');
+		},
+		success : function(responseText, textStatus, XMLHttpRequest) {
+			$.messager.progress('close');
+			if (checkResponse(responseText)) {
+				$.messager.alert(commomMessageTitle,
+						responseText.msg + "，关闭页面", 'info', function() {
+							window.opener = null;
+							window.open('', '_self');
+							window.close();
+						});
+			} else {
+				$.messager.alert(commomMessageTitle, responseText.msg, 'error');
+			}
+		}
+	});
 }
 
 function initPage(swglm) {
@@ -73,6 +81,7 @@ function initPage(swglm) {
 			if (checkResponse(responseText)) {
 				$("#swglm").val(swglm);
 				$("#nsrMc").val(responseText.data.nsrMc);
+				$("#nsrSbm").val(responseText.data.nsrSbm);
 				var yhData = responseText.data.yhList;
 				for (var i = 0; i < yhData.length; i++) {
 					$("#qyyhDm").append("<option value='" + yhData[i].qyyhDm

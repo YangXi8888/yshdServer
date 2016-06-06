@@ -66,6 +66,7 @@ body {
 	</div>
 	<div data-options="region:'south',border:false"
 		style="height:50px;padding:10px;">版权所有©泰州地方税务局</div>
+	<input type="hidden" id="nsrSbm" />
 </body>
 <script type="text/javascript" src="/nsrd/nsrd001/nsrd001.js"></script>
 </html>
