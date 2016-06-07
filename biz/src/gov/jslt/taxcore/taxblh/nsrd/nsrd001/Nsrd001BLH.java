@@ -121,7 +121,7 @@ public class Nsrd001BLH extends BaseBizLogicHandler {
 		jbxxVO.setSwglm(jbXxMap.get("swglm"));
 		jbxxVO.setNsrsbm(jbXxMap.get("nsrSbm"));
 		jbxxVO.setNsrmc(jbXxMap.get("nsrMc"));
-		jbxxVO.setDjzclxmc(jbXxMap.get("djzclxDm"));
+		jbxxVO.setDjzclxmc(jbXxMap.get("djzclxMc"));
 		jbxxVO.setGbhymc(jbXxMap.get("gbhyMc"));
 		jbxxVO.setZcdz(jbXxMap.get("zcDz"));
 		jbxxVO.setXydj(StringUtil.empty(jbXxMap.get("xyDj")));
