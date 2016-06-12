@@ -168,7 +168,7 @@ public class Nsrd001BLH extends BaseBizLogicHandler {
 			tmpMap = cwXxList.get(i);
 			cwbbVO = new NsrCwbbVO();
 			cwbbVO.setUuid(CoreHelper.getGUID(conn));
-			cwbbVO.setZbgj(zbUuid);
+			cwbbVO.setZbuuid(zbUuid);
 			cwbbVO.setSwglm(tmpMap.get("swglm"));
 			cwbbVO.setNsrsbm(tmpMap.get("nsrSbm"));
 			cwbbVO.setNsrmc(tmpMap.get("nsrMc"));
@@ -188,7 +188,7 @@ public class Nsrd001BLH extends BaseBizLogicHandler {
 				.get("cfXx");
 		NsrXzcfVO xzcfVO = null;
 		for (int i = 0; i < cfXxList.size(); i++) {
-			tmpMap = cwXxList.get(i);
+			tmpMap = cfXxList.get(i);
 			xzcfVO = new NsrXzcfVO();
 			xzcfVO.setUuid(CoreHelper.getGUID(conn));
 			xzcfVO.setZbuuid(zbUuid);
@@ -197,7 +197,7 @@ public class Nsrd001BLH extends BaseBizLogicHandler {
 			xzcfVO.setNsrmc(tmpMap.get("nsrMc"));
 			xzcfVO.setCfjdwh(tmpMap.get("cfjdWh"));
 			xzcfVO.setCfsyStr(tmpMap.get("cfSy"));
-			xzcfVO.setCfrq(tmpMap.get("cfSy"));
+			xzcfVO.setCfrq(tmpMap.get("cfRq"));
 			xzcfVO.setZxwcrq(tmpMap.get("zxwcRq"));
 			xzcfVO.setCfje(tmpMap.get("cfJe"));
 			NsrXzcfBPO.insert(conn, xzcfVO);

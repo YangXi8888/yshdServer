@@ -1,5 +1,9 @@
 package gov.jslt.taxcore.taxblh.yhd.yhd001;
 
+import gov.jslt.taxcore.taxblh.comm.FileTool;
+import gov.jslt.taxcore.taxblh.comm.ZipTool;
+import gov.jslt.taxcore.taxbpo.comm.YhscjlbBPO;
+import gov.jslt.taxcore.taxbpo.comm.YhscjlbVO;
 import gov.jslt.taxcore.taxbpo.nsrd.nsrd001.NsrCwbbBPO;
 import gov.jslt.taxcore.taxbpo.nsrd.nsrd001.NsrJbxxBPO;
 import gov.jslt.taxcore.taxbpo.nsrd.nsrd001.NsrSbfBPO;
@@ -37,9 +41,11 @@ import sun.jdbc.rowset.CachedRowSet;
 
 import com.ctp.core.blh.BaseBizLogicHandler;
 import com.ctp.core.bpo.QueryCssBPO;
+import com.ctp.core.config.ApplicationContext;
 import com.ctp.core.event.RequestEvent;
 import com.ctp.core.event.ResponseEvent;
 import com.ctp.core.exception.TaxBaseBizException;
+import com.ctp.core.utility.dbtime.DBTimeServer;
 
 public class Yhd001BLH extends BaseBizLogicHandler {
 
@@ -50,10 +56,9 @@ public class Yhd001BLH extends BaseBizLogicHandler {
 			return queryData(req, conn);
 		} else if ("downLoadFile".equals(handleCode)) {
 			return downLoadFile(req, conn);
+		} else if ("downLoadAllFile".equals(handleCode)) {
+			return downLoadAllFile(req, conn);
 		}
-		// else if ("downLoadAllFile".equals(handleCode)) {
-		// return downLoadAllFile(req, conn);
-		// }
 		return null;
 	}
 
@@ -106,6 +111,45 @@ public class Yhd001BLH extends BaseBizLogicHandler {
 		JsonReqData reqData = (JsonReqData) reqEvent.reqMapParam
 				.get("JsonReqData");
 		String zbUuid = (String) reqData.getData().get("zbUuid");
+		FileVO fileVO = buildExcel(conn, zbUuid);
+		responseEvent.respMapParam.put(GeneralCons.FILE_VO, fileVO);
+		responseEvent.setReponseMesg("下载单个文件成功");
+		return responseEvent;
+	}
+
+	protected ResponseEvent downLoadAllFile(RequestEvent reqEvent,
+			Connection conn) throws SQLException, TaxBaseBizException {
+		ResponseEvent responseEvent = new ResponseEvent();
+		JsonReqData reqData = (JsonReqData) reqEvent.reqMapParam
+				.get("JsonReqData");
+		HttpServletRequest request = (HttpServletRequest) reqEvent.reqMapParam
+				.get("HttpServletRequest");
+		LoginVO loginVO = (LoginVO) request.getSession().getAttribute(
+				reqData.getYhwybz());
+
+		List<FileVO> dataList = new ArrayList<FileVO>();
+		String[] zbUuids = String.valueOf(reqData.getData().get("zbUuids"))
+				.split(",");
+		for (int i = 0; i < zbUuids.length; i++) {
+			FileVO fileVO = buildExcel(conn, zbUuids[i]);
+			dataList.add(fileVO);
+		}
+		String tempFileName = System.getProperty("user.dir")
+				+ ApplicationContext.singleton().getValueAsString("file.temp")
+				+ "/" + loginVO.getSjHm() + ".zip";
+		ZipTool.zipCompress(dataList, tempFileName);
+		FileVO zipFile = new FileVO();
+		zipFile.setFileType(".zip");
+		zipFile.setFileName(DBTimeServer.getDBTimesStr(conn, 3) + ".zip");
+		zipFile.setFileContent(FileTool.getZipByte(tempFileName));
+		responseEvent.respMapParam.put(GeneralCons.FILE_VO, zipFile);
+		responseEvent.respMapParam.put("dataList", dataList);
+		responseEvent.setReponseMesg("下载全部文件成功");
+		return responseEvent;
+	}
+
+	private FileVO buildExcel(Connection conn, String zbUuid)
+			throws SQLException, TaxBaseBizException {
 		ArrayList<String> sqlParams = new ArrayList<String>();
 		sqlParams.add(zbUuid);
 
@@ -386,10 +430,7 @@ public class Yhd001BLH extends BaseBizLogicHandler {
 		fileVO.setFileContent(os.toByteArray());
 		fileVO.setFileName("纳税情况_" + jbxxVO.getNsrmc() + ".xls");
 		fileVO.setFileType(".xls");
-		responseEvent.respMapParam.put(GeneralCons.FILE_VO, fileVO);
-		responseEvent.setReponseMesg("下载单个文件成功");
-
-		return responseEvent;
+		return fileVO;
 	}
 
 	protected ResponseEvent validateData(RequestEvent req, Connection conn)

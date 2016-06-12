@@ -15,6 +15,9 @@ function initPage() {
 		pagination : true,
 		data : [],
 		columns : [[{
+					field : 'ck',
+					checkbox : true
+				}, {
 					field : 'ZB_UUID',
 					align : "center",
 					title : "UUID",
@@ -41,9 +44,11 @@ function initPage() {
 								+ row.ZB_UUID + "')  href='#'>下载</a>";
 						return btnPanel;
 					}
-				}]]
+				}]],
+		singleSelect : false,
+		selectOnCheck : true,
+		checkOnSelect : true
 	});
-
 	$("#dataTable").datagrid("getPager").pagination({
 				showPageList : false,
 				showRefresh : false,
@@ -141,4 +146,43 @@ function downLoadFile(zbUuid) {
 					$.messager.progress('close');
 				}
 			});
+}
+
+function downLoadAllFile() {
+	var selRows = $('#dataTable').datagrid('getChecked');
+	if (selRows.length <= 0) {
+		$.messager.alert(commomMessageTitle, "请至少选择一行数据进行打包下载", 'error');
+		return;
+	}
+	var zbUuids = "";
+	for (var i = 0; i < selRows.length; i++) {
+		zbUuids += selRows[i].ZB_UUID + ",";
+	}
+	zbUuids = zbUuids.substring(0, zbUuids.lastIndexOf(","));
+	$.messager.progress({
+				title : commomWaitTitle,
+				msg : '正在下载文件.....',
+				text : ''
+			});
+	$.fileDownload("/GeneralAction.do?sessionId=" + userInfo.yhwybz, {
+				httpMethod : 'POST',
+				data : {
+					jsonData : $.toJSON({
+								blhName : "Yhd001BLH",
+								handleCode : "downLoadAllFile",
+								yhwybz : userInfo.yhwybz,
+								downLoadFile : "1",
+								data : {
+									zbUuids : zbUuids
+								}
+							})
+				},
+				successCallback : function(url) {
+					$.messager.progress('close');
+				},
+				failCallback : function(responseHtml, url) {
+					$.messager.progress('close');
+				}
+			});
+
 }
