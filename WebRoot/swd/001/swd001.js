@@ -44,12 +44,12 @@ function initPage() {
 					field : 'SCRQ',
 					align : "center",
 					title : "上传日期",
-					width : '10%'
+					width : '15%'
 				}, {
 					field : 'xxx',
 					align : "center",
 					title : "操作",
-					width : '30%',
+					width : '25%',
 					formatter : function(value, row, index) {
 						var btnPanel = "";
 						btnPanel = "<a href='#' class='editcls'  style='text-decoration: none' onclick=downLoadFile('"
