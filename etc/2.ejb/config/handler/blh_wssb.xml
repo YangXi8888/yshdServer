@@ -1,59 +1,102 @@
 <?xml version="1.0" encoding="GB2312"?>
 <bizLogicHandler-config>
 	<bizLogicHandler>
-		<bizLogicHandler-name>LoginBLH</bizLogicHandler-name>
+		<bizLogicHandler-name>
+			LoginBLH
+		</bizLogicHandler-name>
 		<bizLogicHandler-class>
 			gov.jslt.taxcore.taxblh.yhgl.LoginBLH
 		</bizLogicHandler-class>
-		<dataSource-name>ctpds</dataSource-name>
+		<dataSource-name>
+			ctpds
+		</dataSource-name>
 	</bizLogicHandler>
 	<bizLogicHandler>
-		<bizLogicHandler-name>Yhgl001BLH</bizLogicHandler-name>
+		<bizLogicHandler-name>
+			Yhgl001BLH
+		</bizLogicHandler-name>
 		<bizLogicHandler-class>
 			gov.jslt.taxcore.taxblh.yhgl.yhgl001.Yhgl001BLH
 		</bizLogicHandler-class>
-		<dataSource-name>ctpds</dataSource-name>
+		<dataSource-name>
+			ctpds
+		</dataSource-name>
 	</bizLogicHandler>
 	<bizLogicHandler>
-		<bizLogicHandler-name>Yhgl002BLH</bizLogicHandler-name>
+		<bizLogicHandler-name>
+			Yhgl002BLH
+		</bizLogicHandler-name>
 		<bizLogicHandler-class>
 			gov.jslt.taxcore.taxblh.yhgl.yhgl002.Yhgl002BLH
 		</bizLogicHandler-class>
-		<dataSource-name>ctpds</dataSource-name>
+		<dataSource-name>
+			ctpds
+		</dataSource-name>
 	</bizLogicHandler>
 	<bizLogicHandler>
-		<bizLogicHandler-name>MainBLH</bizLogicHandler-name>
+		<bizLogicHandler-name>
+			MainBLH
+		</bizLogicHandler-name>
 		<bizLogicHandler-class>
 			gov.jslt.taxcore.taxblh.main.MainBLH
 		</bizLogicHandler-class>
-		<dataSource-name>ctpds</dataSource-name>
+		<dataSource-name>
+			ctpds
+		</dataSource-name>
 	</bizLogicHandler>
 	<bizLogicHandler>
-		<bizLogicHandler-name>Yhd001BLH</bizLogicHandler-name>
+		<bizLogicHandler-name>
+			Yhd001BLH
+		</bizLogicHandler-name>
 		<bizLogicHandler-class>
 			gov.jslt.taxcore.taxblh.yhd.yhd001.Yhd001BLH
 		</bizLogicHandler-class>
-		<dataSource-name>ctpds</dataSource-name>
+		<dataSource-name>
+			ctpds
+		</dataSource-name>
 	</bizLogicHandler>
 	<bizLogicHandler>
-		<bizLogicHandler-name>Yhd002BLH</bizLogicHandler-name>
+		<bizLogicHandler-name>
+			Yhd002BLH
+		</bizLogicHandler-name>
 		<bizLogicHandler-class>
 			gov.jslt.taxcore.taxblh.yhd.yhd002.Yhd002BLH
 		</bizLogicHandler-class>
-		<dataSource-name>ctpds</dataSource-name>
+		<dataSource-name>
+			ctpds
+		</dataSource-name>
 	</bizLogicHandler>
 	<bizLogicHandler>
-		<bizLogicHandler-name>Swd001BLH</bizLogicHandler-name>
+		<bizLogicHandler-name>
+			Swd001BLH
+		</bizLogicHandler-name>
 		<bizLogicHandler-class>
 			gov.jslt.taxcore.taxblh.swd.swd001.Swd001BLH
 		</bizLogicHandler-class>
-		<dataSource-name>ctpds</dataSource-name>
+		<dataSource-name>
+			ctpds
+		</dataSource-name>
 	</bizLogicHandler>
 	<bizLogicHandler>
-		<bizLogicHandler-name>Nsrd001BLH</bizLogicHandler-name>
+		<bizLogicHandler-name>
+			Nsrd001BLH
+		</bizLogicHandler-name>
 		<bizLogicHandler-class>
 			gov.jslt.taxcore.taxblh.nsrd.nsrd001.Nsrd001BLH
 		</bizLogicHandler-class>
-		<dataSource-name>ctpds</dataSource-name>
+		<dataSource-name>
+			ctpds
+		</dataSource-name>
+	</bizLogicHandler>
+	<bizLogicHandler>
+		<bizLogicHandler-name>
+			CommBLH
+		</bizLogicHandler-name>
+		<bizLogicHandler-class>
+			gov.jslt.taxcore.taxblh.comm.CommBLH
+		</bizLogicHandler-class>
+		<dataSource-name>
+			ctpds
+		</dataSource-name>
 	</bizLogicHandler>
 </bizLogicHandler-config>

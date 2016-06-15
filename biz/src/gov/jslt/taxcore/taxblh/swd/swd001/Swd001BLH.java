@@ -147,11 +147,12 @@ public class Swd001BLH extends BaseBizLogicHandler {
 		JsonReqData reqData = (JsonReqData) reqEvent.reqMapParam
 				.get("JsonReqData");
 		ArrayList<Object> sqlParam = new ArrayList<Object>();
+		sqlParam.add(reqData.getData().get("qyYhDm"));
 		CachedRowSet rs;
-		String sql = "SELECT T.SCJL_ID, B.XM, C.QYYH_MC,  T.WJM, T.WJDX, TO_CHAR(T.LR_SJ,'YYYY-MM-DD HH24:MI:SS') SCRQ   FROM T_YS_YHSCJLB T, T_YS_LOGIN B, T_DM_YS_QYYH C  WHERE T.UUID = B.UUID    AND B.QYYH_DM = C.QYYH_DM    AND T.LR_SJ > TO_DATE(TO_CHAR(TRUNC(SYSDATE, 'MM'), 'YYYY-MM-DD') || ' 00:00:01',  'YYYY-MM-DD HH24:MI:SS')";
+		String sql = "SELECT T.SCJL_ID, B.XM, C.QYYH_MC,  T.WJM, T.WJDX, TO_CHAR(T.LR_SJ,'YYYY-MM-DD HH24:MI:SS') SCRQ   FROM T_YS_YHSCJLB T, T_YS_LOGIN B, T_DM_YS_QYYH C  WHERE  B.QYYH_DM LIKE ? AND T.UUID = B.UUID    AND B.QYYH_DM = C.QYYH_DM    AND T.LR_SJ > TO_DATE(TO_CHAR(TRUNC(SYSDATE, 'MM'), 'YYYY-MM-DD') || ' 00:00:01',  'YYYY-MM-DD HH24:MI:SS')";
 		if (null != reqData.getData().get("rqq")
 				&& !"".equals(reqData.getData().get("rqq"))) {
-			sql = "SELECT T.SCJL_ID, B.XM, C.QYYH_MC,  T.WJM, T.WJDX, TO_CHAR(T.LR_SJ,'YYYY-MM-DD HH24:MI:SS') SCRQ   FROM T_YS_YHSCJLB T, T_YS_LOGIN B, T_DM_YS_QYYH C  WHERE T.UUID = B.UUID    AND B.QYYH_DM = C.QYYH_DM     AND T.LR_SJ > TO_DATE( ? || ' 00:00:01',  'YYYY-MM-DD HH24:MI:SS')   AND T.LR_SJ < TO_DATE( ? || ' 23:59:59',  'YYYY-MM-DD HH24:MI:SS')";
+			sql = "SELECT T.SCJL_ID, B.XM, C.QYYH_MC,  T.WJM, T.WJDX, TO_CHAR(T.LR_SJ,'YYYY-MM-DD HH24:MI:SS') SCRQ   FROM T_YS_YHSCJLB T, T_YS_LOGIN B, T_DM_YS_QYYH C  WHERE B.QYYH_DM LIKE ? AND T.UUID = B.UUID    AND B.QYYH_DM = C.QYYH_DM     AND T.LR_SJ > TO_DATE( ? || ' 00:00:01',  'YYYY-MM-DD HH24:MI:SS')   AND T.LR_SJ < TO_DATE( ? || ' 23:59:59',  'YYYY-MM-DD HH24:MI:SS')";
 			sqlParam.add(reqData.getData().get("rqq"));
 			sqlParam.add(reqData.getData().get("rqz"));
 		}

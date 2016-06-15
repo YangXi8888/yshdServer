@@ -106,7 +106,7 @@ public class MainBLH extends BaseBizLogicHandler {
 		sqlParam.add(tempMap.get("qyYhDm"));
 		sqlParam.add("%");
 
-		String sql = "SELECT * FROM  T_YS_GNS A  WHERE A.PNODE_ID=? AND A.XY_BJ='1' AND A.YHLX_DM IN(?,?) AND A.QYYH_DM IN(?,?) ORDER BY A.PNODE_ID, A.PX";
+		String sql = "SELECT * FROM  T_YS_GNS A  WHERE A.PNODE_ID=? AND A.XY_BJ='1' AND A.YHLX_DM IN(?,?) AND A.QYYH_DM IN(?,?) ORDER BY A.NODE_ID, A.PNODE_ID, A.PX";
 		CachedRowSet rs = QueryCssBPO.findAll(conn, sql, sqlParam);
 		Map<String, Object> map = null;
 		while (rs.next()) {
