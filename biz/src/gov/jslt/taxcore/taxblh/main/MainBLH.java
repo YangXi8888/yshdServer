@@ -24,8 +24,7 @@ public class MainBLH extends BaseBizLogicHandler {
 
 	protected ResponseEvent performTask(RequestEvent req, Connection conn)
 			throws SQLException, TaxBaseBizException {
-		String handleCode = req.getDealMethod();
-		if ("initForm".equals(handleCode)) {
+		if ("initForm".equals(req.getDealMethod())) {
 			return initForm(req, conn);
 		}
 		return null;
