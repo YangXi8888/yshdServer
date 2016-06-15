@@ -48,19 +48,18 @@ public class NsrSfBPO extends CssBaseBPO {
 	 *            sqlWhere 条件 sql
 	 * @param ArrayList
 	 *            sqlParams 条件数据
-	 * @param boolean isCount false
+	 * @param boolean
+	 *            isCount false
 	 * @throws SQLException
-	 *             修改历史： 版本0.5 2008-4-24周红江 : 1.将原来的findAll废弃 因为其存在内存浪费，2.不再使用 CachedRowSet
-	 *             3.在子类中申明ResultSet,PreparedStatement 在子类中释放;
+	 *             修改历史： 版本0.5 2008-4-24周红江 : 1.将原来的findAll废弃 因为其存在内存浪费，2.不再使用
+	 *             CachedRowSet 3.在子类中申明ResultSet,PreparedStatement 在子类中释放;
 	 */
 
-	private static NsrSfVO queryByWhere(Connection con, String tablename,
-			String sqlOrder, String sqlWhere, ArrayList<String> sqlParams,
-			boolean isCount) throws SQLException {
+	private static NsrSfVO queryByWhere(Connection con, String tablename, String sqlOrder, String sqlWhere,
+			ArrayList<String> sqlParams, boolean isCount) throws SQLException {
 		ResultSet result = null;
 		PreparedStatement ps = null;
-		result = findAllByWhere(con, tablename, sqlOrder, sqlWhere, sqlParams,
-				isCount, result, ps);
+		result = findAllByWhere(con, tablename, sqlOrder, sqlWhere, sqlParams, isCount, result, ps);
 		NsrSfVO vo = null;
 		if (result != null) {
 			if (result.next())
@@ -84,19 +83,18 @@ public class NsrSfBPO extends CssBaseBPO {
 	 *            sqlWhere 条件 sql
 	 * @param ArrayList
 	 *            sqlParams 条件数据
-	 * @param boolean isCount false
+	 * @param boolean
+	 *            isCount false
 	 * @throws SQLException
-	 *             修改历史： 版本0.5 2008-4-24周红江 : 1.将原来的findAll废弃 因为其存在内存浪费 ，2.不再使用 CachedRowSet
-	 *             3.在子类中申明ResultSet,PreparedStatement 在子类中释放;
+	 *             修改历史： 版本0.5 2008-4-24周红江 : 1.将原来的findAll废弃 因为其存在内存浪费 ，2.不再使用
+	 *             CachedRowSet 3.在子类中申明ResultSet,PreparedStatement 在子类中释放;
 	 */
 
-	private static ArrayList<NsrSfVO> queryByZdyWhere(Connection con,
-			String tablename, String sqlOrder, String sqlWhere,
-			ArrayList<String> sqlParams, boolean isCount) throws SQLException {
+	private static ArrayList<NsrSfVO> queryByZdyWhere(Connection con, String tablename, String sqlOrder,
+			String sqlWhere, ArrayList<String> sqlParams, boolean isCount) throws SQLException {
 		ResultSet result = null;
 		PreparedStatement ps = null;
-		result = findAllByWhere(con, tablename, sqlOrder, sqlWhere, sqlParams,
-				isCount, result, ps);
+		result = findAllByWhere(con, tablename, sqlOrder, sqlWhere, sqlParams, isCount, result, ps);
 		ArrayList<NsrSfVO> listLodadata = null;
 		if (result != null) {
 			listLodadata = new ArrayList<NsrSfVO>();
@@ -107,7 +105,8 @@ public class NsrSfBPO extends CssBaseBPO {
 		return listLodadata;
 	}
 
-	// //////////////////////////////////////以下为业 务方法 //////////////////////////////////////////////////////////////
+	// //////////////////////////////////////以下为业 务方法
+	// //////////////////////////////////////////////////////////////
 
 	/**
 	 * 增加一条新记录;
@@ -118,8 +117,7 @@ public class NsrSfBPO extends CssBaseBPO {
 	 * @throws SQLException
 	 */
 
-	public static boolean insert(Connection con, NsrSfVO vo)
-			throws SQLException {
+	public static boolean insert(Connection con, NsrSfVO vo) throws SQLException {
 		return insert(con, TABLENAME, vo);
 	}
 
@@ -131,8 +129,7 @@ public class NsrSfBPO extends CssBaseBPO {
 	 *            :Connection 与数据库建立的连接
 	 * @throws SQLException
 	 */
-	public static boolean deleteByPK(Connection con, String UUID)
-			throws SQLException {
+	public static boolean deleteByPK(Connection con, String UUID) throws SQLException {
 		String strSqlWhere = "UUID=? ";
 		ArrayList<String> sqlParams = new ArrayList<String>();
 		sqlParams.add(UUID);
@@ -147,8 +144,7 @@ public class NsrSfBPO extends CssBaseBPO {
 	 *            :Connection 与数据库建立的连接
 	 * @throws SQLException
 	 */
-	public static NsrSfVO queryByPK(Connection con, String UUID)
-			throws SQLException {
+	public static NsrSfVO queryByPK(Connection con, String UUID) throws SQLException {
 		String strSqlWhere = "UUID=? ";
 		ArrayList<String> sqlParams = new ArrayList<String>();
 		sqlParams.add(UUID);
@@ -163,8 +159,7 @@ public class NsrSfBPO extends CssBaseBPO {
 	 *            :Connection 与数据库建立的连接
 	 * @throws SQLException
 	 */
-	public static boolean updateByPK(Connection con, String UUID, NsrSfVO vo)
-			throws SQLException {
+	public static boolean updateByPK(Connection con, String UUID, NsrSfVO vo) throws SQLException {
 		String strSqlWhere = "UUID=? ";
 		ArrayList<String> sqlParams = new ArrayList<String>();
 		sqlParams.add(UUID);
@@ -172,10 +167,11 @@ public class NsrSfBPO extends CssBaseBPO {
 	}
 
 	// //////////////////////////////////////以下为【自定义部分】/////////////////////////////////////////////////////////
-	public static List<NsrSfVO> queryList(Connection conn, String sqlWhere,
-			ArrayList<String> sqlParams) throws SQLException {
-		List<NsrSfVO> list = queryByZdyWhere(conn, TABLENAME, null, sqlWhere,
-				sqlParams, false);
+	public static List queryList(Connection conn, String ZB_UUID) throws SQLException {
+		String sqlWhere = "ZB_UUID=? ";
+		ArrayList<String> sqlParams = new ArrayList<String>();
+		sqlParams.add(ZB_UUID);
+		List<NsrSfVO> list = queryByZdyWhere(conn, TABLENAME, null, sqlWhere, sqlParams, false);
 		return list;
 	}
 }

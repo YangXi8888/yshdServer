@@ -1,7 +1,5 @@
 package gov.jslt.taxcore.taxbpo.nsrd.nsrd001;
 
-import gov.jslt.taxevent.nsrd.nsrd001.NsrXzcfVO;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +10,8 @@ import java.util.List;
 
 import com.ctp.core.bpo.CssBaseBPOWithLOB;
 import com.ctp.core.exception.TaxBaseBizException;
+
+import gov.jslt.taxevent.nsrd.nsrd001.NsrXzcfVO;
 
 public class NsrXzcfBPO extends CssBaseBPOWithLOB {
 
@@ -190,11 +190,12 @@ public class NsrXzcfBPO extends CssBaseBPOWithLOB {
 	}
 
 	// //////////////////////////////////////以下为【自定义部分】/////////////////////////////////////////////////////////
-	public static List<NsrXzcfVO> queryList(Connection conn, String sqlWhere,
-			ArrayList<String> sqlParams) throws SQLException,
+	public static List queryList(Connection conn, String ZB_UUID) throws SQLException,
 			TaxBaseBizException {
-		List<NsrXzcfVO> list = queryByZdyWhere(conn, TABLENAME, null, sqlWhere,
-				sqlParams, false);
+		String sqlWhere = "ZB_UUID=? ";
+		ArrayList<String> sqlParams = new ArrayList<String>();
+		sqlParams.add(ZB_UUID);
+		List<NsrXzcfVO> list = queryByZdyWhere(conn, TABLENAME, null, sqlWhere, sqlParams, false);
 		return list;
 	}
 }

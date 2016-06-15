@@ -88,7 +88,7 @@ public class Swd002BLH extends BaseBizLogicHandler {
 		FileVO zipFile = new FileVO();
 		zipFile.setFileType(".zip");
 		zipFile.setFileName(DBTimeServer.getDBTimesStr(conn, 3) + ".zip");
-		zipFile.setFileContent(FileTool.getZipByte(tempFileName));
+		zipFile.setFileContent(FileTool.getFileByte(tempFileName));
 		responseEvent.respMapParam.put(GeneralCons.FILE_VO, zipFile);
 		responseEvent.respMapParam.put("dataList", dataList);
 		responseEvent.setReponseMesg("下载全部文件成功");

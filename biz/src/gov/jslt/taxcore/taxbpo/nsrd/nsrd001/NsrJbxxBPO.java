@@ -1,15 +1,16 @@
 package gov.jslt.taxcore.taxbpo.nsrd.nsrd001;
 
-import gov.jslt.taxevent.nsrd.nsrd001.NsrJbxxVO;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.ctp.core.bpo.CssBaseBPO;
+
+import gov.jslt.taxevent.nsrd.nsrd001.NsrJbxxVO;
 
 public class NsrJbxxBPO extends CssBaseBPO {
 
@@ -156,12 +157,12 @@ public class NsrJbxxBPO extends CssBaseBPO {
 		return queryByWhere(con, TABLENAME, null, strSqlWhere, sqlParams, false);
 	}
 
-	public static NsrJbxxVO queryByZbuuid(Connection con, String zbUuid)
+	public static List queryByZbuuid(Connection con, String zbUuid)
 			throws SQLException {
 		String strSqlWhere = "ZB_UUID=? ";
 		ArrayList<String> sqlParams = new ArrayList<String>();
 		sqlParams.add(zbUuid);
-		return queryByWhere(con, TABLENAME, null, strSqlWhere, sqlParams, false);
+		return queryByZdyWhere(con, TABLENAME, null, strSqlWhere, sqlParams, false);
 	}
 
 	/**

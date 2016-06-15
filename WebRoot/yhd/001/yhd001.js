@@ -57,59 +57,62 @@ function initPage() {
 }
 
 function queryData() {
-	$.messager.progress({
-		title : commomWaitTitle,
-		msg : '正在查询数据...',
-		text : ''
-	});
-	$.ajax({
-		url : "/GeneralAction.do?sessionId=" + userInfo.yhwybz,
-		async : true,
-		dataType : "json",
-		data : {
-			jsonData : $.toJSON({
-				blhName : "Yhd001BLH",
-				handleCode : "queryData",
-				yhwybz : userInfo.yhwybz,
-				data : {
-					rqq : $("#rqq").val(),
-					rqz : $("#rqz").val()
-				}
-			})
-		},
-		type : 'post',
-		timeout : sys_timeout,
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			$.messager.progress('close');
-			$.messager.alert(commomMessageTitle, textStatus, 'error');
-		},
-		success : function(responseText, textStatus, XMLHttpRequest) {
-			$.messager.progress('close');
-			if (checkResponse(responseText)) {
-				var dataList = responseText.data.dataList;
-				$("#dataTable").datagrid("loadData", dataList.slice(0, 30));
-				// 设置分页的相关属性
-				var pager = $("#dataTable").datagrid("getPager");
-				pager.pagination({
-					total : dataList.length,
-					onSelectPage : function(pageNo, pageSize) {
-						var start = (pageNo - 1) * pageSize;
-						var end = start + pageSize;
-						$("#dataTable").datagrid("loadData", dataList.slice(start, end));
-						pager.pagination('refresh', {
-							total : dataList.length,
-							pageNumber : pageNo
-						});
+	if (baseCheck()) {
+		$.messager.progress({
+			title : commomWaitTitle,
+			msg : '正在查询数据...',
+			text : ''
+		});
+		$.ajax({
+			url : "/GeneralAction.do?sessionId=" + userInfo.yhwybz,
+			async : true,
+			dataType : "json",
+			data : {
+				jsonData : $.toJSON({
+					blhName : "Yhd001BLH",
+					handleCode : "queryData",
+					yhwybz : userInfo.yhwybz,
+					data : {
+						rqq : $("#rqq").val(),
+						rqz : $("#rqz").val(),
+						qyMc : $("#qyMc").val()
 					}
-				});
-			} else {
-				// 判断是否超时
-				if (!isTimeout(responseText)) {
-					$.messager.alert(commomMessageTitle, responseText.msg, 'error');
+				})
+			},
+			type : 'post',
+			timeout : sys_timeout,
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				$.messager.progress('close');
+				$.messager.alert(commomMessageTitle, textStatus, 'error');
+			},
+			success : function(responseText, textStatus, XMLHttpRequest) {
+				$.messager.progress('close');
+				if (checkResponse(responseText)) {
+					var dataList = responseText.data.dataList;
+					$("#dataTable").datagrid("loadData", dataList.slice(0, 30));
+					// 设置分页的相关属性
+					var pager = $("#dataTable").datagrid("getPager");
+					pager.pagination({
+						total : dataList.length,
+						onSelectPage : function(pageNo, pageSize) {
+							var start = (pageNo - 1) * pageSize;
+							var end = start + pageSize;
+							$("#dataTable").datagrid("loadData", dataList.slice(start, end));
+							pager.pagination('refresh', {
+								total : dataList.length,
+								pageNumber : pageNo
+							});
+						}
+					});
+				} else {
+					// 判断是否超时
+					if (!isTimeout(responseText)) {
+						$.messager.alert(commomMessageTitle, responseText.msg, 'error');
+					}
 				}
 			}
-		}
-	});
+		});
+	}
 }
 
 function downLoadFile(zbUuid) {
@@ -141,36 +144,42 @@ function downLoadFile(zbUuid) {
 }
 
 function downLoadAllFile() {
-	var selRows = $('#dataTable').datagrid("getData");
-	var zbUuids = "";
-	for (var i = 0; i < selRows.rows.length; i++) {
-		zbUuids += selRows.rows[i].ZB_UUID + ",";
+	if (baseCheck()) {
+		$.messager.progress({
+			title : commomWaitTitle,
+			msg : '正在下载文件.....',
+			text : ''
+		});
+		$.fileDownload("/GeneralAction.do?sessionId=" + userInfo.yhwybz, {
+			httpMethod : 'POST',
+			data : {
+				jsonData : $.toJSON({
+					blhName : "Yhd001BLH",
+					handleCode : "downLoadAllFile",
+					yhwybz : userInfo.yhwybz,
+					downLoadFile : "1",
+					data : {
+						rqq : $("#rqq").val(),
+						rqz : $("#rqz").val(),
+						qyMc : $("#qyMc").val()
+					}
+				})
+			},
+			successCallback : function(url) {
+				$.messager.progress('close');
+			},
+			failCallback : function(responseHtml, url) {
+				$.messager.progress('close');
+			}
+		});
 	}
-	zbUuids = zbUuids.substring(0, zbUuids.lastIndexOf(","));
-	$.messager.progress({
-		title : commomWaitTitle,
-		msg : '正在下载文件.....',
-		text : ''
-	});
-	$.fileDownload("/GeneralAction.do?sessionId=" + userInfo.yhwybz, {
-		httpMethod : 'POST',
-		data : {
-			jsonData : $.toJSON({
-				blhName : "Yhd001BLH",
-				handleCode : "downLoadAllFile",
-				yhwybz : userInfo.yhwybz,
-				downLoadFile : "1",
-				data : {
-					zbUuids : zbUuids
-				}
-			})
-		},
-		successCallback : function(url) {
-			$.messager.progress('close');
-		},
-		failCallback : function(responseHtml, url) {
-			$.messager.progress('close');
-		}
-	});
 
+}
+
+function baseCheck() {
+	if ($("#rqq").val() == "" || $("#rqz").val() == "") {
+		$.messager.alert(commomMessageTitle, '请选择上传日期起至', 'warning');
+		return false;
+	}
+	return true;
 }
