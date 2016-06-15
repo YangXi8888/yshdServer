@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
+import org.apache.struts.upload.FormFile;
+
 import com.ctp.core.exception.TaxBaseBizException;
 import com.ctp.core.log.LogWritter;
 
@@ -84,7 +86,13 @@ public class FileTool {
 
 	}
 
-	public static void main(String args[]) throws TaxBaseBizException {
-		System.out.println(getFileSize(new File("F:\\TDDOWNLOAD\\测试文件.txt")));
+	public static byte[] getFileContent(FormFile formFile)throws TaxBaseBizException {
+		try {
+			
+			return formFile.getFileData();
+		} catch (Exception e) {
+			LogWritter.sysError(e.getMessage());
+			throw new TaxBaseBizException(e.getMessage());
+		}
 	}
 }
