@@ -150,6 +150,10 @@ function downLoadAllFile() {
 			msg : '正在下载文件.....',
 			text : ''
 		});
+		var qyMc_Text = "";
+		if ($("#qyMc").val() != "") {
+			qyMc_Text = formatStr($("#qyMc").val(), userInfo.yhwybz);
+		}
 		$.fileDownload("/GeneralAction.do?sessionId=" + userInfo.yhwybz, {
 			httpMethod : 'POST',
 			data : {
@@ -161,7 +165,7 @@ function downLoadAllFile() {
 					data : {
 						rqq : $("#rqq").val(),
 						rqz : $("#rqz").val(),
-						qyMc : $("#qyMc").val()
+						qyMc : qyMc_Text
 					}
 				})
 			},

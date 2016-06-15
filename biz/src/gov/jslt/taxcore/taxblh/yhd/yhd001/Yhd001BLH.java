@@ -21,6 +21,7 @@ import com.ctp.core.event.ResponseEvent;
 import com.ctp.core.exception.TaxBaseBizException;
 import com.ctp.core.utility.dbtime.DBTimeServer;
 
+import gov.jslt.taxcore.taxblh.comm.AESTool;
 import gov.jslt.taxcore.taxblh.comm.CoreHelper;
 import gov.jslt.taxcore.taxblh.comm.EncryptDecryptUtil;
 import gov.jslt.taxcore.taxblh.comm.FileTool;
@@ -75,7 +76,7 @@ public class Yhd001BLH extends BaseBizLogicHandler {
 		if (null == reqData.getData().get("qyMc") || "".equals(reqData.getData().get("qyMc"))) {
 			sqlParam.add("%");
 		} else {
-			sqlParam.add(reqData.getData().get("qyMc"));
+			sqlParam.add(reqData.getData().get("qyMc") + "%");
 		}
 		rs = QueryCssBPO.findAll(conn, sql, sqlParam);
 		List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
@@ -137,7 +138,11 @@ public class Yhd001BLH extends BaseBizLogicHandler {
 	protected ResponseEvent downLoadAllFile(RequestEvent reqEvent, Connection con)
 			throws SQLException, TaxBaseBizException {
 		ResponseEvent responseEvent = new ResponseEvent();
+		HttpServletRequest request = (HttpServletRequest) reqEvent.reqMapParam.get("HttpServletRequest");
+		JsonReqData reqData = (JsonReqData) reqEvent.reqMapParam.get("JsonReqData");
+		LoginVO loginVO = (LoginVO) request.getSession().getAttribute(reqData.getYhwybz());
 		ArrayList<Object> sqlParams = new ArrayList<Object>();
+		sqlParams.add(loginVO.getYhwybz());
 		CachedRowSet rowSet = QueryCssBPO.findAll(con, "SELECT WJMM FROM T_YS_WJMM WHERE UUID=?", sqlParams);
 		if (rowSet.next()) {
 			String wjMm = rowSet.getString("WJMM");
@@ -148,9 +153,7 @@ public class Yhd001BLH extends BaseBizLogicHandler {
 			List<Object> cwbblist = new ArrayList<>();
 			List<Object> xzcfList = new ArrayList<>();
 
-			JsonReqData reqData = (JsonReqData) reqEvent.reqMapParam.get("JsonReqData");
-			HttpServletRequest request = (HttpServletRequest) reqEvent.reqMapParam.get("HttpServletRequest");
-			LoginVO loginVO = (LoginVO) request.getSession().getAttribute(reqData.getYhwybz());
+
 			sqlParams = new ArrayList<Object>();
 			sqlParams.add(loginVO.getQyYhDm());
 			sqlParams.add(reqData.getData().get("rqq"));
@@ -159,7 +162,7 @@ public class Yhd001BLH extends BaseBizLogicHandler {
 			if (null == reqData.getData().get("qyMc") || "".equals(reqData.getData().get("qyMc"))) {
 				sqlParams.add("%");
 			} else {
-				sqlParams.add(reqData.getData().get("qyMc"));
+				sqlParams.add(AESTool.decrypt(reqData.getData().get("qyMc").toString(),loginVO.getYhwybz()) + "%");
 			}
 
 			CachedRowSet rs;

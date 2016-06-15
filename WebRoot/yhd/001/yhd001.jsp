@@ -15,6 +15,7 @@
 	src="/public/jquery/plugins/download/jquery.fileDownload.js"></script>
 <script type="text/javascript"
 	src="/public/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="/public/js/aes.js"></script>
 <script type="text/javascript" src="/public/js/common.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="/public/jquery/themes/default/easyui.css"></link>
@@ -31,8 +32,8 @@
 				data-options="plain:true,iconCls:'icon-search'"
 				style="text-decoration: none;" onclick="queryData();">查询</a> <a
 				href="#" class="easyui-linkbutton"
-				data-options="plain:true,iconCls:'icon-zip'"
-				style="text-decoration: none;" onclick="downLoadAllFile();">打包下载</a>
+				data-options="plain:true,iconCls:'icon-download'"
+				style="text-decoration: none;" onclick="downLoadAllFile();">下载全部</a>
 			<a href="#" class="easyui-linkbutton"
 				data-options="plain:true,iconCls:'icon-close'"
 				style="text-decoration: none;" onclick="window.close()">关闭</a>

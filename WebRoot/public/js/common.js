@@ -220,3 +220,48 @@ function getLastDay(year, month) {
 	var new_date = new Date(new_year, new_month, 1);
 	return (new Date(new_date.getTime() - 1000 * 60 * 60 * 24)).getDate();
 }
+
+/**
+ * 加密
+ * 
+ * @param str
+ * @param my
+ * @returns
+ */
+function formatStr(str, my) {
+	var key = CryptoJS.enc.Utf8.parse(my.toString().substr(0, 16));
+	var iv = CryptoJS.enc.Utf8.parse(my.toString().substr(0, 16));
+	var srcs = CryptoJS.enc.Utf8.parse(str);
+	var encrypted = CryptoJS.AES.encrypt(srcs, key, {
+				iv : iv,
+				mode : CryptoJS.mode.CBC
+			});
+	return encrypted.toString();
+}
+
+/**
+ * 返回data解密方法
+ */
+function Decrypt(srcs, my) {
+	var key = CryptoJS.enc.Utf8.parse(my.toString().substr(0, 16));
+	var iv = CryptoJS.enc.Utf8.parse(my.toString().substr(0, 16));
+	var decrypt = CryptoJS.AES.decrypt(srcs, key, {
+				iv : iv,
+				mode : CryptoJS.mode.CBC
+			});
+	return decodeURI(CryptoJS.enc.Utf8.stringify(decrypt).toString());
+}
+/**
+ * 替换解密后明文乱码方法
+ */
+function change(responseText) {
+	var s1 = responseText.replace(/\%3A/g, ":");
+	s1 = s1.replace(/\%2C/g, ",");
+	s1 = s1.replace(/\%2F/g, "/");
+	s1 = s1.replace(/\%3D/g, "=");
+	s1 = s1.replace(/\%3B/g, ";");
+	s1 = s1.replace(/\+/g, " ");
+	s1 = s1.replace(/\%24/g, "$");
+	s1 = s1.replace(/\%26/g, "&");
+	return s1;
+}
