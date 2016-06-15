@@ -34,7 +34,7 @@ body {
 		<table align="center" height="100%">
 			<tr>
 				<td valign="middle">
-					<div class="easyui-panel" title=" " style="width:400px">
+					<div class="easyui-panel" title=" " style="width:600px">
 						<div style="padding:10px 60px 20px 60px">
 							<table cellpadding="5">
 								<tr>
