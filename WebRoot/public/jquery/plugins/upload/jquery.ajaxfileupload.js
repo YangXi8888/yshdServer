@@ -18,7 +18,7 @@
 			onCancel : function() {
 			},
 			validate_extensions : true,
-			valid_extensions : ['gif', 'png', 'jpg', 'jpeg', 'pdf', 'doc',
+			valid_extensions : ['gif', 'png', 'jpg', 'jpeg', 'pdf', 'doc','txt',
 					'rar', 'zip', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'],
 			submit_button : null
 		};
