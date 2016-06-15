@@ -79,6 +79,17 @@
 	</bizLogicHandler>
 	<bizLogicHandler>
 		<bizLogicHandler-name>
+			Swd002BLH
+		</bizLogicHandler-name>
+		<bizLogicHandler-class>
+			gov.jslt.taxcore.taxblh.swd.swd002.Swd002BLH
+		</bizLogicHandler-class>
+		<dataSource-name>
+			ctpds
+		</dataSource-name>
+	</bizLogicHandler>
+	<bizLogicHandler>
+		<bizLogicHandler-name>
 			Nsrd001BLH
 		</bizLogicHandler-name>
 		<bizLogicHandler-class>

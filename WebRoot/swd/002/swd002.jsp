@@ -15,6 +15,7 @@
 	src="/public/jquery/plugins/download/jquery.fileDownload.js"></script>
 <script type="text/javascript"
 	src="/public/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="/public/js/aes.js"></script>
 <script type="text/javascript" src="/public/js/common.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="/public/jquery/themes/default/easyui.css"></link>
@@ -24,36 +25,37 @@
 <title>泰州地税局税银互动平台</title>
 </head>
 <body class="easyui-layout">
-	<div data-options="region:'north'" style="height:70px">
+	<div data-options="region:'north'" style="height: 100px">
 		<div class="easyui-panel"
-			style="width:100%;text-align:right;background-color: #E7F0FF;height:30px">
+			style="width: 100%; text-align: right; background-color: #E7F0FF; height: 30px">
 			<a href="#" class="easyui-linkbutton"
 				data-options="plain:true,iconCls:'icon-search'"
 				style="text-decoration: none;" onclick="queryData();">查询</a> <a
 				href="#" class="easyui-linkbutton"
-				data-options="plain:true,iconCls:'icon-zip'"
-				style="text-decoration: none;" onclick="downLoadAllFile();">打包下载</a>
+				data-options="plain:true,iconCls:'icon-download'"
+				style="text-decoration: none;" onclick="downLoadAllFile();">下载全部</a>
 			<a href="#" class="easyui-linkbutton"
 				data-options="plain:true,iconCls:'icon-close'"
 				style="text-decoration: none;" onclick="window.close()">关闭</a>
 		</div>
 		<br />
-		<div style="text-align:center;width:90%">
+		<div style="text-align: center; width: 90%">
 			<!--Mydate97控件 -->
 			上传日期：<input class="Wdate" type="text" id="rqq"
 				onClick="WdatePicker({maxDate:'#F{$dp.$D(\'rqz\')}'})"
 				readonly="readonly"> 至<input class="Wdate" type="text"
 				id="rqz" onClick="WdatePicker({minDate:'#F{$dp.$D(\'rqq\')}'})">
+			&nbsp;&nbsp;&nbsp;&nbsp; 企业名称:<input class="easyui-textbox"
+				style="height: 32px; width: 20%" id="qyMc"> <br />
 		</div>
-
 	</div>
-	<div data-options="region:'center',title:'查询内容'" style="width:98%">
+	<div data-options="region:'center',title:'查询内容'" style="width: 98%">
 		<div class="easyui-panel"
-			style="width:98%;text-align:center;background-color: #E7F0FF;height:100%"
+			style="width: 98%; text-align: center; background-color: #E7F0FF; height: 90%"
 			id="dataTable"></div>
 	</div>
 	<input type="hidden" value="<%=request.getParameter("sessionId")%>"
 		id="sessionId">
 </body>
-<script type="text/javascript" src="/swd/001/swd001.js"></script>
+<script type="text/javascript" src="/swd/002/swd002.js"></script>
 </html>

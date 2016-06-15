@@ -1,9 +1,6 @@
 package gov.jslt.taxcore.taxblh.yhd.yhd001;
 
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,11 +20,7 @@ import com.ctp.core.utility.dbtime.DBTimeServer;
 
 import gov.jslt.taxcore.taxblh.comm.AESTool;
 import gov.jslt.taxcore.taxblh.comm.CoreHelper;
-import gov.jslt.taxcore.taxblh.comm.EncryptDecryptUtil;
 import gov.jslt.taxcore.taxblh.comm.FileTool;
-import gov.jslt.taxcore.taxblh.comm.JyxxJgbHelper;
-import gov.jslt.taxcore.taxblh.comm.ZipTool;
-import gov.jslt.taxcore.taxbpo.comm.JyxxJgbBPO;
 import gov.jslt.taxcore.taxbpo.nsrd.nsrd001.NsrCwbbBPO;
 import gov.jslt.taxcore.taxbpo.nsrd.nsrd001.NsrJbxxBPO;
 import gov.jslt.taxcore.taxbpo.nsrd.nsrd001.NsrSbfBPO;
@@ -168,8 +161,8 @@ public class Yhd001BLH extends BaseBizLogicHandler {
 			CachedRowSet rs;
 			String strSql = " SELECT  Y.* FROM T_YS_NSRFS_ZB T,T_YS_NSRFS_JBXX  Y   WHERE T.QYYH_DM = ?  "
 					+ " AND T.LR_SJ > TO_DATE(? || ' 00:00:01', 'YYYY-MM-DD HH24:MI:SS') "
-					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE '%' "
-					+ "  AND T.ZB_UUID=Y.ZB_UUID ";
+					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE ? "
+					+ " AND T.ZB_UUID=Y.ZB_UUID ";
 
 			rs = QueryCssBPO.findAll(con, strSql, sqlParams);
 			NsrJbxxVO vo = null;
@@ -189,7 +182,7 @@ public class Yhd001BLH extends BaseBizLogicHandler {
 
 			strSql = " SELECT  Y.* FROM T_YS_NSRFS_ZB T,T_YS_NSRFS_SF  Y   WHERE T.QYYH_DM = ?  "
 					+ " AND T.LR_SJ > TO_DATE(? || ' 00:00:01', 'YYYY-MM-DD HH24:MI:SS') "
-					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE '%' "
+					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE ? "
 					+ "  AND T.ZB_UUID=Y.ZB_UUID ";
 
 			rs = QueryCssBPO.findAll(con, strSql, sqlParams);
@@ -209,7 +202,7 @@ public class Yhd001BLH extends BaseBizLogicHandler {
 
 			strSql = " SELECT  Y.* FROM T_YS_NSRFS_ZB T,T_YS_NSRFS_SBF  Y   WHERE T.QYYH_DM = ?  "
 					+ " AND T.LR_SJ > TO_DATE(? || ' 00:00:01', 'YYYY-MM-DD HH24:MI:SS') "
-					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE '%' "
+					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE ? "
 					+ "  AND T.ZB_UUID=Y.ZB_UUID ";
 
 			rs = QueryCssBPO.findAll(con, strSql, sqlParams);
@@ -229,7 +222,7 @@ public class Yhd001BLH extends BaseBizLogicHandler {
 
 			strSql = " SELECT  Y.* FROM T_YS_NSRFS_ZB T,T_YS_NSRFS_CWBB  Y   WHERE T.QYYH_DM = ?  "
 					+ " AND T.LR_SJ > TO_DATE(? || ' 00:00:01', 'YYYY-MM-DD HH24:MI:SS') "
-					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE '%' "
+					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE ? "
 					+ "  AND T.ZB_UUID=Y.ZB_UUID ";
 
 			rs = QueryCssBPO.findAll(con, strSql, sqlParams);
@@ -249,12 +242,12 @@ public class Yhd001BLH extends BaseBizLogicHandler {
 				cwbbVO.setZcze(rs.getString("ZCZE"));
 				cwbbVO.setZyywcb(rs.getString("ZYYWCB"));
 				cwbbVO.setZyywsr(rs.getString("ZYYWSR"));
-				cwbblist.add(sfVO);
+				cwbblist.add(cwbbVO);
 			}
 
 			strSql = " SELECT  Y.* FROM T_YS_NSRFS_ZB T,T_YS_NSRFS_XZCF  Y   WHERE T.QYYH_DM = ?  "
 					+ " AND T.LR_SJ > TO_DATE(? || ' 00:00:01', 'YYYY-MM-DD HH24:MI:SS') "
-					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE '%' "
+					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE  ? "
 					+ "  AND T.ZB_UUID=Y.ZB_UUID ";
 
 			rs = QueryCssBPO.findAll(con, strSql, sqlParams);
