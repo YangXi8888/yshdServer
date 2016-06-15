@@ -72,7 +72,7 @@ public class FileTool {
 		}
 	}
 
-	public static byte[] getZipByte(String fileName) throws TaxBaseBizException {
+	public static byte[] getFileByte(String fileName) throws TaxBaseBizException {
 		try {
 			InputStream inputStream = new FileInputStream(new File(
 					fileName));
