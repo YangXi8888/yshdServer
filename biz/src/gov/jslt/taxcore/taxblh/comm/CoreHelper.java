@@ -163,28 +163,39 @@ public class CoreHelper {
 		sheet.setColumnWidth((short) 2, (short) (20 * 256));
 		sheet.setColumnWidth((short) 3, (short) (50 * 256));
 		sheet.setColumnWidth((short) 4, (short) (20 * 256));
+		sheet.setColumnWidth((short) 5, (short) (20 * 256));
 		// 纳税人基本信息头部
 		row = sheet.createRow(0);
 		cell = row.createCell((short) 0);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("纳税人名称");
+
 		cell = row.createCell((short) 1);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("登记注册类型");
+
 		cell = row.createCell((short) 2);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("国标行业");
+
 		cell = row.createCell((short) 3);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("注册地址");
+
 		cell = row.createCell((short) 4);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("信用等级");
+
+		cell = row.createCell((short) 5);
+		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+		cell.setCellStyle(headStyle);
+		cell.setCellValue("征收方式");
+
 		NsrJbxxVO jbxxVO;
 		for (int i = 0; i < jbxxList.size(); i++) {
 			jbxxVO = (NsrJbxxVO) jbxxList.get(i);
@@ -193,18 +204,26 @@ public class CoreHelper {
 			cell = row.createCell((short) 0);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(jbxxVO.getNsrmc());
+
 			cell = row.createCell((short) 1);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(jbxxVO.getDjzclxmc());
+
 			cell = row.createCell((short) 2);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(jbxxVO.getGbhymc());
+
 			cell = row.createCell((short) 3);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(jbxxVO.getZcdz());
+
 			cell = row.createCell((short) 4);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(jbxxVO.getXydj());
+
+			cell = row.createCell((short) 5);
+			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+			cell.setCellValue(jbxxVO.getZsfsmc());
 		}
 
 		// 税费信息

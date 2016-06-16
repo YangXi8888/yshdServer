@@ -146,7 +146,6 @@ public class Yhd001BLH extends BaseBizLogicHandler {
 			List<Object> cwbblist = new ArrayList<>();
 			List<Object> xzcfList = new ArrayList<>();
 
-
 			sqlParams = new ArrayList<Object>();
 			sqlParams.add(loginVO.getQyYhDm());
 			sqlParams.add(reqData.getData().get("rqq"));
@@ -155,7 +154,7 @@ public class Yhd001BLH extends BaseBizLogicHandler {
 			if (null == reqData.getData().get("qyMc") || "".equals(reqData.getData().get("qyMc"))) {
 				sqlParams.add("%");
 			} else {
-				sqlParams.add(AESTool.decrypt(reqData.getData().get("qyMc").toString(),loginVO.getYhwybz()) + "%");
+				sqlParams.add(AESTool.decrypt(reqData.getData().get("qyMc").toString(), loginVO.getYhwybz()) + "%");
 			}
 
 			CachedRowSet rs;
@@ -177,6 +176,7 @@ public class Yhd001BLH extends BaseBizLogicHandler {
 				vo.setXydj(rs.getString("XYDJ"));
 				vo.setZbuuid(rs.getString("ZB_UUID"));
 				vo.setZcdz(rs.getString("ZCDZ"));
+				vo.setZsfsmc(rs.getString("ZSFS_MC"));
 				jbxxList.add(vo);
 			}
 

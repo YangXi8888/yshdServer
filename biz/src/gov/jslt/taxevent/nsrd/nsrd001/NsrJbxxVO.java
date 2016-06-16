@@ -34,11 +34,16 @@ public class NsrJbxxVO extends CssBaseBpoVO {
 	// 信用等级;
 	private String xydj;
 
+	
+
 	// 主表主键;
 	private String zbuuid;
 
 	// 注册地址;
 	private String zcdz;
+	
+	// 征收方式;
+	private String zsfsmc;
 
 	public String getDjzclxmc() {
 		return djzclxmc;
@@ -74,6 +79,15 @@ public class NsrJbxxVO extends CssBaseBpoVO {
 
 	public String getZcdz() {
 		return zcdz;
+	}
+	
+	public String getZsfsmc() {
+		return zsfsmc;
+	}
+
+	public void setZsfsmc(String zsfsmc) {
+		status.put("ZSFS_MC", zsfsmc);
+		this.zsfsmc = zsfsmc;
 	}
 
 	public void setDjzclxmc(String djzclxmc) {

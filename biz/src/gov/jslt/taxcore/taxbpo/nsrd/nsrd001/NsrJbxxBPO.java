@@ -31,6 +31,7 @@ public class NsrJbxxBPO extends CssBaseBPO {
 		vo.setXydj(rs.getString("XYDJ"));
 		vo.setZbuuid(rs.getString("ZB_UUID"));
 		vo.setZcdz(rs.getString("ZCDZ"));
+		vo.setZsfsmc(rs.getString("ZSFS_MC"));
 		vo.setStatus(new HashMap<String, String>());
 		return vo;
 
