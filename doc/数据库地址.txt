@@ -1,2 +1,3 @@
+create or replace directory dpdata1 as 'c:\';
 泰州下发库:
 141.64.16.28 sjxf 密码 db_zgxt123
