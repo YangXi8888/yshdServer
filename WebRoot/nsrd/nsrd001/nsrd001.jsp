@@ -12,12 +12,12 @@ body {
 	margin: 0;
 }
 </style>
-<link rel="stylesheet" type="text/css" href="/public/jquery/themes/default/easyui.css"></link>
-<link rel="stylesheet" type="text/css" href="/public/jquery/themes/icon.css"></link>
+<link rel="stylesheet" type="text/css" href="/public/jquery_oldVer/themes/default/easyui.css"></link>
+<link rel="stylesheet" type="text/css" href="/public/jquery_oldVer/themes/icon.css"></link>
 <link rel="stylesheet" type="text/css" href="/public/css/main.css"></link>
-<script type="text/javascript" src="/public/jquery/jquery-2.2.3.min.js"></script>
-<script type="text/javascript" src="/public/jquery/jquery.json.min.js"></script>
-<script type="text/javascript" src="/public/jquery/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/public/jquery_oldVer/jquery.min.js"></script>
+<script type="text/javascript" src="/public/jquery_oldVer/jquery.json.min.js"></script>
+<script type="text/javascript" src="/public/jquery_oldVer/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/public/js/common.js"></script>
 </head>
 <body class="easyui-layout">
