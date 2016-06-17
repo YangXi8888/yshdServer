@@ -14,7 +14,7 @@
 <script type="text/javascript" src="/public/jquery/jquery.json.min.js"></script>
 <script type="text/javascript" src="/public/jquery/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/public/jquery/locale/easyui-lang-zh_CN.js"></script>
-<script src="/public/jquery/plugins/upload/jquery.ajaxfileupload.js"></script>
+<script type="text/javascript" src="/public/jquery/plugins/upload/jquery.ajaxfileupload.js"></script>
 <script type="text/javascript" src="/public/jquery/plugins/download/jquery.fileDownload.js"></script>
 <script type="text/javascript" src="/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="/public/js/common.js"></script>
