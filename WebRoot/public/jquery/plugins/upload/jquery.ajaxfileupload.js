@@ -96,7 +96,6 @@
 									+ formDataArr[i].name + "']")[0].value = formDataArr[i].value;
 						}
 					}
-					$element.parent('html').find("head").append('<meta http-equiv="Content-Type" content="text/html; charset=GBK">');
 
 					// Call user-supplied (or default) onStart(), setting
 					// it's this context to the file DOM element
@@ -162,7 +161,7 @@
 					return '<form action="'
 							+ settings.action
 							+ '" method="POST" enctype="multipart/form-data" target="'
-							+ frame_id + '" name="GeneralForm"  accept-charset="GBK" />'
+							+ frame_id + '" name="GeneralForm" />'
 				})
 						// Insert <input type='hidden'>'s for each param
 						.before(function() {
