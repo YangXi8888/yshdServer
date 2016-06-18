@@ -13,6 +13,8 @@
 			action : '',
 			onStart : function() {
 			},
+			checkData : function() {
+			},
 			getFormData : function() {
 			},
 			onComplete : function(response) {
@@ -56,6 +58,9 @@
 				// do nothing
 			} else {
 				settings.submit_button.click(function(e) {
+							if (settings.checkData() == false) {
+								return;
+							}
 							// Prevent non-AJAXy submit
 							e.preventDefault();
 
@@ -88,15 +93,6 @@
 					// submit / upload the file
 					wrapElement($element);
 
-					var formDataArr = settings.getFormData();
-
-					if (null != formDataArr) {
-						for (var i=0; i < formDataArr.length; i++) {
-							$element.parent('form').find("input[name='"
-									+ formDataArr[i].name + "']")[0].value = formDataArr[i].value;
-						}
-					}
-
 					// Call user-supplied (or default) onStart(), setting
 					// it's this context to the file DOM element
 					var ret = settings.onStart.apply($element,
@@ -104,9 +100,15 @@
 
 					// let onStart have the option to cancel the upload
 					if (ret !== false) {
+						var formDataArr = settings.getFormData();
+						for (var i = 0; i < formDataArr.length; i++) {
+							$element.parent('form').find("input[name='"
+									+ formDataArr[i].name + "']")[0].value = formDataArr[i].value;
+						}
 						$element.parent('form').submit(function(e) {
 									e.stopPropagation();
 								}).submit();
+
 					} else {
 						uploading_file = false;
 					}

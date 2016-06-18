@@ -84,7 +84,12 @@ function initPage() {
 				}
 			}
 		},
+		checkData : function() {
+			alert(1111);
+			return true;
+		},
 		getFormData : function() {
+
 			return [{
 						name : "jsonData",
 						value : $.toJSON({
@@ -92,7 +97,7 @@ function initPage() {
 									handleCode : "upLoadFile",
 									yhwybz : userInfo.yhwybz
 								})
-					}]
+					}];
 		},
 		onStart : function(obj) {
 			$.messager.progress({
@@ -103,7 +108,11 @@ function initPage() {
 			return true;
 		},
 		onCancel : function() {
-			$.messager.progress('close');
+			try {
+				$.messager.progress('close');
+			} catch (e) {
+				alert(e.message);
+			}
 		}
 	});
 
