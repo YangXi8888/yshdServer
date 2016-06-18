@@ -76,6 +76,9 @@ function initPage() {
 			$.messager.progress('close');
 			if (checkResponse(responseText)) {
 				$.messager.alert(commomMessageTitle, responseText.msg, 'info');
+				for (var i = 0; i < $('input[type="file"]').length; i++) {
+					$('input[type="file"]')[i].value = "";
+				}
 			} else {
 				// 判断是否超时
 				if (!isTimeout(responseText)) {
@@ -85,7 +88,6 @@ function initPage() {
 			}
 		},
 		checkData : function() {
-			alert(1111);
 			return true;
 		},
 		getFormData : function() {
