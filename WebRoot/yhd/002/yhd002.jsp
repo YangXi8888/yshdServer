@@ -34,7 +34,7 @@
 		<div class="easyui-panel" title="文件上传" style="height:30%;">
 			<table align="center" style="height:100px;">
 				<tr>
-					<td style="text-align: center;"><input type="file" name="uploadFiles[0].file"></td>
+					<td style="text-align: center;"><input type="file" style="width:460px;border:1px solid #95B8E7;" name="uploadFiles[0].file"></td>
 				</tr>
 			</table>
 		</div>
