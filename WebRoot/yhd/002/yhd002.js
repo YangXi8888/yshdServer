@@ -58,7 +58,7 @@ function initPage() {
 	$("#dataTable").datagrid("getPager").pagination({
 				showPageList : false,
 				showRefresh : false,
-				pageSize : 15,
+				pageSize : 20,
 				displayMsg : ''
 			});
 	var sysDate = sessionLoad("sysDate");
@@ -70,11 +70,7 @@ function initPage() {
 		submit_button : $("#upBtn"),// 绑定某个DOM控件一般
 		action : "/GeneralAction.do?sessionId=" + userInfo.yhwybz,
 		params : {
-			jsonData : $.toJSON({
-						blhName : "Yhd002BLH",
-						handleCode : "upLoadFile",
-						yhwybz : userInfo.yhwybz
-					})
+			jsonData : ""
 		},
 		onComplete : function(responseText) {
 			$.messager.progress('close');
@@ -88,7 +84,20 @@ function initPage() {
 				}
 			}
 		},
-		onStart : function() {
+		getFormData : function() {
+			return [{
+						name : "jsonData",
+						value : $.toJSON({
+									blhName : "Yhd002BLH",
+									handleCode : "upLoadFile",
+									yhwybz : userInfo.yhwybz,
+									data : {
+										fileNames : getFileNames()
+									}
+								})
+					}]
+		},
+		onStart : function(obj) {
 			$.messager.progress({
 						title : commomWaitTitle,
 						msg : '正在上传文件...',
@@ -101,6 +110,17 @@ function initPage() {
 		}
 	});
 
+}
+
+function getFileNames() {
+	var arr = new Array();
+	for (var i = 0; i < $('input[type="file"]').length; i++) {
+		if ($('input[type="file"]')[i].value != "") {
+			arr
+					.push(formatStr("自然人实名办税平台服务器需求文档.docx", userInfo.yhwybz));
+		}
+	}
+	return arr;
 }
 
 function queryData() {
@@ -135,7 +155,7 @@ function queryData() {
 					if (checkResponse(responseText)) {
 						var dataList = responseText.data.dataList;
 						$("#dataTable").datagrid("loadData",
-								dataList.slice(0, 15));
+								dataList.slice(0, 20));
 						// 设置分页的相关属性
 						var pager = $("#dataTable").datagrid("getPager");
 						pager.pagination({

@@ -1,5 +1,6 @@
 package gov.jslt.taxcore.taxblh.yhd.yhd002;
 
+import gov.jslt.taxcore.taxblh.comm.AESTool;
 import gov.jslt.taxcore.taxblh.comm.CoreHelper;
 import gov.jslt.taxcore.taxblh.comm.FileTool;
 import gov.jslt.taxcore.taxbpo.comm.YhscjlbBPO;
@@ -123,6 +124,7 @@ public class Yhd002BLH extends BaseBizLogicHandler {
 		ResponseEvent responseEvent = new ResponseEvent();
 		JsonReqData jsonReqData = (JsonReqData) reqEvent.reqMapParam
 				.get("JsonReqData");
+		List fileNames = (List) jsonReqData.getData().get("fileNames");
 		List<UploadFile> uploadFiles = (List<UploadFile>) reqEvent.reqMapParam
 				.get("UploadFiles");
 		if (null == uploadFiles || uploadFiles.size() == 0) {
@@ -135,7 +137,17 @@ public class Yhd002BLH extends BaseBizLogicHandler {
 			yhscjlbVO = new YhscjlbVO();
 			yhscjlbVO.setScjlid(CoreHelper.getGUID(conn));
 			yhscjlbVO.setUuid(jsonReqData.getYhwybz());
-			yhscjlbVO.setWjm(uploadFiles.get(i).getFile().getFileName());
+			System.out
+					.println(AESTool
+							.decrypt(
+									"GH3CAkvwYluPGCkvcal5eOtxEhuowqVF+6feOmji/fn3F4kgk5lbs5r2FN0YP0rHHQvXLBPixhrmyrjpA1W5yw==",
+									"safsdafsadsdsdssdsdafsde"));
+			yhscjlbVO
+					.setWjm(AESTool
+							.decrypt(
+									"GH3CAkvwYluPGCkvcal5eOtxEhuowqVF+6feOmji/fn3F4kgk5lbs5r2FN0YP0rHHQvXLBPixhrmyrjpA1W5yw==",
+									"safsdafsadsdsdssdsdafsde"));
+
 			yhscjlbVO.setWjdx(String.valueOf(uploadFiles.get(i).getFile()
 					.getFileSize()));
 			yhscjlbVO.setWjnrByte(FileTool.getFileContent(uploadFiles.get(i)
@@ -149,6 +161,14 @@ public class Yhd002BLH extends BaseBizLogicHandler {
 	protected ResponseEvent validateData(RequestEvent req, Connection conn)
 			throws Exception {
 		return null;
+	}
+
+	public static void main(String args[]) {
+		System.out
+				.println(AESTool
+						.decrypt(
+								"GH3CAkvwYluPGCkvcal5eOtxEhuowqVF+6feOmji/fn3F4kgk5lbs5r2FN0YP0rHHQvXLBPixhrmyrjpA1W5yw==",
+								"safsdafsadsdsdssdsdafsde"));
 	}
 
 }

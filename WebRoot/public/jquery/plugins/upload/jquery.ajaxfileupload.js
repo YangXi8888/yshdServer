@@ -13,13 +13,15 @@
 			action : '',
 			onStart : function() {
 			},
+			getFormData : function() {
+			},
 			onComplete : function(response) {
 			},
 			onCancel : function() {
 			},
 			validate_extensions : true,
-			valid_extensions : ['gif', 'png', 'jpg', 'jpeg', 'pdf', 'doc','txt',
-					'rar', 'zip', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'],
+			valid_extensions : ['gif', 'png', 'jpg', 'jpeg', 'pdf', 'doc',
+					'txt', 'rar', 'zip', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'],
 			submit_button : null
 		};
 
@@ -86,6 +88,16 @@
 					// submit / upload the file
 					wrapElement($element);
 
+					var formDataArr = settings.getFormData();
+
+					if (null != formDataArr) {
+						for (var i=0; i < formDataArr.length; i++) {
+							$element.parent('form').find("input[name='"
+									+ formDataArr[i].name + "']")[0].value = formDataArr[i].value;
+						}
+					}
+					$element.parent('html').find("head").append('<meta http-equiv="Content-Type" content="text/html; charset=GBK">');
+
 					// Call user-supplied (or default) onStart(), setting
 					// it's this context to the file DOM element
 					var ret = settings.onStart.apply($element,
@@ -150,7 +162,7 @@
 					return '<form action="'
 							+ settings.action
 							+ '" method="POST" enctype="multipart/form-data" target="'
-							+ frame_id + '" name="GeneralForm" />'
+							+ frame_id + '" name="GeneralForm"  accept-charset="GBK" />'
 				})
 						// Insert <input type='hidden'>'s for each param
 						.before(function() {
@@ -161,7 +173,7 @@
 									paramVal = paramVal();
 								}
 								html += "<input type=hidden name='" + key
-										+ "' value='" + paramVal + "' />";
+										+ "' value='" + paramVal + "'  />";
 							}
 							return html;
 						});
