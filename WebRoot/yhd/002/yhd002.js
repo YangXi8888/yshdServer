@@ -90,10 +90,7 @@ function initPage() {
 						value : $.toJSON({
 									blhName : "Yhd002BLH",
 									handleCode : "upLoadFile",
-									yhwybz : userInfo.yhwybz,
-									data : {
-										fileNames : getFileNames()
-									}
+									yhwybz : userInfo.yhwybz
 								})
 					}]
 		},
@@ -110,17 +107,6 @@ function initPage() {
 		}
 	});
 
-}
-
-function getFileNames() {
-	var arr = new Array();
-	for (var i = 0; i < $('input[type="file"]').length; i++) {
-		if ($('input[type="file"]')[i].value != "") {
-			arr
-					.push(formatStr("自然人实名办税平台服务器需求文档.docx", userInfo.yhwybz));
-		}
-	}
-	return arr;
 }
 
 function queryData() {
