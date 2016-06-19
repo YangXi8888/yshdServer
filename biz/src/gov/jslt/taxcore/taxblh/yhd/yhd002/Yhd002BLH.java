@@ -132,6 +132,15 @@ public class Yhd002BLH extends BaseBizLogicHandler {
 		}
 		YhscjlbVO yhscjlbVO = null;
 		for (int i = 0; i < uploadFiles.size(); i++) {
+			if (null == uploadFiles.get(i)) {
+				continue;
+			}
+			if (uploadFiles.get(i).getFile().getFileSize() > 10485760) {
+				responseEvent.setRepCode("ZB0007");
+				responseEvent.setReponseMesg(CoreHelper.getJyztMc(conn,
+						"ZB0007"));
+				return responseEvent;
+			}
 			yhscjlbVO = new YhscjlbVO();
 			yhscjlbVO.setScjlid(CoreHelper.getGUID(conn));
 			yhscjlbVO.setUuid(jsonReqData.getYhwybz());

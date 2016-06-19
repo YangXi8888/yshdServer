@@ -265,3 +265,11 @@ function change(responseText) {
 	s1 = s1.replace(/\%26/g, "&");
 	return s1;
 }
+
+function checkFileType(fileName, fileType) {
+	if (fileType.indexOf(fileName.substr(fileName.lastIndexOf(".") + 1)
+			.toUpperCase()) == -1) {
+		return false;
+	}
+	return true;
+}

@@ -66,58 +66,85 @@ function initPage() {
 	$("#rqz").val(sysDate.substr(0, 8)
 			+ getLastDay(sysDate.split("-")[0], sysDate.split("-")[1]));
 
-	$('input[type="file"]').ajaxfileupload({
-		submit_button : $("#upBtn"),// 绑定某个DOM控件一般
-		action : "/GeneralAction.do?sessionId=" + userInfo.yhwybz,
-		params : {
-			jsonData : ""
-		},
-		onComplete : function(responseText) {
-			$.messager.progress('close');
-			if (checkResponse(responseText)) {
-				$.messager.alert(commomMessageTitle, responseText.msg, 'info');
-				for (var i = 0; i < $('input[type="file"]').length; i++) {
-					$('input[type="file"]')[i].value = "";
-				}
-			} else {
-				// 判断是否超时
-				if (!isTimeout(responseText)) {
-					$.messager.alert(commomMessageTitle, responseText.msg,
-							'error');
-				}
-			}
-		},
-		checkData : function() {
-			return true;
-		},
-		getFormData : function() {
+}
 
-			return [{
-						name : "jsonData",
-						value : $.toJSON({
-									blhName : "Yhd002BLH",
-									handleCode : "upLoadFile",
-									yhwybz : userInfo.yhwybz
-								})
-					}];
-		},
-		onStart : function(obj) {
-			$.messager.progress({
-						title : commomWaitTitle,
-						msg : '正在上传文件...',
-						text : ''
-					});
-			return true;
-		},
-		onCancel : function() {
-			try {
-				$.messager.progress('close');
-			} catch (e) {
-				alert(e.message);
+function upLoadFile() {
+	if (baseCheck()) {
+		$.fn.ajaxfileupload({
+					action : "/GeneralAction.do?sessionId=" + userInfo.yhwybz,
+					formName : "GeneralForm",
+					fileDom : "fileTable",
+					params : {
+						jsonData : ""
+					},
+					onComplete : function(responseText) {
+						$.messager.progress('close');
+						if (checkResponse(responseText)) {
+							$.messager.alert(commomMessageTitle,
+									responseText.msg, 'info');
+							for (var i = 0; i < $('input[type="file"]').length; i++) {
+								$('input[type="file"]')[i].value = "";
+							}
+						} else {
+							// 判断是否超时
+							if (!isTimeout(responseText)) {
+								$.messager.alert(commomMessageTitle,
+										responseText.msg, 'error');
+							}
+						}
+					},
+					checkData : function() {
+						return true;
+					},
+					getFormData : function() {
+						return [{
+									name : "jsonData",
+									value : $.toJSON({
+												blhName : "Yhd002BLH",
+												handleCode : "upLoadFile",
+												yhwybz : userInfo.yhwybz
+											})
+								}];
+					},
+					onStart : function(obj) {
+						$.messager.progress({
+									title : commomWaitTitle,
+									msg : '正在上传文件...',
+									text : ''
+								});
+						return true;
+					}
+				});
+	}
+
+}
+
+function baseCheck() {
+
+	var flag = false;
+	for (var i = 0; i < $('input[type="file"]').length; i++) {
+		if ($('input[type="file"]')[i].value != "") {
+			flag = true;
+			break;
+		}
+	}
+	if (flag == false) {
+		$.messager.alert(commomMessageTitle, '请选择文件', 'warning');
+		return false;
+	}
+
+	var fileType = "PNG, JPG, JPEG, PDF, DOC, TXT, RAR, ZIP, DOCX, XLS, XLSX, PPT, PPTX";
+	for (var i = 0; i < $('input[type="file"]').length; i++) {
+		if ($('input[type="file"]')[i].value != "") {
+			flag = checkFileType($('input[type="file"]')[i].value, fileType);
+			if (flag == false) {
+				$.messager.alert(commomMessageTitle, '文件格式不正确，允许上传的格式有：'
+								+ fileType, 'warning');
+				return flag;
 			}
 		}
-	});
-
+	}
+	return true;
 }
 
 function queryData() {

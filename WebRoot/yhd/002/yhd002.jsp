@@ -23,16 +23,16 @@
 </head>
 <body class="easyui-layout">
 		<div class="easyui-panel" style="text-align: right; background-color: #E7F0FF;">
-			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" style="text-decoration: none;" onclick="queryData();">查询</a> <a href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-zip'" style="text-decoration: none;" id="upBtn">上传</a> <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-close'" style="text-decoration: none;" onclick="window.close()">关闭</a>
+			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" style="text-decoration: none;" onclick="queryData();">查询</a> <a href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-zip'" style="text-decoration: none;" id="upBtn" onclick="upLoadFile()">上传</a> <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-close'" style="text-decoration: none;" onclick="window.close()">关闭</a>
 		</div>
 		<div style="text-align: center; height:10%">
 			<br> 上传日期：<input class="Wdate" type="text" id="rqq" onClick="WdatePicker({maxDate:'#F{$dp.$D(\'rqz\')}'})" readonly="readonly"> 至<input class="Wdate" type="text" id="rqz" onClick="WdatePicker({minDate:'#F{$dp.$D(\'rqq\')}'})">
 		</div>
 		<div class="easyui-panel" title="上传记录" style="height:65%;"  id="dataTable"></div>
 		<div class="easyui-panel" title="文件上传" style="height:30%;">
-			<table align="center" style="height:100px;">
+			<table align="center" style="height:100px;" id="fileTable">
 				<tr>
-					<td style="text-align: center;"><input type="file" data style="width:460px;border:1px solid #95B8E7;" name="uploadFiles[0].file"></td>
+					<td style="text-align: center;"><input type="file"  style="width:460px;border:1px solid #95B8E7;" name="uploadFiles[0].file"></td>
 				</tr>
 			</table>
 		</div>
