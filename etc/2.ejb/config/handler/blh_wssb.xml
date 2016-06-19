@@ -110,4 +110,15 @@
 			ctpds
 		</dataSource-name>
 	</bizLogicHandler>
+	<bizLogicHandler>
+		<bizLogicHandler-name>
+			Yhgl003BLH
+		</bizLogicHandler-name>
+		<bizLogicHandler-class>
+			gov.jslt.taxcore.taxblh.yhgl.yhgl003.Yhgl003BLH
+		</bizLogicHandler-class>
+		<dataSource-name>
+			ctpds
+		</dataSource-name>
+	</bizLogicHandler>
 </bizLogicHandler-config>

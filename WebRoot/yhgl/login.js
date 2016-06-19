@@ -40,13 +40,7 @@ function dlXt() {
 
 function baseCheck() {
 	if ($.trim($("#sjHm").val()) == "") {
-		$.messager.alert(commomMessageTitle, '手机不能为空', 'warning', function() {
-					$("#sjHm").focus();
-				});
-		return false;
-	}
-	if (!f_check_mobile(document.getElementById("sjHm"))) {
-		$.messager.alert(commomMessageTitle, '手机号格式有误', 'warning', function() {
+		$.messager.alert(commomMessageTitle, '账号不能为空', 'warning', function() {
 					$("#sjHm").focus();
 				});
 		return false;

@@ -22,8 +22,6 @@
 <title>泰州地税局税银互动平台</title>
 </head>
 <body class="easyui-layout">
-	 
-
 		<div class="easyui-panel" style="text-align: right; background-color: #E7F0FF;">
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" style="text-decoration: none;" onclick="queryData();">查询</a> <a href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-zip'" style="text-decoration: none;" id="upBtn">上传</a> <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-close'" style="text-decoration: none;" onclick="window.close()">关闭</a>
 		</div>

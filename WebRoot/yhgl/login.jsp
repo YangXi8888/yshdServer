@@ -127,7 +127,7 @@ a {
 			<img src="/public/images/ggg.png" style="width:800px;" />
 			<div class="login">
 				<p class="tit">用户登录</p>
-				<input type="text" id="sjHm" placeholder="请输入手机号码"
+				<input type="text" id="sjHm" placeholder="请输入账号"
 					onkeydown="enterPress(event,$('#passWord')[0])"><br /> <input
 					type="password" id="passWord" placeholder="请输入密码"
 					onkeydown="enterPress(event,$('#yzm')[0])"><br /> <input
