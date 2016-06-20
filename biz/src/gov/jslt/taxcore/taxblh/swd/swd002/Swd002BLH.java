@@ -1,24 +1,5 @@
 package gov.jslt.taxcore.taxblh.swd.swd002;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.ctp.core.blh.BaseBizLogicHandler;
-import com.ctp.core.bpo.QueryCssBPO;
-import com.ctp.core.config.ApplicationContext;
-import com.ctp.core.event.RequestEvent;
-import com.ctp.core.event.ResponseEvent;
-import com.ctp.core.exception.TaxBaseBizException;
-import com.ctp.core.utility.dbtime.DBTimeServer;
-
 import gov.jslt.taxcore.taxblh.comm.AESTool;
 import gov.jslt.taxcore.taxblh.comm.CoreHelper;
 import gov.jslt.taxcore.taxblh.comm.FileTool;
@@ -36,7 +17,26 @@ import gov.jslt.taxevent.nsrd.nsrd001.NsrJbxxVO;
 import gov.jslt.taxevent.nsrd.nsrd001.NsrSbfVO;
 import gov.jslt.taxevent.nsrd.nsrd001.NsrSfVO;
 import gov.jslt.taxevent.nsrd.nsrd001.NsrXzcfVO;
+
+import java.io.File;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import sun.jdbc.rowset.CachedRowSet;
+
+import com.ctp.core.blh.BaseBizLogicHandler;
+import com.ctp.core.bpo.QueryCssBPO;
+import com.ctp.core.config.ApplicationContext;
+import com.ctp.core.event.RequestEvent;
+import com.ctp.core.event.ResponseEvent;
+import com.ctp.core.exception.TaxBaseBizException;
+import com.ctp.core.utility.dbtime.DBTimeServer;
 
 public class Swd002BLH extends BaseBizLogicHandler {
 
@@ -56,8 +56,7 @@ public class Swd002BLH extends BaseBizLogicHandler {
 		ResponseEvent responseEvent = new ResponseEvent();
 		JsonReqData reqData = (JsonReqData) reqEvent.reqMapParam.get("JsonReqData");
 		CachedRowSet rs;
-		String sql = "SELECT T.ZB_UUID, T.NSR_MC, TO_CHAR(T.LR_SJ, 'YYYY-MM-DD HH24:MI:SS') FSRQ\n"
-				+ "  FROM T_YS_NSRFS_ZB T\n" + " WHERE "
+		String sql = "SELECT T.ZB_UUID, T.NSR_MC, TO_CHAR(T.LR_SJ, 'YYYY-MM-DD HH24:MI:SS') FSRQ\n" + "  FROM T_YS_NSRFS_ZB T\n" + " WHERE "
 				+ "    T.LR_SJ > TO_DATE(? || ' 00:00:01', 'YYYY-MM-DD HH24:MI:SS')\n"
 				+ "   AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE ?";
 		ArrayList<Object> sqlParam = new ArrayList<Object>();
@@ -83,8 +82,7 @@ public class Swd002BLH extends BaseBizLogicHandler {
 		return responseEvent;
 	}
 
-	protected ResponseEvent downLoadFile(RequestEvent reqEvent, Connection conn)
-			throws SQLException, TaxBaseBizException {
+	protected ResponseEvent downLoadFile(RequestEvent reqEvent, Connection conn) throws SQLException, TaxBaseBizException {
 		ResponseEvent responseEvent = new ResponseEvent();
 		HttpServletRequest request = (HttpServletRequest) reqEvent.reqMapParam.get("HttpServletRequest");
 		JsonReqData reqData = (JsonReqData) reqEvent.reqMapParam.get("JsonReqData");
@@ -107,11 +105,10 @@ public class Swd002BLH extends BaseBizLogicHandler {
 			dataMap.put("cwbblist", cwbblist);
 			dataMap.put("xzcfList", xzcfList);
 
-			ByteArrayOutputStream byteArrayOutputStream = CoreHelper.buildExcelStream(dataMap);
-			String tempFileName = System.getProperty("user.dir") + File.separator
-					+ ApplicationContext.singleton().getValueAsString("file.temp") + File.separator + loginVO.getSjHm()
-					+ ".xls";
-			CoreHelper.createExcelByMM(byteArrayOutputStream, wjMm, tempFileName);
+			String tempFileName = System.getProperty("user.dir") + File.separator + ApplicationContext.singleton().getValueAsString("file.temp")
+					+ File.separator + loginVO.getSjHm() + ".xls";
+			CoreHelper.buildExcelStream(dataMap, tempFileName, wjMm);
+			// CoreHelper.createExcelByMM(byteArrayOutputStream, wjMm, tempFileName);
 			FileVO fileVO = new FileVO();
 			fileVO.setFileContent(FileTool.getFileByte(tempFileName));
 			fileVO.setFileName(((NsrJbxxVO) jbxxList.get(0)).getNsrmc() + ".xls");
@@ -126,8 +123,7 @@ public class Swd002BLH extends BaseBizLogicHandler {
 		return responseEvent;
 	}
 
-	protected ResponseEvent downLoadAllFile(RequestEvent reqEvent, Connection con)
-			throws SQLException, TaxBaseBizException {
+	protected ResponseEvent downLoadAllFile(RequestEvent reqEvent, Connection con) throws SQLException, TaxBaseBizException {
 		ResponseEvent responseEvent = new ResponseEvent();
 		HttpServletRequest request = (HttpServletRequest) reqEvent.reqMapParam.get("HttpServletRequest");
 		JsonReqData reqData = (JsonReqData) reqEvent.reqMapParam.get("JsonReqData");
@@ -157,8 +153,7 @@ public class Swd002BLH extends BaseBizLogicHandler {
 			CachedRowSet rs;
 			String strSql = " SELECT  Y.* FROM T_YS_NSRFS_ZB T,T_YS_NSRFS_JBXX  Y   WHERE  "
 					+ "  T.LR_SJ > TO_DATE(? || ' 00:00:01', 'YYYY-MM-DD HH24:MI:SS') "
-					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE ? "
-					+ " AND T.ZB_UUID=Y.ZB_UUID ";
+					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE ? " + " AND T.ZB_UUID=Y.ZB_UUID ";
 
 			rs = QueryCssBPO.findAll(con, strSql, sqlParams);
 			NsrJbxxVO vo = null;
@@ -176,10 +171,8 @@ public class Swd002BLH extends BaseBizLogicHandler {
 				jbxxList.add(vo);
 			}
 
-			strSql = " SELECT  Y.* FROM T_YS_NSRFS_ZB T,T_YS_NSRFS_SF  Y   WHERE   "
-					+ "  T.LR_SJ > TO_DATE(? || ' 00:00:01', 'YYYY-MM-DD HH24:MI:SS') "
-					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE ? "
-					+ "  AND T.ZB_UUID=Y.ZB_UUID ";
+			strSql = " SELECT  Y.* FROM T_YS_NSRFS_ZB T,T_YS_NSRFS_SF  Y   WHERE   " + "  T.LR_SJ > TO_DATE(? || ' 00:00:01', 'YYYY-MM-DD HH24:MI:SS') "
+					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE ? " + "  AND T.ZB_UUID=Y.ZB_UUID ";
 
 			rs = QueryCssBPO.findAll(con, strSql, sqlParams);
 			NsrSfVO sfVO = null;
@@ -196,10 +189,8 @@ public class Swd002BLH extends BaseBizLogicHandler {
 				sfList.add(sfVO);
 			}
 
-			strSql = " SELECT  Y.* FROM T_YS_NSRFS_ZB T,T_YS_NSRFS_SBF  Y   WHERE  "
-					+ "  T.LR_SJ > TO_DATE(? || ' 00:00:01', 'YYYY-MM-DD HH24:MI:SS') "
-					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE ? "
-					+ "  AND T.ZB_UUID=Y.ZB_UUID ";
+			strSql = " SELECT  Y.* FROM T_YS_NSRFS_ZB T,T_YS_NSRFS_SBF  Y   WHERE  " + "  T.LR_SJ > TO_DATE(? || ' 00:00:01', 'YYYY-MM-DD HH24:MI:SS') "
+					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE ? " + "  AND T.ZB_UUID=Y.ZB_UUID ";
 
 			rs = QueryCssBPO.findAll(con, strSql, sqlParams);
 			NsrSbfVO sbfVO = null;
@@ -216,10 +207,8 @@ public class Swd002BLH extends BaseBizLogicHandler {
 				sbfList.add(sbfVO);
 			}
 
-			strSql = " SELECT  Y.* FROM T_YS_NSRFS_ZB T,T_YS_NSRFS_CWBB  Y   WHERE   "
-					+ "  T.LR_SJ > TO_DATE(? || ' 00:00:01', 'YYYY-MM-DD HH24:MI:SS') "
-					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE ? "
-					+ "  AND T.ZB_UUID=Y.ZB_UUID ";
+			strSql = " SELECT  Y.* FROM T_YS_NSRFS_ZB T,T_YS_NSRFS_CWBB  Y   WHERE   " + "  T.LR_SJ > TO_DATE(? || ' 00:00:01', 'YYYY-MM-DD HH24:MI:SS') "
+					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE ? " + "  AND T.ZB_UUID=Y.ZB_UUID ";
 
 			rs = QueryCssBPO.findAll(con, strSql, sqlParams);
 			NsrCwbbVO cwbbVO = null;
@@ -241,10 +230,8 @@ public class Swd002BLH extends BaseBizLogicHandler {
 				cwbblist.add(cwbbVO);
 			}
 
-			strSql = " SELECT  Y.* FROM T_YS_NSRFS_ZB T,T_YS_NSRFS_XZCF  Y   WHERE  "
-					+ "  T.LR_SJ > TO_DATE(? || ' 00:00:01', 'YYYY-MM-DD HH24:MI:SS') "
-					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE  ? "
-					+ "  AND T.ZB_UUID=Y.ZB_UUID ";
+			strSql = " SELECT  Y.* FROM T_YS_NSRFS_ZB T,T_YS_NSRFS_XZCF  Y   WHERE  " + "  T.LR_SJ > TO_DATE(? || ' 00:00:01', 'YYYY-MM-DD HH24:MI:SS') "
+					+ " AND T.LR_SJ < TO_DATE(? || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') AND T.NSR_MC LIKE  ? " + "  AND T.ZB_UUID=Y.ZB_UUID ";
 
 			rs = QueryCssBPO.findAll(con, strSql, sqlParams);
 			NsrXzcfVO xzcfVO = null;
@@ -269,11 +256,10 @@ public class Swd002BLH extends BaseBizLogicHandler {
 			dataMap.put("cwbblist", cwbblist);
 			dataMap.put("xzcfList", xzcfList);
 
-			ByteArrayOutputStream byteArrayOutputStream = CoreHelper.buildExcelStream(dataMap);
-			String tempFileName = System.getProperty("user.dir") + File.separator
-					+ ApplicationContext.singleton().getValueAsString("file.temp") + File.separator + loginVO.getSjHm()
-					+ ".xls";
-			CoreHelper.createExcelByMM(byteArrayOutputStream, wjMm, tempFileName);
+			String tempFileName = System.getProperty("user.dir") + File.separator + ApplicationContext.singleton().getValueAsString("file.temp")
+					+ File.separator + loginVO.getSjHm() + ".xls";
+			CoreHelper.buildExcelStream(dataMap, tempFileName, wjMm);
+			// CoreHelper.createExcelByMM(byteArrayOutputStream, wjMm, tempFileName);
 			FileVO fileVO = new FileVO();
 			fileVO.setFileContent(FileTool.getFileByte(tempFileName));
 			fileVO.setFileName(DBTimeServer.getDBTimesStr(con, 3) + ".xls");
