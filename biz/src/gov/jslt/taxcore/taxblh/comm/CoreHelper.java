@@ -158,40 +158,47 @@ public class CoreHelper {
 		sheet = wb.createSheet();
 		wb.setSheetName(0, "基本信息", (short) 1);// 设置seet标题，第3个参数为避免中文乱码
 		sheet.createFreezePane(0, 1);// 冻结
-		sheet.setColumnWidth((short) 0, (short) (40 * 256));
-		sheet.setColumnWidth((short) 1, (short) (20 * 256));
+		sheet.setColumnWidth((short) 0, (short) (20 * 256));
+		sheet.setColumnWidth((short) 1, (short) (40 * 256));
 		sheet.setColumnWidth((short) 2, (short) (20 * 256));
-		sheet.setColumnWidth((short) 3, (short) (50 * 256));
-		sheet.setColumnWidth((short) 4, (short) (20 * 256));
+		sheet.setColumnWidth((short) 3, (short) (20 * 256));
+		sheet.setColumnWidth((short) 4, (short) (50 * 256));
 		sheet.setColumnWidth((short) 5, (short) (20 * 256));
+		sheet.setColumnWidth((short) 6, (short) (20 * 256));
 		// 纳税人基本信息头部
 		row = sheet.createRow(0);
 		cell = row.createCell((short) 0);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("纳税人名称");
-
+		cell.setCellValue("社会统一信用代码");
+		
+		row = sheet.createRow(0);
 		cell = row.createCell((short) 1);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("登记注册类型");
+		cell.setCellValue("纳税人名称");
 
 		cell = row.createCell((short) 2);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("国标行业");
+		cell.setCellValue("登记注册类型");
 
 		cell = row.createCell((short) 3);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("注册地址");
+		cell.setCellValue("国标行业");
 
 		cell = row.createCell((short) 4);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("信用等级");
+		cell.setCellValue("注册地址");
 
 		cell = row.createCell((short) 5);
+		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+		cell.setCellStyle(headStyle);
+		cell.setCellValue("信用等级");
+
+		cell = row.createCell((short) 6);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("征收方式");
@@ -201,27 +208,38 @@ public class CoreHelper {
 			jbxxVO = (NsrJbxxVO) jbxxList.get(i);
 			// 纳税人基本信息内容
 			row = sheet.createRow(i + 1);
+			
+			
 			cell = row.createCell((short) 0);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			cell.setCellValue(jbxxVO.getNsrmc());
+			cell.setCellValue(jbxxVO.getNsrsbm());
+			
+			
+			
+			
+			
 
 			cell = row.createCell((short) 1);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			cell.setCellValue(jbxxVO.getDjzclxmc());
+			cell.setCellValue(jbxxVO.getNsrmc());
 
 			cell = row.createCell((short) 2);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			cell.setCellValue(jbxxVO.getGbhymc());
+			cell.setCellValue(jbxxVO.getDjzclxmc());
 
 			cell = row.createCell((short) 3);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			cell.setCellValue(jbxxVO.getZcdz());
+			cell.setCellValue(jbxxVO.getGbhymc());
 
 			cell = row.createCell((short) 4);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			cell.setCellValue(jbxxVO.getXydj());
+			cell.setCellValue(jbxxVO.getZcdz());
 
 			cell = row.createCell((short) 5);
+			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+			cell.setCellValue(jbxxVO.getXydj());
+
+			cell = row.createCell((short) 6);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(jbxxVO.getZsfsmc());
 		}
@@ -234,19 +252,34 @@ public class CoreHelper {
 		wb.setSheetName(1, "税费信息", (short) 1);
 		sheet.createFreezePane(0, 1);// 冻结
 		sheet.setColumnWidth((short) 0, (short) (30 * 256));
-		sheet.setColumnWidth((short) 1, (short) (30 * 256));
+		sheet.setColumnWidth((short) 1, (short) (40 * 256));
 		sheet.setColumnWidth((short) 2, (short) (30 * 256));
+		sheet.setColumnWidth((short) 3, (short) (30 * 256));
+		sheet.setColumnWidth((short) 4, (short) (30 * 256));
 		// 税费信息头部
 		row = sheet.createRow(0);
+		
 		cell = row.createCell((short) 0);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("所属年度");
+		cell.setCellValue("社会统一信用代码");
+		
 		cell = row.createCell((short) 1);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("税种");
+		cell.setCellValue("纳税人名称");
+		
 		cell = row.createCell((short) 2);
+		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+		cell.setCellStyle(headStyle);
+		cell.setCellValue("所属年度");
+		
+		cell = row.createCell((short) 3);
+		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+		cell.setCellStyle(headStyle);
+		cell.setCellValue("税种");
+		
+		cell = row.createCell((short) 4);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("入库税额");
@@ -254,13 +287,24 @@ public class CoreHelper {
 		for (int i = 0; i < sfList.size(); i++) {
 			NsrSfVO sfVO = (NsrSfVO) sfList.get(i);
 			row = sheet.createRow(i + 1);
+			
 			cell = row.createCell((short) 0);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			cell.setCellValue(sfVO.getSsnd());
+			cell.setCellValue(sfVO.getNsrsbm());
+			
 			cell = row.createCell((short) 1);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			cell.setCellValue(sfVO.getSz());
+			cell.setCellValue(sfVO.getNsrmc());
+			
 			cell = row.createCell((short) 2);
+			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+			cell.setCellValue(sfVO.getSsnd());
+			
+			cell = row.createCell((short) 3);
+			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+			cell.setCellValue(sfVO.getSz());
+			
+			cell = row.createCell((short) 4);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(sfVO.getRkse());
 		}
@@ -272,19 +316,34 @@ public class CoreHelper {
 		wb.setSheetName(2, "社保信息", (short) 1);
 		sheet.createFreezePane(0, 1);// 冻结
 		sheet.setColumnWidth((short) 0, (short) (30 * 256));
-		sheet.setColumnWidth((short) 1, (short) (30 * 256));
+		sheet.setColumnWidth((short) 1, (short) (40 * 256));
 		sheet.setColumnWidth((short) 2, (short) (30 * 256));
+		sheet.setColumnWidth((short) 3, (short) (30 * 256));
+		sheet.setColumnWidth((short) 4, (short) (30 * 256));
 		// 社保信息头部
 		row = sheet.createRow(0);
 		cell = row.createCell((short) 0);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("所属年度");
+		cell.setCellValue("社会统一信用代码");
+		
 		cell = row.createCell((short) 1);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("险种");
+		cell.setCellValue("纳税人名称");
+		
+		
 		cell = row.createCell((short) 2);
+		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+		cell.setCellStyle(headStyle);
+		cell.setCellValue("所属年度");
+		
+		cell = row.createCell((short) 3);
+		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+		cell.setCellStyle(headStyle);
+		cell.setCellValue("险种");
+		
+		cell = row.createCell((short) 4);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("实缴金额");
@@ -292,13 +351,24 @@ public class CoreHelper {
 		for (int i = 0; i < sbfList.size(); i++) {
 			NsrSbfVO sbfVO = (NsrSbfVO) sbfList.get(i);
 			row = sheet.createRow(i + 1);
+			
 			cell = row.createCell((short) 0);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			cell.setCellValue(sbfVO.getSsnd());
+			cell.setCellValue(sbfVO.getNsrsbm());
+			
 			cell = row.createCell((short) 1);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			cell.setCellValue(sbfVO.getXz());
+			cell.setCellValue(sbfVO.getNsrmc());
+			
 			cell = row.createCell((short) 2);
+			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+			cell.setCellValue(sbfVO.getSsnd());
+			
+			cell = row.createCell((short) 3);
+			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+			cell.setCellValue(sbfVO.getXz());
+			
+			cell = row.createCell((short) 4);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(sbfVO.getSjje());
 		}
@@ -310,44 +380,68 @@ public class CoreHelper {
 		wb.setSheetName(3, "财务报表信息", (short) 1);
 		sheet.createFreezePane(0, 1);// 冻结
 		sheet.setColumnWidth((short) 0, (short) (20 * 256));
-		sheet.setColumnWidth((short) 1, (short) (20 * 256));
+		sheet.setColumnWidth((short) 1, (short) (40 * 256));
 		sheet.setColumnWidth((short) 2, (short) (20 * 256));
 		sheet.setColumnWidth((short) 3, (short) (20 * 256));
 		sheet.setColumnWidth((short) 4, (short) (20 * 256));
 		sheet.setColumnWidth((short) 5, (short) (20 * 256));
 		sheet.setColumnWidth((short) 6, (short) (20 * 256));
 		sheet.setColumnWidth((short) 7, (short) (20 * 256));
+		sheet.setColumnWidth((short) 8, (short) (20 * 256));
+		sheet.setColumnWidth((short) 9, (short) (20 * 256));
 		// 财务报表头部
 		row = sheet.createRow(0);
+		
+
 		cell = row.createCell((short) 0);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("所属年度");
+		cell.setCellValue("社会统一信用代码");
+		
+		
+
 		cell = row.createCell((short) 1);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("资产总额");
+		cell.setCellValue("纳税人名称");
+		
+		
 		cell = row.createCell((short) 2);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("负债总额");
+		cell.setCellValue("所属年度");
+		
 		cell = row.createCell((short) 3);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("实收资本");
+		cell.setCellValue("资产总额");
+		
 		cell = row.createCell((short) 4);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("资本公积");
+		cell.setCellValue("负债总额");
+		
 		cell = row.createCell((short) 5);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("主营业务收入");
+		cell.setCellValue("实收资本");
+		
 		cell = row.createCell((short) 6);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("主营业务成本");
+		cell.setCellValue("资本公积");
+		
 		cell = row.createCell((short) 7);
+		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+		cell.setCellStyle(headStyle);
+		cell.setCellValue("主营业务收入");
+		
+		cell = row.createCell((short) 8);
+		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+		cell.setCellStyle(headStyle);
+		cell.setCellValue("主营业务成本");
+		
+		cell = row.createCell((short) 9);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("会计利润");
@@ -355,28 +449,44 @@ public class CoreHelper {
 		for (int i = 0; i < cwbbList.size(); i++) {
 			NsrCwbbVO cwbbVO = (NsrCwbbVO) cwbbList.get(i);
 			row = sheet.createRow(i + 1);
+			
 			cell = row.createCell((short) 0);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			cell.setCellValue(cwbbVO.getSsnd());
+			cell.setCellValue(cwbbVO.getNsrsbm());
+			
 			cell = row.createCell((short) 1);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			cell.setCellValue(cwbbVO.getZcze());
+			cell.setCellValue(cwbbVO.getNsrmc());
+			
 			cell = row.createCell((short) 2);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			cell.setCellValue(cwbbVO.getFzze());
+			cell.setCellValue(cwbbVO.getSsnd());
+			
 			cell = row.createCell((short) 3);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			cell.setCellValue(cwbbVO.getSszb());
+			cell.setCellValue(cwbbVO.getZcze());
+			
 			cell = row.createCell((short) 4);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			cell.setCellValue(cwbbVO.getZbgj());
+			cell.setCellValue(cwbbVO.getFzze());
+			
 			cell = row.createCell((short) 5);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			cell.setCellValue(cwbbVO.getZyywsr());
+			cell.setCellValue(cwbbVO.getSszb());
+			
 			cell = row.createCell((short) 6);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			cell.setCellValue(cwbbVO.getZyywcb());
+			cell.setCellValue(cwbbVO.getZbgj());
+			
 			cell = row.createCell((short) 7);
+			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+			cell.setCellValue(cwbbVO.getZyywsr());
+			
+			cell = row.createCell((short) 8);
+			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+			cell.setCellValue(cwbbVO.getZyywcb());
+			
+			cell = row.createCell((short) 9);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(cwbbVO.getKjlr());
 		}
@@ -390,22 +500,38 @@ public class CoreHelper {
 		sheet.setColumnWidth((short) 0, (short) (30 * 256));
 		sheet.setColumnWidth((short) 1, (short) (40 * 256));
 		sheet.setColumnWidth((short) 2, (short) (30 * 256));
-		sheet.setColumnWidth((short) 3, (short) (30 * 256));
+		sheet.setColumnWidth((short) 3, (short) (40 * 256));
+		sheet.setColumnWidth((short) 4, (short) (30 * 256));
+		sheet.setColumnWidth((short) 5, (short) (30 * 256));
 		// 处罚信息头部
 		row = sheet.createRow(0);
+		
 		cell = row.createCell((short) 0);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("处罚决定文号");
+		cell.setCellValue("社会统一信用代码");
+		
 		cell = row.createCell((short) 1);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("处罚事由");
+		cell.setCellValue("纳税人名称");
+		
 		cell = row.createCell((short) 2);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("处罚日期");
+		cell.setCellValue("处罚决定文号");
+		
 		cell = row.createCell((short) 3);
+		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+		cell.setCellStyle(headStyle);
+		cell.setCellValue("处罚事由");
+		
+		cell = row.createCell((short) 4);
+		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+		cell.setCellStyle(headStyle);
+		cell.setCellValue("处罚日期");
+		
+		cell = row.createCell((short) 5);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("处罚金额");
@@ -413,16 +539,28 @@ public class CoreHelper {
 		for (int i = 0; i < xzcfList.size(); i++) {
 			NsrXzcfVO xzcfVO = (NsrXzcfVO) xzcfList.get(i);
 			row = sheet.createRow(i + 1);
+			
 			cell = row.createCell((short) 0);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			cell.setCellValue(xzcfVO.getCfjdwh());
+			cell.setCellValue(xzcfVO.getNsrsbm());
+			
 			cell = row.createCell((short) 1);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			cell.setCellValue(xzcfVO.getCfsyStr());
+			cell.setCellValue(xzcfVO.getNsrmc());
+			
 			cell = row.createCell((short) 2);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			cell.setCellValue(xzcfVO.getCfrq());
+			cell.setCellValue(xzcfVO.getCfjdwh());
+			
 			cell = row.createCell((short) 3);
+			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+			cell.setCellValue(xzcfVO.getCfsyStr());
+			
+			cell = row.createCell((short) 4);
+			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+			cell.setCellValue(xzcfVO.getCfrq());
+			
+			cell = row.createCell((short) 5);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(xzcfVO.getCfje());
 		}
