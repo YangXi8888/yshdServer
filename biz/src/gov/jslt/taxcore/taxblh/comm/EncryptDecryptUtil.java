@@ -20,6 +20,7 @@ public class EncryptDecryptUtil {
 			m_view.read(url);
 			m_view.write(url, pwd);
 		} catch (Exception e) {
+			LogWritter.sysError("加密exell出错："+e.getMessage());
 			throw new TaxBaseBizException(e.getMessage());
 		}
 	}

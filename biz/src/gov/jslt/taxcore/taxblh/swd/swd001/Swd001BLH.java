@@ -1,15 +1,6 @@
 package gov.jslt.taxcore.taxblh.swd.swd001;
 
-import gov.jslt.taxcore.taxblh.comm.CoreHelper;
-import gov.jslt.taxcore.taxblh.comm.FileTool;
-import gov.jslt.taxcore.taxblh.comm.ZipTool;
-import gov.jslt.taxcore.taxbpo.comm.YhscjlbBPO;
-import gov.jslt.taxcore.taxbpo.comm.YhscjlbVO;
-import gov.jslt.taxevent.comm.FileVO;
-import gov.jslt.taxevent.comm.GeneralCons;
-import gov.jslt.taxevent.comm.JsonReqData;
-import gov.jslt.taxevent.comm.LoginVO;
-
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -20,8 +11,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import sun.jdbc.rowset.CachedRowSet;
-
 import com.ctp.core.blh.BaseBizLogicHandler;
 import com.ctp.core.bpo.QueryCssBPO;
 import com.ctp.core.config.ApplicationContext;
@@ -29,6 +18,17 @@ import com.ctp.core.event.RequestEvent;
 import com.ctp.core.event.ResponseEvent;
 import com.ctp.core.exception.TaxBaseBizException;
 import com.ctp.core.utility.dbtime.DBTimeServer;
+
+import gov.jslt.taxcore.taxblh.comm.CoreHelper;
+import gov.jslt.taxcore.taxblh.comm.FileTool;
+import gov.jslt.taxcore.taxblh.comm.ZipTool;
+import gov.jslt.taxcore.taxbpo.comm.YhscjlbBPO;
+import gov.jslt.taxcore.taxbpo.comm.YhscjlbVO;
+import gov.jslt.taxevent.comm.FileVO;
+import gov.jslt.taxevent.comm.GeneralCons;
+import gov.jslt.taxevent.comm.JsonReqData;
+import gov.jslt.taxevent.comm.LoginVO;
+import sun.jdbc.rowset.CachedRowSet;
 
 public class Swd001BLH extends BaseBizLogicHandler {
 
@@ -82,8 +82,8 @@ public class Swd001BLH extends BaseBizLogicHandler {
 			dataList.add(fileVO);
 		}
 		String tempFileName = System.getProperty("user.dir")
-				+ ApplicationContext.singleton().getValueAsString(
-						"file.temp") + "\\" + loginVO.getSjHm() + ".zip";
+				+File.separator+ ApplicationContext.singleton().getValueAsString(
+						"file.temp") + File.separator + loginVO.getSjHm() + ".zip";
 		ZipTool.zipCompress(dataList, tempFileName);
 		FileVO zipFile = new FileVO();
 		zipFile.setFileType(".zip");

@@ -1,6 +1,7 @@
 package gov.jslt.taxcore.taxblh.yhd.yhd001;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -111,8 +112,9 @@ public class Yhd001BLH extends BaseBizLogicHandler {
 			dataMap.put("xzcfList", xzcfList);
 
 			ByteArrayOutputStream byteArrayOutputStream = CoreHelper.buildExcelStream(dataMap);
-			String tempFileName = System.getProperty("user.dir")
-					+ ApplicationContext.singleton().getValueAsString("file.temp") + "\\" + loginVO.getSjHm() + ".xls";
+			String tempFileName = System.getProperty("user.dir") + File.separator
+					+ ApplicationContext.singleton().getValueAsString("file.temp") + File.separator + loginVO.getSjHm()
+					+ ".xls";
 			CoreHelper.createExcelByMM(byteArrayOutputStream, wjMm, tempFileName);
 			FileVO fileVO = new FileVO();
 			fileVO.setFileContent(FileTool.getFileByte(tempFileName));
@@ -274,8 +276,9 @@ public class Yhd001BLH extends BaseBizLogicHandler {
 			dataMap.put("xzcfList", xzcfList);
 
 			ByteArrayOutputStream byteArrayOutputStream = CoreHelper.buildExcelStream(dataMap);
-			String tempFileName = System.getProperty("user.dir")
-					+ ApplicationContext.singleton().getValueAsString("file.temp") + "\\" + loginVO.getSjHm() + ".xls";
+			String tempFileName = System.getProperty("user.dir") + File.separator
+					+ ApplicationContext.singleton().getValueAsString("file.temp") + File.separator + loginVO.getSjHm()
+					+ ".xls";
 			CoreHelper.createExcelByMM(byteArrayOutputStream, wjMm, tempFileName);
 			FileVO fileVO = new FileVO();
 			fileVO.setFileContent(FileTool.getFileByte(tempFileName));
