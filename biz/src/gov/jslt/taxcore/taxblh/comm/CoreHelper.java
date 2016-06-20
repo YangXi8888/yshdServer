@@ -50,7 +50,8 @@ public class CoreHelper {
 		return guid;
 	}
 
-	public static Map<String, String> getFtp(String gljgdm, Connection conn) throws SQLException {
+	public static Map<String, String> getFtp(String gljgdm, Connection conn)
+			throws SQLException {
 		Map<String, String> map = new HashMap<String, String>();
 		String sql = "SELECT S.CSZ,TO_CHAR(SYSDATE,'YYYYMMDD') AS RQ FROM T_XT_XTCS S WHERE S.CSBM ='ZSBSFTP' ";
 		CachedRowSet rs = QueryCssBPO.findAll(conn, sql, null, null);
@@ -64,25 +65,30 @@ public class CoreHelper {
 		return map;
 	}
 
-	public static String getDateTime(Connection con, String format) throws SQLException {
+	public static String getDateTime(Connection con, String format)
+			throws SQLException {
 		String dateTime = "";
 		if (format == null) {
 			format = "YYYY-MM-DD HH24:MI:SS";
 		}
-		String getGuidSql = "SELECT  TO_CHAR(SYSTIMESTAMP,'" + format + "') AS  DATETIME FROM DUAL";
+		String getGuidSql = "SELECT  TO_CHAR(SYSTIMESTAMP,'" + format
+				+ "') AS  DATETIME FROM DUAL";
 		CachedRowSet rs = QueryCssBPO.findAll(con, getGuidSql, null);
 		rs.next();
 		dateTime = rs.getString("DATETIME");
 		return dateTime;
 	}
 
-	public static String getJyztMc(Connection con, String jyztDm) throws SQLException {
+	public static String getJyztMc(Connection con, String jyztDm)
+			throws SQLException {
 		if (null == jyztDm || "".equals(jyztDm)) {
 			return GeneralCons.SUCCESS_MSG_ZB7777;
 		} else {
 			ArrayList sqlParams = new ArrayList();
 			sqlParams.add(jyztDm);
-			CachedRowSet rs = QueryCssBPO.findAll(con, "SELECT JYZT_MC FROM T_DM_YS_JYZT D WHERE JYZT_DM=?", sqlParams);
+			CachedRowSet rs = QueryCssBPO.findAll(con,
+					"SELECT JYZT_MC FROM T_DM_YS_JYZT D WHERE JYZT_DM=?",
+					sqlParams);
 			if (rs.next()) {
 				return rs.getString("JYZT_MC");
 			} else {
@@ -98,7 +104,8 @@ public class CoreHelper {
 		return str.toString();
 	}
 
-	public static List<Map<String, String>> queryJsgs(String pzzlDm, String xtLx, Connection conn) throws SQLException {
+	public static List<Map<String, String>> queryJsgs(String pzzlDm,
+			String xtLx, Connection conn) throws SQLException {
 		ArrayList<String> sqlParams = new ArrayList<String>();
 		sqlParams.add(pzzlDm);
 		sqlParams.add(xtLx);
@@ -136,8 +143,9 @@ public class CoreHelper {
 		return strBuf.toString();
 	}
 
-	public static ByteArrayOutputStream buildExcelStream(Map<String, List<Object>> dataMap)
-			throws SQLException, TaxBaseBizException {
+	public static ByteArrayOutputStream buildExcelStream(
+			Map<String, List<Object>> dataMap) throws SQLException,
+			TaxBaseBizException {
 		// 创建excel
 		HSSFWorkbook wb = new HSSFWorkbook();
 		HSSFSheet sheet = null;
@@ -171,7 +179,7 @@ public class CoreHelper {
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("社会统一信用代码");
-		
+
 		row = sheet.createRow(0);
 		cell = row.createCell((short) 1);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
@@ -208,16 +216,10 @@ public class CoreHelper {
 			jbxxVO = (NsrJbxxVO) jbxxList.get(i);
 			// 纳税人基本信息内容
 			row = sheet.createRow(i + 1);
-			
-			
+
 			cell = row.createCell((short) 0);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(jbxxVO.getNsrsbm());
-			
-			
-			
-			
-			
 
 			cell = row.createCell((short) 1);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
@@ -258,27 +260,27 @@ public class CoreHelper {
 		sheet.setColumnWidth((short) 4, (short) (30 * 256));
 		// 税费信息头部
 		row = sheet.createRow(0);
-		
+
 		cell = row.createCell((short) 0);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("社会统一信用代码");
-		
+
 		cell = row.createCell((short) 1);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("纳税人名称");
-		
+
 		cell = row.createCell((short) 2);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("所属年度");
-		
+
 		cell = row.createCell((short) 3);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("税种");
-		
+
 		cell = row.createCell((short) 4);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
@@ -287,23 +289,23 @@ public class CoreHelper {
 		for (int i = 0; i < sfList.size(); i++) {
 			NsrSfVO sfVO = (NsrSfVO) sfList.get(i);
 			row = sheet.createRow(i + 1);
-			
+
 			cell = row.createCell((short) 0);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(sfVO.getNsrsbm());
-			
+
 			cell = row.createCell((short) 1);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(sfVO.getNsrmc());
-			
+
 			cell = row.createCell((short) 2);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(sfVO.getSsnd());
-			
+
 			cell = row.createCell((short) 3);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(sfVO.getSz());
-			
+
 			cell = row.createCell((short) 4);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(sfVO.getRkse());
@@ -326,23 +328,22 @@ public class CoreHelper {
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("社会统一信用代码");
-		
+
 		cell = row.createCell((short) 1);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("纳税人名称");
-		
-		
+
 		cell = row.createCell((short) 2);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("所属年度");
-		
+
 		cell = row.createCell((short) 3);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("险种");
-		
+
 		cell = row.createCell((short) 4);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
@@ -351,23 +352,23 @@ public class CoreHelper {
 		for (int i = 0; i < sbfList.size(); i++) {
 			NsrSbfVO sbfVO = (NsrSbfVO) sbfList.get(i);
 			row = sheet.createRow(i + 1);
-			
+
 			cell = row.createCell((short) 0);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(sbfVO.getNsrsbm());
-			
+
 			cell = row.createCell((short) 1);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(sbfVO.getNsrmc());
-			
+
 			cell = row.createCell((short) 2);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(sbfVO.getSsnd());
-			
+
 			cell = row.createCell((short) 3);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(sbfVO.getXz());
-			
+
 			cell = row.createCell((short) 4);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(sbfVO.getSjje());
@@ -391,56 +392,52 @@ public class CoreHelper {
 		sheet.setColumnWidth((short) 9, (short) (20 * 256));
 		// 财务报表头部
 		row = sheet.createRow(0);
-		
 
 		cell = row.createCell((short) 0);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("社会统一信用代码");
-		
-		
 
 		cell = row.createCell((short) 1);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("纳税人名称");
-		
-		
+
 		cell = row.createCell((short) 2);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("所属年度");
-		
+
 		cell = row.createCell((short) 3);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("资产总额");
-		
+
 		cell = row.createCell((short) 4);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("负债总额");
-		
+
 		cell = row.createCell((short) 5);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("实收资本");
-		
+
 		cell = row.createCell((short) 6);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("资本公积");
-		
+
 		cell = row.createCell((short) 7);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("主营业务收入");
-		
+
 		cell = row.createCell((short) 8);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("主营业务成本");
-		
+
 		cell = row.createCell((short) 9);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
@@ -449,43 +446,43 @@ public class CoreHelper {
 		for (int i = 0; i < cwbbList.size(); i++) {
 			NsrCwbbVO cwbbVO = (NsrCwbbVO) cwbbList.get(i);
 			row = sheet.createRow(i + 1);
-			
+
 			cell = row.createCell((short) 0);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(cwbbVO.getNsrsbm());
-			
+
 			cell = row.createCell((short) 1);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(cwbbVO.getNsrmc());
-			
+
 			cell = row.createCell((short) 2);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(cwbbVO.getSsnd());
-			
+
 			cell = row.createCell((short) 3);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(cwbbVO.getZcze());
-			
+
 			cell = row.createCell((short) 4);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(cwbbVO.getFzze());
-			
+
 			cell = row.createCell((short) 5);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(cwbbVO.getSszb());
-			
+
 			cell = row.createCell((short) 6);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(cwbbVO.getZbgj());
-			
+
 			cell = row.createCell((short) 7);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(cwbbVO.getZyywsr());
-			
+
 			cell = row.createCell((short) 8);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(cwbbVO.getZyywcb());
-			
+
 			cell = row.createCell((short) 9);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(cwbbVO.getKjlr());
@@ -505,32 +502,32 @@ public class CoreHelper {
 		sheet.setColumnWidth((short) 5, (short) (30 * 256));
 		// 处罚信息头部
 		row = sheet.createRow(0);
-		
+
 		cell = row.createCell((short) 0);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("社会统一信用代码");
-		
+
 		cell = row.createCell((short) 1);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("纳税人名称");
-		
+
 		cell = row.createCell((short) 2);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("处罚决定文号");
-		
+
 		cell = row.createCell((short) 3);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("处罚事由");
-		
+
 		cell = row.createCell((short) 4);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("处罚日期");
-		
+
 		cell = row.createCell((short) 5);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(headStyle);
@@ -539,27 +536,27 @@ public class CoreHelper {
 		for (int i = 0; i < xzcfList.size(); i++) {
 			NsrXzcfVO xzcfVO = (NsrXzcfVO) xzcfList.get(i);
 			row = sheet.createRow(i + 1);
-			
+
 			cell = row.createCell((short) 0);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(xzcfVO.getNsrsbm());
-			
+
 			cell = row.createCell((short) 1);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(xzcfVO.getNsrmc());
-			
+
 			cell = row.createCell((short) 2);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(xzcfVO.getCfjdwh());
-			
+
 			cell = row.createCell((short) 3);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(xzcfVO.getCfsyStr());
-			
+
 			cell = row.createCell((short) 4);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(xzcfVO.getCfrq());
-			
+
 			cell = row.createCell((short) 5);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellValue(xzcfVO.getCfje());
@@ -575,7 +572,8 @@ public class CoreHelper {
 		return os;
 	}
 
-	public static CLOBObject readCLOB(ResultSet rs, String col) throws TaxBaseBizException {
+	public static CLOBObject readCLOB(ResultSet rs, String col)
+			throws TaxBaseBizException {
 		CLOBObject obj = null;
 		BufferedWriter out = null;
 		BufferedReader in = null;
@@ -621,16 +619,23 @@ public class CoreHelper {
 		return obj;
 	}
 
-	public static void createExcelByMM(ByteArrayOutputStream byteArrayOutputStream, String wjMm, String tempFileName)
-			throws TaxBaseBizException {
+	public static void createExcelByMM(
+			ByteArrayOutputStream byteArrayOutputStream, String wjMm,
+			String tempFileName) throws TaxBaseBizException {
 		try {
 
 			File file = new File(tempFileName);
 			if (!file.exists()) {
 				file.createNewFile();
 			}
-			DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(file));
+			DataOutputStream dataOutputStream = new DataOutputStream(
+					new FileOutputStream(file));
 			byteArrayOutputStream.writeTo(dataOutputStream);
+			byteArrayOutputStream.flush();
+			byteArrayOutputStream.close();
+			dataOutputStream.flush();
+			dataOutputStream.close();
+			
 			EncryptDecryptUtil.encrypt(tempFileName, wjMm);
 		} catch (IOException e) {
 			LogWritter.sysError(e.getMessage());
