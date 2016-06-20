@@ -1,6 +1,7 @@
 package gov.jslt.taxcore.taxblh.comm;
 
 import com.ctp.core.exception.TaxBaseBizException;
+import com.ctp.core.log.LogWritter;
 import com.jxcell.View;
 
 public class EncryptDecryptUtil {
@@ -15,6 +16,7 @@ public class EncryptDecryptUtil {
 	public static void encrypt(String url, String pwd) throws TaxBaseBizException {
 		View m_view = new View();
 		try {
+			LogWritter.sysError("加密文件地址为:"+url);
 			m_view.read(url);
 			m_view.write(url, pwd);
 		} catch (Exception e) {
