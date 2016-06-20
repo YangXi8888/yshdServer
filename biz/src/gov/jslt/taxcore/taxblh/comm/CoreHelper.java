@@ -565,6 +565,7 @@ public class CoreHelper {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try {
 			wb.write(os);
+
 		} catch (IOException e) {
 			LogWritter.sysError(e.getMessage());
 			throw new TaxBaseBizException(e.getMessage());
@@ -625,9 +626,9 @@ public class CoreHelper {
 		try {
 
 			File file = new File(tempFileName);
-			if (!file.exists()) {
-				file.createNewFile();
-			}
+
+			file.createNewFile();
+
 			DataOutputStream dataOutputStream = new DataOutputStream(
 					new FileOutputStream(file));
 			byteArrayOutputStream.writeTo(dataOutputStream);
@@ -635,8 +636,9 @@ public class CoreHelper {
 			byteArrayOutputStream.close();
 			dataOutputStream.flush();
 			dataOutputStream.close();
-			
-			EncryptDecryptUtil.encrypt(tempFileName, wjMm);
+
+			EncryptDecryptUtil.encrypt(file, wjMm);
+
 		} catch (IOException e) {
 			LogWritter.sysError(e.getMessage());
 			throw new TaxBaseBizException(e.getMessage());
