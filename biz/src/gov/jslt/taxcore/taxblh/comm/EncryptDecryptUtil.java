@@ -9,14 +9,7 @@ import com.ctp.core.log.LogWritter;
 import com.jxcell.View;
 
 public class EncryptDecryptUtil {
-	/**
-	 * 读取excel，并进行加密
-	 * 
-	 * @param url
-	 *            excel文件路径 例：D:\\word.xls
-	 * @param pwd
-	 *            加密密码
-	 */
+
 	public static void encrypt(File file, String pwd)
 			throws TaxBaseBizException {
 		View m_view = new View();
