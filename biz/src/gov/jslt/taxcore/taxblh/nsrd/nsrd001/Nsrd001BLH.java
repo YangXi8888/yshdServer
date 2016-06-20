@@ -49,16 +49,37 @@ public class Nsrd001BLH extends BaseBizLogicHandler {
 	private ResponseEvent initPage(RequestEvent reqEvent, Connection conn)
 			throws SQLException, TaxBaseBizException {
 		ResponseEvent resEvent = new ResponseEvent();
-		ArrayList<String> sqlParams = new ArrayList<String>();
-		sqlParams.add((String) reqEvent.reqMapParam.get("swglm"));
-		String sql = "SELECT SWGLM, NSRSBM,NSR_MC FROM T_DJ_JGNSR WHERE SWGLM =?";
-		CachedRowSet rs = QueryBPO.findAll(conn, sql, sqlParams);
-		if (rs.next()) {
-			resEvent.respMapParam.put("nsrMc", rs.getString("NSR_MC"));
-			resEvent.respMapParam.put("nsrSbm", rs.getString("NSRSBM"));
+		String swglm = (String) reqEvent.reqMapParam.get("swglm");
+		// 1.封装JMS请求参数
+		Map<String, Object> reqMap = new HashMap<String, Object>();
+		reqMap.put("blhName", "Nsrd001BLH");
+		reqMap.put("dealMethod", "initPage");
+		reqMap.put("swglm", swglm);
+		reqMap.put("bizKey", "");
+		reqMap.put("djXh", "");
+		// 2.拼装业务报文
+		Map<String, Object> bizXml = new HashMap<String, Object>();
+		bizXml.put("swglm", swglm);
+		XStream xStream = new XStream();
+		reqMap.put("content", xStream.toXML(bizXml).toString());
+		// 3.发送JMS消息并接收返回消息
+		JMSSender jSender = new JMSSender();
+		Map<String, String> returnMap = jSender.synSend(reqMap);
+		Map<String, String> tmpMap = null;// 用于处理jms返回结果的临时变量
+		JSONObject jsonObject = new JSONObject();
+		Map<String, Object> jmsResMap = jsonObject.fromObject(returnMap
+				.get("cDATA"));
+		if (null != jmsResMap.get("nsrSbm")
+				|| !"".equals(jmsResMap.get("nsrSbm"))) {
+			resEvent.respMapParam.put("nsrSbm", jmsResMap.get("nsrSbm"));
+			resEvent.respMapParam.put("nsrMc", jmsResMap.get("nsrMc"));
+		} else {
+			resEvent.setRepCode("ZB7777");
+			resEvent.setReponseMesg(CoreHelper.getJyztMc(conn, "ZB7777"));
 		}
-		sql = "SELECT T.QYYH_DM, T.QYYH_MC FROM T_DM_YS_QYYH T WHERE XY_BJ = '1'";
-		rs = QueryBPO.findAll(conn, sql, null);
+		// 初始化下拉框
+		String sql = "SELECT T.QYYH_DM, T.QYYH_MC FROM T_DM_YS_QYYH T WHERE XY_BJ = '1'";
+		CachedRowSet rs = QueryBPO.findAll(conn, sql, null);
 		List<Map<String, String>> yhList = new ArrayList<>();
 		Map<String, String> map = null;
 		while (rs.next()) {
