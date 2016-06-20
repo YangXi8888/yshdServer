@@ -108,7 +108,7 @@ public class Swd002BLH extends BaseBizLogicHandler {
 
 			ByteArrayOutputStream byteArrayOutputStream = CoreHelper.buildExcelStream(dataMap);
 			String tempFileName = System.getProperty("user.dir")
-					+ ApplicationContext.singleton().getValueAsString("file.temp") + "/" + loginVO.getSjHm() + ".xls";
+					+ ApplicationContext.singleton().getValueAsString("file.temp") + "\\" + loginVO.getSjHm() + ".xls";
 			CoreHelper.createExcelByMM(byteArrayOutputStream, wjMm, tempFileName);
 			FileVO fileVO = new FileVO();
 			fileVO.setFileContent(FileTool.getFileByte(tempFileName));
@@ -269,7 +269,7 @@ public class Swd002BLH extends BaseBizLogicHandler {
 
 			ByteArrayOutputStream byteArrayOutputStream = CoreHelper.buildExcelStream(dataMap);
 			String tempFileName = System.getProperty("user.dir")
-					+ ApplicationContext.singleton().getValueAsString("file.temp") + "/" + loginVO.getSjHm() + ".xls";
+					+ ApplicationContext.singleton().getValueAsString("file.temp") + "\\" + loginVO.getSjHm() + ".xls";
 			CoreHelper.createExcelByMM(byteArrayOutputStream, wjMm, tempFileName);
 			FileVO fileVO = new FileVO();
 			fileVO.setFileContent(FileTool.getFileByte(tempFileName));
