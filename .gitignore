@@ -42,3 +42,4 @@ classes/
 
 .DS_Store
 biz/.DS_Store
+WebRoot/META-INF/.WL_internal
