@@ -40,3 +40,5 @@ captures/
 classes/
 .metadata/WebRoot/META-INF
 
+.DS_Store
+biz/.DS_Store
