@@ -123,7 +123,7 @@ public class Swd001BLH extends BaseBizLogicHandler {
 		ResponseEvent responseEvent = new ResponseEvent();
 		JsonReqData reqData = (JsonReqData) reqEvent.reqMapParam
 				.get("JsonReqData");
-		String sql = "SELECT   T.*   FROM T_YS_YHSCJLB T WHERE T.SCJL_ID=?";
+		String sql = "SELECT   T.SCJL_ID   FROM T_YS_YHSCJLB T WHERE T.SCJL_ID=?";
 		ArrayList<Object> sqlParam = new ArrayList<Object>();
 		sqlParam.add(reqData.getData().get("scjlId"));
 		CachedRowSet rs = QueryCssBPO.findAll(conn, sql, sqlParam);
