@@ -3,4 +3,7 @@
 	<url>/</url>
 	<url>/LoginAction.do</url>
 	<url>/Nsrd001Action.do</url>
+	<url>/nsrd/nsrd001/nsrd001.jsp</url>
+	<url>/yhgl/login.jsp</url>
+	<url>/yhgl/yzm.jsp</url>
 </notcontrol>

@@ -16,8 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONSerializer;
-
 import com.ctp.core.config.ApplicationContext;
 import com.ctp.core.log.LogWritter;
 
@@ -67,9 +65,9 @@ public class RuleFilter implements Filter {
 				JsonResData resData = new JsonResData();
 				resData.setCode(GeneralCons.ERROR_CODE_ZB0036);
 				resData.setMsg("会话已经失效，请重新登录");
-				response.setContentType("text/plain;charset=UTF-8");
-				response.getWriter().print(
-						JSONSerializer.toJSON(resData).toString());
+				response.setContentType("text/html;charset=UTF-8");
+				response.getWriter()
+						.print("<script>alert('会话已经失效，请重新登录');if (self != top) {top.window.location.href='/yhgl/login.jsp'; }else{window.location.href='/yhgl/login.jsp';}</script>");
 				System.out.println("会话已经失效，请重新登录.");
 				LogWritter.sysError("会话已经失效，请重新登录.");
 				response.getWriter().flush();

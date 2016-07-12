@@ -64,6 +64,9 @@
 .icon-lock{
 	background:url('icons/lock.png') no-repeat center center;
 }
+.icon-more{
+	background:url('icons/more.png') no-repeat center center;
+}
 
 
 .icon-mini-add{
@@ -91,19 +94,3 @@
 .icon-large-chart{
 	background:url('icons/large_chart.png') no-repeat center center;
 }
-.icon-submit{
-	background:url('icons/action_submit.gif') no-repeat center center;
-}
-.icon-view{
-	background:url('icons/application_view_list.png') no-repeat center center;
-}
-.icon-close{
-	background:url('icons/close.png') no-repeat center center;
-}
-.icon-zip{
-	background:url('icons/zip.png') no-repeat center center;
-}
-.icon-download{
-	background:url('icons/download.png') no-repeat center center;
-}
-
