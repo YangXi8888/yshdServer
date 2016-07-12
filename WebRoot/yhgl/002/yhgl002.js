@@ -1,8 +1,8 @@
 ﻿var userInfo;
 $(document).ready(function() {
-	hasUserInfo();
-	userInfo = sessionLoad("userInfo");
-});
+			hasUserInfo();
+			userInfo = sessionLoad("userInfo");
+		});
 
 function submitForm() {
 	if (baseCheck()) {
@@ -29,8 +29,12 @@ function submitForm() {
 					timeout : sys_timeout,
 					error : function(XMLHttpRequest, textStatus, errorThrown) {
 						$.messager.progress('close');
-						$.messager.alert(commomMessageTitle, textStatus,
-								'error');
+						if (XMLHttpRequest.responseText.indexOf("script") != -1) {
+							document.write(XMLHttpRequest.responseText);
+						} else {
+							$.messager.alert(commomMessageTitle, textStatus,
+									'error');
+						}
 					},
 					success : function(responseText, textStatus, XMLHttpRequest) {
 						$.messager.progress('close');

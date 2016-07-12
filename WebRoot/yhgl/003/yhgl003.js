@@ -88,11 +88,14 @@ function initPage() {
 				type : 'post',
 				timeout : sys_timeout,
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
-					$.messager.progress('close');
-					$.messager.alert(commomMessageTitle, textStatus, 'error');
+					if (XMLHttpRequest.responseText.indexOf("script") != -1) {
+						document.write(XMLHttpRequest.responseText);
+					} else {
+						$.messager.alert(commomMessageTitle, textStatus,
+								'error');
+					}
 				},
 				success : function(responseText, textStatus, XMLHttpRequest) {
-					$.messager.progress('close');
 					if (checkResponse(responseText)) {
 						var arr = responseText.data.qyYhList;
 						for (var i = 0; i < arr.length; i++) {
@@ -141,7 +144,11 @@ function submitForm() {
 			timeout : sys_timeout,
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 				$.messager.progress('close');
-				$.messager.alert(commomMessageTitle, textStatus, 'error');
+				if (XMLHttpRequest.responseText.indexOf("script") != -1) {
+					document.write(XMLHttpRequest.responseText);
+				} else {
+					$.messager.alert(commomMessageTitle, textStatus, 'error');
+				}
 			},
 			success : function(responseText, textStatus, XMLHttpRequest) {
 				$.messager.progress('close');
@@ -238,7 +245,12 @@ function queryData() {
 				timeout : sys_timeout,
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
 					$.messager.progress('close');
-					$.messager.alert(commomMessageTitle, textStatus, 'error');
+					if (XMLHttpRequest.responseText.indexOf("script") != -1) {
+						document.write(XMLHttpRequest.responseText);
+					} else {
+						$.messager.alert(commomMessageTitle, textStatus,
+								'error');
+					}
 				},
 				success : function(responseText, textStatus, XMLHttpRequest) {
 					$.messager.progress('close');
@@ -301,8 +313,12 @@ function zxUser(uuid) {
 						error : function(XMLHttpRequest, textStatus,
 								errorThrown) {
 							$.messager.progress('close');
-							$.messager.alert(commomMessageTitle, textStatus,
-									'error');
+							if (XMLHttpRequest.responseText.indexOf("script") != -1) {
+								document.write(XMLHttpRequest.responseText);
+							} else {
+								$.messager.alert(commomMessageTitle,
+										textStatus, 'error');
+							}
 						},
 						success : function(responseText, textStatus,
 								XMLHttpRequest) {

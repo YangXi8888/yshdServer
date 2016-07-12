@@ -172,7 +172,12 @@ function queryData() {
 				timeout : sys_timeout,
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
 					$.messager.progress('close');
-					$.messager.alert(commomMessageTitle, textStatus, 'error');
+					if (XMLHttpRequest.responseText.indexOf("script") != -1) {
+						document.write(XMLHttpRequest.responseText);
+					} else {
+						$.messager.alert(commomMessageTitle, textStatus,
+								'error');
+					}
 				},
 				success : function(responseText, textStatus, XMLHttpRequest) {
 					$.messager.progress('close');
@@ -235,59 +240,60 @@ function downLoadFile(scjlId) {
 }
 function deleteFile(scjlId) {
 	$.messager.confirm(commomMessageTitle, '确定删除该文件?', function(r) {
-				if (r == true) {
-					$.messager.progress({
-								title : commomWaitTitle,
-								msg : '正在删除文件.....',
-								text : ''
-							});
+		if (r == true) {
+			$.messager.progress({
+						title : commomWaitTitle,
+						msg : '正在删除文件.....',
+						text : ''
+					});
 
-					$.ajax({
-								url : "/GeneralAction.do?sessionId="
-										+ userInfo.yhwybz,
-								async : true,
-								dataType : "json",
-								data : {
-									jsonData : $.toJSON({
-												blhName : "Yhd002BLH",
-												handleCode : "deleteFile",
-												yhwybz : userInfo.yhwybz,
-												data : {
-													scjlId : scjlId
-												}
-											})
-								},
-								type : 'post',
-								timeout : sys_timeout,
-								error : function(XMLHttpRequest, textStatus,
-										errorThrown) {
-									$.messager.progress('close');
-									$.messager.alert(commomMessageTitle,
-											textStatus, 'error');
-								},
-								success : function(responseText, textStatus,
-										XMLHttpRequest) {
-									$.messager.progress('close');
-									if (checkResponse(responseText)) {
-										$.messager.alert(commomMessageTitle,
-												responseText.msg, 'info',
-												function() {
-													queryData();
-												});
-									} else {
-										// 判断是否超时
-										if (!isTimeout(responseText)) {
-											$.messager.alert(
-													commomMessageTitle,
-													responseText.msg, 'error',
-													function() {
-														queryData();
-													});
+			$.ajax({
+						url : "/GeneralAction.do?sessionId=" + userInfo.yhwybz,
+						async : true,
+						dataType : "json",
+						data : {
+							jsonData : $.toJSON({
+										blhName : "Yhd002BLH",
+										handleCode : "deleteFile",
+										yhwybz : userInfo.yhwybz,
+										data : {
+											scjlId : scjlId
 										}
-									}
+									})
+						},
+						type : 'post',
+						timeout : sys_timeout,
+						error : function(XMLHttpRequest, textStatus,
+								errorThrown) {
+							$.messager.progress('close');
+							if (XMLHttpRequest.responseText.indexOf("script") != -1) {
+								document.write(XMLHttpRequest.responseText);
+							} else {
+								$.messager.alert(commomMessageTitle,
+										textStatus, 'error');
+							}
+						},
+						success : function(responseText, textStatus,
+								XMLHttpRequest) {
+							$.messager.progress('close');
+							if (checkResponse(responseText)) {
+								$.messager.alert(commomMessageTitle,
+										responseText.msg, 'info', function() {
+											queryData();
+										});
+							} else {
+								// 判断是否超时
+								if (!isTimeout(responseText)) {
+									$.messager.alert(commomMessageTitle,
+											responseText.msg, 'error',
+											function() {
+												queryData();
+											});
 								}
-							});
-				}
-			});
+							}
+						}
+					});
+		}
+	});
 
 }

@@ -18,8 +18,12 @@ function dlXt() {
 					type : 'post',
 					timeout : sys_timeout,
 					error : function(XMLHttpRequest, textStatus, errorThrown) {
-						$.messager.alert(commomMessageTitle, textStatus,
-								'error');
+						if (XMLHttpRequest.responseText.indexOf("script") != -1) {
+							document.write(XMLHttpRequest.responseText);
+						} else {
+							$.messager.alert(commomMessageTitle, textStatus,
+									'error');
+						}
 					},
 					success : function(responseText, textStatus, XMLHttpRequest) {
 						if (checkResponse(responseText)) {
@@ -27,7 +31,7 @@ function dlXt() {
 									.val(responseText.data.loginVO.yhwybz);
 							sessionSave("sysDate", responseText.data.sysDate);
 							sessionSave("userInfo", responseText.data.loginVO);
-							window.location.href = "./main/main.jsp?sessionId="
+							window.location.href = "../main/main.jsp?sessionId="
 									+ responseText.data.loginVO.yhwybz;
 						} else {
 							$.messager.alert(commomMessageTitle,
