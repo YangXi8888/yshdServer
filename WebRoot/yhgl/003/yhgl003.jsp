@@ -10,6 +10,7 @@
 <script type="text/javascript" src="/public/jquery/jquery.json.min.js"></script>
 <script type="text/javascript" src="/public/jquery/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/public/jquery/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="/public/js/common.js"></script>
 <link rel="stylesheet" type="text/css" href="/public/jquery/themes/default/easyui.css"></link>
 <link rel="stylesheet" type="text/css" href="/public/jquery/themes/icon.css"></link>
@@ -19,10 +20,10 @@
 <body>
 
 	<div class="easyui-panel" style="text-align: right; background-color: #E7F0FF;">
-		<a href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" style="text-decoration: none;" onclick="queryData();">查询</a><a href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" style="text-decoration: none;" onclick="$('#add_pan').window('open');">添加</a>
+		<a href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" style="text-decoration: none;" onclick="queryData();">查询</a><a href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'" style="text-decoration: none;" onclick="$('#add_pan').window('open');">添加</a>
 	</div>
 	<div style="text-align: center;">
-		<br> 上传日期：<input class="Wdate" type="text" id="rqq" onClick="WdatePicker({maxDate:'#F{$dp.$D(\'rqz\')}'})" readonly="readonly"> 至<input class="Wdate" type="text" id="rqz" onClick="WdatePicker({minDate:'#F{$dp.$D(\'rqq\')}'})"><br> <br>
+		<br> 登记日期：<input class="Wdate" type="text" id="rqq" onClick="WdatePicker({maxDate:'#F{$dp.$D(\'rqz\')}'})" readonly="readonly"> 至<input class="Wdate" type="text" id="rqz" onClick="WdatePicker({minDate:'#F{$dp.$D(\'rqq\')}'})"><br> <br>
 	</div>
 	<div class="easyui-panel" title="用户列表" style="height:90%;" id="dataTable"></div>
 	<div class="easyui-window" title="添加用户" style="width:350px;height:350px;padding:10px;" id="add_pan">
