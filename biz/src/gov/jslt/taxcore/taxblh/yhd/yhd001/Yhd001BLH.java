@@ -138,11 +138,11 @@ public class Yhd001BLH extends BaseBizLogicHandler {
 		if (rowSet.next()) {
 			String wjMm = rowSet.getString("WJMM");
 			Map<String, List<Object>> dataMap = new HashMap<String, List<Object>>();
-			List<Object> jbxxList = new ArrayList<>();
-			List<Object> sfList = new ArrayList<>();
-			List<Object> sbfList = new ArrayList<>();
-			List<Object> cwbblist = new ArrayList<>();
-			List<Object> xzcfList = new ArrayList<>();
+			List<Object> jbxxList = new ArrayList<Object>();
+			List<Object> sfList = new ArrayList<Object>();
+			List<Object> sbfList = new ArrayList<Object>();
+			List<Object> cwbblist = new ArrayList<Object>();
+			List<Object> xzcfList = new ArrayList<Object>();
 
 			sqlParams = new ArrayList<Object>();
 			sqlParams.add(loginVO.getQyYhDm());

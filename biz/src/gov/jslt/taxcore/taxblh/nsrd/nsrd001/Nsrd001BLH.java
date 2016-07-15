@@ -80,7 +80,7 @@ public class Nsrd001BLH extends BaseBizLogicHandler {
 		// 初始化下拉框
 		String sql = "SELECT T.QYYH_DM, T.QYYH_MC FROM T_DM_YS_QYYH T WHERE XY_BJ = '1'";
 		CachedRowSet rs = QueryBPO.findAll(conn, sql, null);
-		List<Map<String, String>> yhList = new ArrayList<>();
+		List<Map<String, String>> yhList = new ArrayList<Map<String, String>>();
 		Map<String, String> map = null;
 		while (rs.next()) {
 			map = new HashMap<String, String>();
