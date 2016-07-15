@@ -10,8 +10,6 @@ $.fn.ajaxfileupload = function(options) {
 		fileDom : "",
 		onStart : function() {
 		},
-		checkData : function() {
-		},
 		getFormData : function() {
 		},
 		onComplete : function(response) {

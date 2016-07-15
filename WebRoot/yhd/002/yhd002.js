@@ -93,9 +93,6 @@ function upLoadFile() {
 							}
 						}
 					},
-					checkData : function() {
-						return true;
-					},
 					getFormData : function() {
 						return [{
 									name : "jsonData",
