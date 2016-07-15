@@ -1,5 +1,6 @@
 /**
  * AJAX批量上传文件，需要修改启动参数编码
+ *  -Dfile.encoding=utf-8
  */
 $.fn.ajaxfileupload = function(options) {
 	var settings = {
@@ -8,8 +9,6 @@ $.fn.ajaxfileupload = function(options) {
 		action : '',
 		fileDom : "",
 		onStart : function() {
-		},
-		checkData : function() {
 		},
 		getFormData : function() {
 		},
